@@ -14,6 +14,9 @@
     -fx-text-fill: #FF0000; /* Cambia el color del texto a blanco */
 }
 
+.anchor-background{
+    -fx-background-color: blue;
+}
 /*.hbox-black-background {
     -fx-background-color: black;
 }
