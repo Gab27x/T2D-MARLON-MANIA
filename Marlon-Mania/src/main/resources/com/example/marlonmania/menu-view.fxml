@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="window" style="-fx-background-color: blue;" prefHeight="400" prefWidth="500" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.HelloController">
+
+    <VBox alignment="CENTER" layoutX="142.0" prefHeight="400.0" prefWidth="217.0" spacing="20.0">
+        <HBox alignment="CENTER" layoutX="150.0" layoutY="14.0" prefHeight="100.0" prefWidth="200.0" styleClass="black-background">
+            <stylesheets>
+                <URL value="@stylesheet.css" />
+            </stylesheets>
+
+            <!--<Label fx:id="gameName" text="Marlon mania" styleClass="red-text fontSize-text" />-->
+            <Label fx:id="gameName" text="MARLON MANIA">
+                <styleClass>
+                    <String fx:value="red-text" />
+                    <String fx:value="fontSize-text" />
+                </styleClass>
+            </Label>
+        </HBox>
+
+        <VBox alignment="CENTER" layoutX="150.0" layoutY="210.0" prefHeight="93.0" prefWidth="200.0" spacing="10.0" styleClass="black-background">
+            <stylesheets>
+                <URL value="@stylesheet.css" />
+            </stylesheets>
+            <Label fx:id="implementationMenu" styleClass="red-text" text="SELECT IMPLEMENTATION"/>
+
+            <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0" prefWidth="53.0" styleClass="red-text" text="List" />
+            <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix" styleClass="red-text" text="Matrix" />
+
+        </VBox>
+
+
+        <VBox alignment="CENTER" layoutX="150.0" layoutY="210.0" prefHeight="93.0" prefWidth="200.0" spacing="10.0" styleClass="black-background">
+            <stylesheets>
+                <URL value="@stylesheet.css" />
+            </stylesheets>
+            <Label fx:id="difficultyMenu" styleClass="red-text" text="SELECT DIFFICULTY"/>
+
+            <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy" prefHeight="17.0" prefWidth="53.0" styleClass="red-text" text="EASY" />
+            <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult" styleClass="red-text" text="HARD"   />
+        </VBox>
+
+        <Button fx:id="playButton" layoutX="224.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="53.0" styleClass="play-button" text="PLAY" onAction="#onClickPlay">
+            <stylesheets>
+                <URL value="@stylesheet.css" />
+            </stylesheets>
+        </Button>
+
+    </VBox>
+
+
+
+
+
+
+
+</AnchorPane>
