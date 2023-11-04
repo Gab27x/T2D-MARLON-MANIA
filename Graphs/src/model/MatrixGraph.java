@@ -87,7 +87,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     }
 
 
-    private int searchVertexIndex(T value) {
+    public int searchVertexIndex(T value) {
         for (int i = 0; i < matrix.length; i++) {
             if (vertices[i] != null && vertices[i].getValue().equals(value)) {
                 return i;

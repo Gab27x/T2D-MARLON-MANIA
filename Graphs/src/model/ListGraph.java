@@ -103,7 +103,7 @@ public class ListGraph<T> implements IGraph<T> {
 
 
 
-    private int searchVertexIndex(T vertex) {
+    public int searchVertexIndex(T vertex) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getValue() == vertex) {
                 return i;
@@ -156,7 +156,7 @@ public class ListGraph<T> implements IGraph<T> {
             }
         }
 
-        // Reconstruct the shortest path from endVertex to startVertex
+
         ListVertex<T> currentVertex = list.get(endVertexIndex);
         while (currentVertex != null && !currentVertex.getValue().equals(startVertex)) {
             chain.put(currentVertex.getValue(), currentVertex.getFather().getValue());
