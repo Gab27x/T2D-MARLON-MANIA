@@ -15,6 +15,24 @@ public class MatrixGraphTest {
         graph = new MatrixGraph<>(true, 5);
     }
 
+
+    public void setUpExistingNodes() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     @Test
     public void testAddVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
@@ -35,9 +53,11 @@ public class MatrixGraphTest {
         assertTrue(graph.searchEdge("A", "B", "edge1"));
     }
 
-    @Test(expected = VertexNotFoundException.class)
+    @Test
     public void testAddEdgeWithMissingVertex() throws Exception {
-        graph.addEdge("A", "B", "edge1", 1);
+        graph.addVertex("A");
+        graph.addVertex("B");
+        assertThrows(VertexNotFoundException.class, () -> graph.addEdge("A", "C", "edge", 1));
     }
 
     @Test(expected = LoopsNotAllowedException.class)
@@ -83,22 +103,17 @@ public class MatrixGraphTest {
     }
 
     @Test
-    public void testDijkstra() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.addVertex("C");
-        graph.addEdge("A", "B", "edge1", 1);
-        graph.addEdge("B", "C", "edge2", 2);
-
-        var shortestPath = graph.dijkstra("A", "C");
-        assertEquals("A", shortestPath.get("C"));
+    public void testDijkstra() throws VertexNotAchievableException, VertexNotFoundException {
+        setUpExistingNodes();
+        Map<String, String> shortestPath = graph.dijkstra("F", "H");
+        assertEquals("F", shortestPath.get("H"));
     }
 
-
-    //tira excepción
-    @Test(expected = VertexNotFoundException.class)
+    @Test
     public void testDijkstraWithMissingVertex() throws VertexNotFoundException, VertexNotAchievableException {
-        graph.dijkstra("A", "D");
+        setUpExistingNodes();
+        assertThrows(VertexNotFoundException.class, () -> graph.dijkstra("W","H"));
+
     }
 
 

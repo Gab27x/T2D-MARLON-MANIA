@@ -123,6 +123,9 @@ public class MatrixGraph<T> implements IGraph<T> {
     public Map<T, T> dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
+        if(startVertexIndex==-1 || endVertexIndex==-1){
+            throw new VertexNotFoundException("Vertex was not found");
+        }
 
         Map<T, T> chain = new HashMap<>();
 
