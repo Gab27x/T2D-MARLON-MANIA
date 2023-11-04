@@ -1,5 +1,6 @@
 import exceptions.*;
 import model.ListGraph;
+import model.ListVertex;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +13,29 @@ public class ListGraphTest {
 
     @Before
     public void setUp() {
+        graph = new ListGraph<>(true, true, false);
+    }
+
+
+    public void setUpLoop(){
         graph = new ListGraph<>(true, true, true);
+    }
+
+
+    public void setUpExistingNodes() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addVertex("K");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -40,18 +63,29 @@ public class ListGraphTest {
         graph.addEdge("A", "B", "edge1", 1);
     }
 
-    @Test(expected = LoopsNotAllowedException.class)
-    public void testAddLoopEdge() throws Exception {
+    @Test
+    public void testNonAddLoopEdge() throws VertexAlreadyAddedException {
         graph.addVertex("A");
-        graph.addEdge("A", "A", "loop", 1);
+        assertThrows(LoopsNotAllowedException.class, () -> graph.addEdge("A","A","edgeLoop",1));
     }
 
-    @Test(expected = MultipleEdgesNotAllowedException.class)
-    public void testAddMultipleEdges() throws Exception {
+    @Test
+    public void testAddLoopEdge() throws VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException, VertexNotFoundException {
+        setUpLoop();
+        graph.addVertex("A");
+        graph.addEdge("A","A","edgeLoop",1);
+        assertTrue(graph.searchEdge("A","A","edgeLoop"));
+    }
+
+    @Test
+    public void testAddMultipleEdges() throws VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException, VertexNotFoundException {
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addEdge("A", "B", "edge1", 1);
-        graph.addEdge("A", "B", "edge2", 1);
+        graph.addEdge("A", "B", "edge2", 2);
+
+        assertEquals(2,  graph.getList().get(graph.searchVertexIndex("A")).getEdges().size());
+
     }
 
     @Test
@@ -99,11 +133,10 @@ public class ListGraphTest {
         graph.dijkstra("A", "D");
     }
 
-    @Test(expected = VertexNotAchievableException.class)
+    @Test
     public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.dijkstra("A", "B");
+        setUpExistingNodes();
+        assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
     }
 
     @Test

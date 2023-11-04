@@ -158,6 +158,9 @@ public class MatrixGraph<T> implements IGraph<T> {
                 }
             }
         }
+        if (vertices[endVertexIndex].getDistance() == Integer.MAX_VALUE) {
+            throw new VertexNotAchievableException("The end vertex is not reachable from the start vertex.");
+        }
         return chain;
     }
 

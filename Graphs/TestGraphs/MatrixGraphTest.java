@@ -12,7 +12,7 @@ public class MatrixGraphTest {
 
     @Before
     public void setUp() {
-        graph = new MatrixGraph<>(true, 5);
+        graph = new MatrixGraph<>(true, 6);
     }
 
 
@@ -23,6 +23,7 @@ public class MatrixGraphTest {
             graph.addVertex("H");
             graph.addVertex("I");
             graph.addVertex("J");
+            graph.addVertex("K");
             graph.addEdge("F", "G", "testEdge1", 5);
             graph.addEdge("G", "H", "testEdge1", 1);
             graph.addEdge("F", "H", "testEdge2", 3);
@@ -30,6 +31,7 @@ public class MatrixGraphTest {
             throw new RuntimeException(e);
         }
     }
+
 
 
 
@@ -118,11 +120,10 @@ public class MatrixGraphTest {
 
 
     //que se añade excepción
-    @Test(expected = VertexNotAchievableException.class)
+    @Test
     public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.dijkstra("A", "B");
+        setUpExistingNodes();
+        assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
     }
 
     @Test
