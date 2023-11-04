@@ -51,6 +51,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
 
+
     @Override
     public boolean searchEdge(T start, T end, String id) throws VertexNotFoundException {
         if (searchVertexIndex(start) == -1 || searchVertexIndex(end) == -1) {
@@ -145,6 +146,9 @@ public class ListGraph<T> implements IGraph<T> {
         while (!unvisited.isEmpty()) {
             ListVertex<T> u = getVertexWithMinDistance(unvisited);
             unvisited.remove(u);
+            if (u == null) {
+                throw new VertexNotAchievableException("No path found between the specified vertices.");
+            }
 
             for (ListEdge<T> edge : u.getEdges()) {
                 ListVertex<T> v = edge.getRightVertex();
@@ -157,7 +161,11 @@ public class ListGraph<T> implements IGraph<T> {
         }
 
 
+
         ListVertex<T> currentVertex = list.get(endVertexIndex);
+        if (currentVertex.getDistance() == Integer.MAX_VALUE) {
+            throw new VertexNotAchievableException("End Vertex Not Achievable");
+        }
         while (currentVertex != null && !currentVertex.getValue().equals(startVertex)) {
             chain.put(currentVertex.getValue(), currentVertex.getFather().getValue());
             currentVertex = currentVertex.getFather();
@@ -197,6 +205,10 @@ public class ListGraph<T> implements IGraph<T> {
         }
         return ans.toString();
 
+    }
+
+    public ArrayList<ListVertex<T>> getList() {
+        return list;
     }
 }
 
