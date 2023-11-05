@@ -4,6 +4,7 @@ import java.util.*;
 
 import exceptions.*;
 
+
 public class MatrixGraph<T> implements IGraph<T> {
     private final MatrixVertex<T>[] vertices;
     private final int[][] matrix;
@@ -85,7 +86,8 @@ public class MatrixGraph<T> implements IGraph<T> {
         }
     }
 
-    private int searchVertexIndex(T value) {
+
+    public int searchVertexIndex(T value) {
         for (int i = 0; i < matrix.length; i++) {
             if (vertices[i] != null && vertices[i].getValue().equals(value)) {
                 return i;
@@ -116,5 +118,51 @@ public class MatrixGraph<T> implements IGraph<T> {
 
         return result;
     }
+
+    @Override
+    public Map<T, T> dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
+        int startVertexIndex = searchVertexIndex(startVertex);
+        int endVertexIndex = searchVertexIndex(endVertex);
+        if(startVertexIndex==-1 || endVertexIndex==-1){
+            throw new VertexNotFoundException("Vertex was not found");
+        }
+
+        Map<T, T> chain = new HashMap<>();
+
+        PriorityQueue<MatrixVertex<T>> q = new PriorityQueue<>(Comparator.comparingInt(MatrixVertex::getDistance));
+
+        for (int i = 0; i < vertices.length; i++) {
+            if (i != startVertexIndex) {
+                vertices[i].setDistance(Integer.MAX_VALUE);
+            } else {
+                vertices[i].setDistance(0);
+            }
+            vertices[i].setFather(null);
+            q.add(vertices[i]);
+        }
+
+        while (!q.isEmpty() && q.peek() != vertices[endVertexIndex]) {
+            MatrixVertex<T> u = q.poll();
+            int uIndex = searchVertexIndex(u.getValue());
+            for (int i = 0; i < vertices.length; i++) {
+                if (matrix[uIndex][i] != 0 && i != uIndex) {
+                    int alt = u.getDistance() + matrix[uIndex][i];
+                    if (alt < vertices[i].getDistance()) {
+                        vertices[i].setDistance(alt);
+                        vertices[i].setFather(u);
+
+                        chain.put(vertices[i].getValue(), u.getValue());
+
+                        q.add(vertices[i]);
+                    }
+                }
+            }
+        }
+        if (vertices[endVertexIndex].getDistance() == Integer.MAX_VALUE) {
+            throw new VertexNotAchievableException("The end vertex is not reachable from the start vertex.");
+        }
+        return chain;
+    }
+
 
 }
