@@ -23,6 +23,8 @@ public interface IGraph<T> {
 
     Map<T, T> dijkstra(T startVertex, T endVertex)throws VertexNotFoundException, VertexNotAchievableException;
 
+    void DFS(T startVertex ) throws VertexNotFoundException, VertexNotAchievableException;
+
 
 
 }

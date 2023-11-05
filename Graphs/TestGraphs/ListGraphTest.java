@@ -38,6 +38,40 @@ public class ListGraphTest {
         }
     }
 
+    public void setUpExistingNodesAllConnectedDFS() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+            graph.addEdge("F", "I", "testEdge3", 2);
+            graph.addEdge("I", "J", "testEdge4", 2);
+            graph.addEdge("J", "H", "testEdge5", 2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setUpExistingNodesNotAllConnectedDFS() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     @Test
     public void testAddVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
@@ -134,10 +168,40 @@ public class ListGraphTest {
     }
 
     @Test
+    public void testDFS() throws VertexNotFoundException, VertexNotAchievableException {
+        setUpExistingNodesAllConnectedDFS();
+        boolean[] visited = new boolean[graph.getList().size()];
+        graph.DFS("F");
+        for (int i = 0; i < graph.getList().size(); i++) {
+            visited[i] = graph.getList().get(i).isVisited();
+        }
+        for (boolean isVisited : visited) {
+
+            assertTrue(isVisited);
+        }
+    }
+
+    @Test
+    public void testDFSNotAllConnected() throws VertexNotFoundException, VertexNotAchievableException {
+        setUpExistingNodesNotAllConnectedDFS();
+        boolean[] visited = new boolean[graph.getList().size()];
+        graph.DFS("F");
+        for (int i = 0; i < graph.getList().size(); i++) {
+            visited[i] = graph.getList().get(i).isVisited();
+            if (i==3 || i==4) {
+                assertFalse(visited[i]);
+            }
+        }
+
+    }
+
+    @Test
     public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
         setUpExistingNodes();
         assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
     }
+
+
 
     @Test
     public void testSearchEdgeWithDirectedGraph() throws Exception {
@@ -157,4 +221,6 @@ public class ListGraphTest {
         assertTrue(graph.searchEdge("A", "B", "edge1"));
         assertTrue(graph.searchEdge("B", "A", "edge1"));
     }
+
+
 }
