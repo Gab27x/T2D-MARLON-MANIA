@@ -7,6 +7,8 @@ public class ListVertex<T> {
     private final T value;
     private final ArrayList<ListEdge<T>> edges;
 
+    private boolean visited;
+
 
     private int distance;
     private ListVertex<T> father;
@@ -39,5 +41,13 @@ public class ListVertex<T> {
 
     public void setFather(ListVertex<T> father) {
         this.father = father;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }

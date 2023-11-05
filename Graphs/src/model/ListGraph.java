@@ -174,6 +174,9 @@ public class ListGraph<T> implements IGraph<T> {
         return chain;
     }
 
+
+
+
     private ListVertex<T> getVertexWithMinDistance(List<ListVertex<T>> vertices) {
         ListVertex<T> minVertex = null;
         int minDistance = Integer.MAX_VALUE;
@@ -185,6 +188,32 @@ public class ListGraph<T> implements IGraph<T> {
         }
         return minVertex;
     }
+
+    @Override
+    public void DFS( T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
+        int startIndex = searchVertexIndex(startVertex); // Índice del vértice de inicio
+
+        if (startIndex == -1) {
+            throw new VertexNotFoundException("Start vertex not found.");
+        }
+
+        // Llama a la función auxiliar para realizar DFS de manera recursiva
+        depthFirstSearchRecursive(list.get(startIndex));
+    }
+
+    private void depthFirstSearchRecursive(ListVertex<T> vertex) {
+        vertex.setVisited(true); // Marca el vértice actual como visitado
+        //System.out.println(vertex.getValue());
+
+        // Recorre los vértices adyacentes no visitados
+        for (ListEdge<T> edge : vertex.getEdges()) {
+            ListVertex<T> neighbor = edge.getRightVertex();
+            if (!neighbor.isVisited()) {
+                depthFirstSearchRecursive(neighbor);
+            }
+        }
+    }
+
 
 
 
