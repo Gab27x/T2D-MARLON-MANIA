@@ -3,6 +3,7 @@ package model;
 public class MatrixVertex<T> {
     private final T Value;
     private int distance;
+    private boolean visited;
 
     private MatrixVertex<T> father;
 
@@ -29,5 +30,13 @@ public class MatrixVertex<T> {
 
     public void setFather(MatrixVertex<T> father) {
         this.father = father;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }
