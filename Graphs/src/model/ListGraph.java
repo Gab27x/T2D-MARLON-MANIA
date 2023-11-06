@@ -51,6 +51,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
 
+
     @Override
     public boolean searchEdge(T start, T end, String id) throws VertexNotFoundException {
         if (searchVertexIndex(start) == -1 || searchVertexIndex(end) == -1) {
@@ -101,7 +102,9 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
 
-    private int searchVertexIndex(T vertex) {
+
+
+    public int searchVertexIndex(T vertex) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getValue() == vertex) {
                 return i;
@@ -120,6 +123,101 @@ public class ListGraph<T> implements IGraph<T> {
         return -1;
     }
 
+    @Override
+    public Map<T, T> dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
+        int startVertexIndex = searchVertexIndex(startVertex);
+        int endVertexIndex = searchVertexIndex(endVertex);
+
+        if (startVertexIndex == -1 || endVertexIndex == -1) {
+            throw new VertexNotFoundException("Start or end vertex not found.");
+        }
+
+        Map<T, T> chain = new HashMap<>();
+        List<ListVertex<T>> unvisited = new ArrayList<>();
+
+        for (ListVertex<T> vertex : list) {
+            vertex.setDistance(Integer.MAX_VALUE);
+            vertex.setFather(null);
+            unvisited.add(vertex);
+        }
+
+        list.get(startVertexIndex).setDistance(0);
+
+        while (!unvisited.isEmpty()) {
+            ListVertex<T> u = getVertexWithMinDistance(unvisited);
+            unvisited.remove(u);
+            if (u == null) {
+                throw new VertexNotAchievableException("No path found between the specified vertices.");
+            }
+
+            for (ListEdge<T> edge : u.getEdges()) {
+                ListVertex<T> v = edge.getRightVertex();
+                int alt = u.getDistance() + edge.getWeight();
+                if (alt < v.getDistance()) {
+                    v.setDistance(alt);
+                    v.setFather(u);
+                }
+            }
+        }
+
+
+
+        ListVertex<T> currentVertex = list.get(endVertexIndex);
+        if (currentVertex.getDistance() == Integer.MAX_VALUE) {
+            throw new VertexNotAchievableException("End Vertex Not Achievable");
+        }
+        while (currentVertex != null && !currentVertex.getValue().equals(startVertex)) {
+            chain.put(currentVertex.getValue(), currentVertex.getFather().getValue());
+            currentVertex = currentVertex.getFather();
+        }
+
+        return chain;
+    }
+
+
+
+
+    private ListVertex<T> getVertexWithMinDistance(List<ListVertex<T>> vertices) {
+        ListVertex<T> minVertex = null;
+        int minDistance = Integer.MAX_VALUE;
+        for (ListVertex<T> vertex : vertices) {
+            if (vertex.getDistance() < minDistance) {
+                minVertex = vertex;
+                minDistance = vertex.getDistance();
+            }
+        }
+        return minVertex;
+    }
+
+    @Override
+    public void DFS( T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
+        int startIndex = searchVertexIndex(startVertex); // Índice del vértice de inicio
+
+        if (startIndex == -1) {
+            throw new VertexNotFoundException("Start vertex not found.");
+        }
+
+        // Llama a la función auxiliar para realizar DFS de manera recursiva
+        depthFirstSearchRecursive(list.get(startIndex));
+    }
+
+    private void depthFirstSearchRecursive(ListVertex<T> vertex) {
+        vertex.setVisited(true); // Marca el vértice actual como visitado
+        //System.out.println(vertex.getValue());
+
+        // Recorre los vértices adyacentes no visitados
+        for (ListEdge<T> edge : vertex.getEdges()) {
+            ListVertex<T> neighbor = edge.getRightVertex();
+            if (!neighbor.isVisited()) {
+                depthFirstSearchRecursive(neighbor);
+            }
+        }
+    }
+
+
+
+
+
 
     @Override
     public String toString() {
@@ -136,6 +234,10 @@ public class ListGraph<T> implements IGraph<T> {
         }
         return ans.toString();
 
+    }
+
+    public ArrayList<ListVertex<T>> getList() {
+        return list;
     }
 }
 
