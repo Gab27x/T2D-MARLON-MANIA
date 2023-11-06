@@ -20,7 +20,7 @@ public class MainApplication extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxml));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 400, 500);
+            Scene scene = new Scene(root, 600, 600);
             Stage stage = new Stage();
             stage.setTitle("MARLON-MANIA");
             stage.setScene(scene);

@@ -1,15 +1,21 @@
 package com.example.marlonmania.Controllers;
 
+import com.example.marlonmania.model.Player;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
-public class HelloController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class HelloController implements Initializable {
 
 
     @FXML
@@ -35,6 +41,17 @@ public class HelloController {
     private RadioButton matrixButton;
 
     @FXML
+    private TableView<Player> playerTableView;
+
+    @FXML
+    private TableColumn<Player, String> nickName;
+    @FXML
+    private TableColumn<Player, Double> score;
+    @FXML
+    private TextArea enterNickname;
+
+
+    @FXML
     void onClickEasy() {
         difficultButton.setSelected(false);
     }
@@ -56,7 +73,7 @@ public class HelloController {
 
     @FXML
     void onClickPlay() {
-        if (listButton.isSelected() || matrixButton.isSelected()) {
+        if ((listButton.isSelected() || matrixButton.isSelected()) && !enterNickname.getText().isEmpty()) {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
                 gameName.setText("TODO BIEN");
@@ -64,6 +81,10 @@ public class HelloController {
             } else {
                 showAlert("SELECT DIFFICULTY");
             }
+
+        } else if (enterNickname.getText().isEmpty()) {
+            showAlert("ENTER NICKNAME");
+
 
         } else {
             showAlert("SELECT AN IMPLEMENTATION");
@@ -79,14 +100,17 @@ public class HelloController {
         alert.showAndWait();
     }
 
-    @FXML
-    public void initialize() {
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         gameName.setText("MARLON MANIA");
         implementationMenu.setText("SELECT IMPLEMENTATION");
         difficultyMenu.setText("SELECT DIFFICULTY");
+        nickName.setCellValueFactory(new PropertyValueFactory<>("NickName"));
+        score.setCellValueFactory(new PropertyValueFactory<>("Score"));
+
+        playerTableView.setItems(ControllerPlayers.getInstance().getPlayers());
 
     }
-
-
-
 }
