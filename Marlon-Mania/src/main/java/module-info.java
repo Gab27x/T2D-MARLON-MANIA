@@ -6,5 +6,6 @@ module com.example.marlonmania {
     opens com.example.marlonmania to javafx.fxml;
     exports com.example.marlonmania;
     exports com.example.marlonmania.Controllers;
+    exports com.example.marlonmania.model;
     opens com.example.marlonmania.Controllers to javafx.fxml;
 }

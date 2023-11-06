@@ -32,6 +32,46 @@ public class MatrixGraphTest {
         }
     }
 
+    public void setUpExistingNodesAllConnectedDFS() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addVertex("K");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+            graph.addEdge("F", "I", "testEdge3", 2);
+            graph.addEdge("I", "J", "testEdge4", 2);
+            graph.addEdge("J", "H", "testEdge5", 2);
+            graph.addEdge("F", "K", "testEdge6", 4);
+            graph.addEdge("K", "I", "testEdge7", 1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+    public void setUpExistingNodesNotAllConnectedDFS() {
+        try {
+            graph.addVertex("F");
+            graph.addVertex("G");
+            graph.addVertex("H");
+            graph.addVertex("I");
+            graph.addVertex("J");
+            graph.addVertex("K");
+            graph.addEdge("F", "G", "testEdge1", 5);
+            graph.addEdge("G", "H", "testEdge1", 1);
+            graph.addEdge("F", "H", "testEdge2", 3);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 
@@ -124,6 +164,34 @@ public class MatrixGraphTest {
     public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
         setUpExistingNodes();
         assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
+    }
+    @Test
+    public void testDFS() throws VertexNotFoundException, VertexNotAchievableException {
+        setUpExistingNodesAllConnectedDFS();
+        boolean[] visited = new boolean[graph.getVertices().length];
+        graph.DFS("F");
+        for (int i = 0; i < graph.getVertices().length; i++) {
+            visited[i] = graph.getVertices()[i].isVisited();
+        }
+        for (boolean isVisited : visited) {
+
+            assertTrue(isVisited);
+        }
+    }
+
+    @Test
+    public void testDFSNotAllConnected() throws VertexNotFoundException, VertexNotAchievableException {
+        setUpExistingNodesNotAllConnectedDFS();
+        boolean[] visited = new boolean[graph.getVertices().length];
+        graph.DFS("F");
+        for (int i = 0; i < graph.getVertices().length; i++) {
+            visited[i] = graph.getVertices()[i].isVisited();
+
+            if (i==3 || i==4) {
+                assertFalse(visited[i]);
+            }
+        }
+
     }
 
     @Test
