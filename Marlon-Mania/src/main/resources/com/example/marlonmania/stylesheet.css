@@ -1,3 +1,8 @@
+/* Estilo CSS en un archivo separado (stylesheet.css) */
+.screen-background {
+    -fx-background-image: url("/com/example/marlonmania/imagenes/fondo1.avif");
+}
+
 .black-background {
     -fx-background-color: black;
 }
