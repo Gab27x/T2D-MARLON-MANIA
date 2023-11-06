@@ -1,10 +1,10 @@
 package com.example.marlonmania.Controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -16,51 +16,46 @@ public class HelloController {
     private AnchorPane window;
 
     @FXML
-    private Label gameName ;
+    private Label gameName;
     @FXML
-    private Label implementationMenu ;
+    private Label implementationMenu;
     @FXML
-    private Label difficultyMenu ;
+    private Label difficultyMenu;
 
     @FXML
-    private Button playButton ;
+    private Button playButton;
 
     @FXML
-    private RadioButton easyButton ;
+    private RadioButton easyButton;
     @FXML
-    private RadioButton difficultButton ;
+    private RadioButton difficultButton;
     @FXML
-    private RadioButton listButton ;
+    private RadioButton listButton;
     @FXML
-    private RadioButton matrixButton ;
+    private RadioButton matrixButton;
 
     @FXML
-    void onClickEasy(){
+    void onClickEasy() {
         difficultButton.setSelected(false);
-
-
     }
+
     @FXML
-    void onClickDifficult(){
+    void onClickDifficult() {
         easyButton.setSelected(false);
-
-
     }
 
     @FXML
-    void onClickList(){
+    void onClickList() {
         matrixButton.setSelected(false);
-
-
-
     }
+
     @FXML
-    void onClickMatrix(){
+    void onClickMatrix() {
         listButton.setSelected(false);
-
     }
+
     @FXML
-    void onClickPlay(){
+    void onClickPlay() {
         if (listButton.isSelected() || matrixButton.isSelected()) {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
@@ -90,28 +85,8 @@ public class HelloController {
         implementationMenu.setText("SELECT IMPLEMENTATION");
         difficultyMenu.setText("SELECT DIFFICULTY");
 
-        // Comprobar si el AnchorPane no es nulo
-/*        if (window != null) {
-            // Agregar el controlador de eventos de cambio de tamaño
-            addResizeListener();
-        }*/
     }
 
-/*    private void addResizeListener() {
-        Stage stage = (Stage) window.getScene().getWindow();
-        stage.widthProperty().addListener((observable, oldValue, newValue) -> {
-            // Ajustar el contenido al nuevo ancho
-            window.setPrefWidth(newValue.doubleValue());
-        });
 
-        stage.heightProperty().addListener((observable, oldValue, newValue) -> {
-            // Ajustar el contenido al nuevo alto
-            window.setPrefHeight(newValue.doubleValue());
-        });
-    }*/
 
-    // Otros métodos y código del controlador
 }
-
-
-
