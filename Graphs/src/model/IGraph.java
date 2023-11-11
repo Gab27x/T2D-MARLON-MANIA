@@ -26,5 +26,5 @@ public interface IGraph<T> {
     void DFS(T startVertex ) throws VertexNotFoundException, VertexNotAchievableException;
 
 
-
+    void DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException;
 }
