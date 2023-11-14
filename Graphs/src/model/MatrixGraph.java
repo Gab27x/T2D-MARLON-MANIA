@@ -122,70 +122,69 @@ public class MatrixGraph<T> implements IGraph<T> {
         return result;
     }
 
+    public boolean checkShortPath(
+            MatrixVertex<T>[] subgraph
+    ) throws VertexNotAchievableException, VertexNotFoundException {
+        var res = dijkstra(subgraph[0].getValue(), subgraph[subgraph.length - 1].getValue());
+
+        int first = searchVertexIndex(subgraph[0].getValue());
+        int second = searchVertexIndex(subgraph[1].getValue());
+        int acu = matrix[first][second] + subgraph[0].getDistance();
+        for (int i = 1; i < subgraph.length; i++) {
+            int last = searchVertexIndex(subgraph[i - 1].getValue());
+            int act = searchVertexIndex(subgraph[i].getValue());
+            acu += matrix[act][last] + subgraph[i - 1].getDistance();
+        }
+
+        return res == acu;
+    }
+
     @Override
-    public Map<T, T> dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
-        // Busca el índice de los vértices de inicio y final en el arreglo "vertices"
+    public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
+        int dist = 0;
 
-        // Si alguno de los vértices no se encuentra en el arreglo, lanza una excepción
         if (startVertexIndex == -1 || endVertexIndex == -1) {
             throw new VertexNotFoundException("Vertex was not found");
         }
 
-        // Crea un mapa llamado "chain" que almacenará la cadena de vértices de la solución
-        Map<T, T> chain = new HashMap<>();
-
-        // Crea una cola de prioridades "q" para almacenar los vértices por procesar
-        // Los vértices se ordenarán en función de su distancia
         PriorityQueue<MatrixVertex<T>> q = new PriorityQueue<>(Comparator.comparingInt(MatrixVertex::getDistance));
 
-        // Inicializa las distancias de todos los vértices, excepto el inicial, a un valor máximo
         for (int i = 0; i < vertices.length; i++) {
             if (i != startVertexIndex) {
-                vertices[i].setDistance(Integer.MAX_VALUE); // La distancia de todos los elementos menos del inicial es la máxima
+                vertices[i].setDistance(Integer.MAX_VALUE);
             } else {
-                vertices[i].setDistance(0); // La distancia del vértice inicial es 0
+                vertices[i].setDistance(0);
             }
-            vertices[i].setFather(null); // Establece el padre de cada vértice como nulo
-            q.add(vertices[i]); // Agrega los vértices a la cola de prioridades para su procesamiento
+            vertices[i].setFather(null);
+            q.add(vertices[i]);
         }
 
-        // Mientras la cola de prioridades no esté vacía y el vértice final no se haya procesado
         while (!q.isEmpty() && q.peek() != vertices[endVertexIndex]) {
-            // Extrae el vértice con la menor distancia (primer elemento de la cola de prioridades); recordar que estan organizadas según su distancia
-            MatrixVertex<T> u = q.poll(); // Vértice temporal para realizar comparaciones
-            int uIndex = searchVertexIndex(u.getValue()); // Obtiene el índice del vértice temporal en el arreglo de vértices
+            MatrixVertex<T> u = q.poll();
+            int uIndex = searchVertexIndex(u.getValue());
 
-            // Recorre todos los vértices y sus distancias desde el vértice temporal
             for (int i = 0; i < vertices.length; i++) {
-                // Si hay una conexión entre el vértice actual y el vértice i
                 if (matrix[uIndex][i] != 0 && i != uIndex) {
-                    int alt = u.getDistance() + matrix[uIndex][i]; // Calcula una nueva distancia potencial
+                    int alt = u.getDistance() + matrix[uIndex][i];
 
-                    // Si la nueva distancia es menor que la distancia almacenada en el vértice i
                     if (alt < vertices[i].getDistance()) {
-                        // Actualiza la distancia y el padre del vértice i
                         vertices[i].setDistance(alt);
                         vertices[i].setFather(u);
+                        dist += alt;
 
-                        // Agrega el vértice i y su padre a la cadena de la solución
-                        chain.put(vertices[i].getValue(), u.getValue());
-
-                        // Agrega el vértice i a la cola de prioridades para su procesamiento
                         q.add(vertices[i]);
                     }
                 }
             }
         }
 
-        // Si la distancia del vértice final sigue siendo el valor máximo, lanza una excepción
         if (vertices[endVertexIndex].getDistance() == Integer.MAX_VALUE) {
             throw new VertexNotAchievableException("The end vertex is not reachable from the start vertex.");
         }
 
-        // Retorna la cadena de vértices de la solución
-        return chain;
+        return dist;
     }
 
 
@@ -219,7 +218,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     //DFS para asegurarme que el camino entre los grafos es correcto
 
     @Override
-    public void DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<MatrixVertex<T>> temps = new ArrayList<>();
         ArrayList<MatrixVertex<T>> sub_graph = new ArrayList<>();
@@ -242,10 +241,8 @@ public class MatrixGraph<T> implements IGraph<T> {
             sub_graph.add(temps.get(i).clone());
             sub_graph.get(i).setVisited(false);
         }
-        dfsSimplified(sub_graph);
+        return dfsSimplified(sub_graph);
     }
-
-
 
 
     private boolean dfsSimplified(ArrayList<MatrixVertex<T>> subGraph) {
