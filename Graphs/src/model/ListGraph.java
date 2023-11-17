@@ -5,13 +5,10 @@ import exceptions.*;
 import java.util.*;
 
 public class ListGraph<T> implements IGraph<T> {
-
     private final boolean isGuided;
     private final boolean isMultiple;
     private final boolean allowsLoop;
-
     private final ArrayList<ListVertex<T>> list;
-
 
     public ListGraph(boolean isGuided, boolean isMultiple, boolean allowsLoop) {
         list = new ArrayList<>();
@@ -32,7 +29,9 @@ public class ListGraph<T> implements IGraph<T> {
 
 
     @Override
-    public void addEdge(T start, T end, String id, int weight) throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
+    public void addEdge(
+            T start, T end, String id, int weight
+    ) throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
         int startVertex = searchVertexIndex(start);
         int endVertex = searchVertexIndex(end);
         if (startVertex == -1 || endVertex == -1) {
@@ -49,7 +48,6 @@ public class ListGraph<T> implements IGraph<T> {
         }
         list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
     }
-
 
 
     @Override
@@ -102,8 +100,6 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
 
-
-
     public int searchVertexIndex(T vertex) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getValue() == vertex) {
@@ -123,10 +119,32 @@ public class ListGraph<T> implements IGraph<T> {
         return -1;
     }
 
+
+    public boolean checkShortPath(
+            ListVertex<T>[] subgraph
+    ) throws VertexNotAchievableException, VertexNotFoundException {
+        var res = dijkstra(subgraph[0].getValue(), subgraph[subgraph.length - 1].getValue());
+        int subgraphValue = travelSubgraph(subgraph[0]);
+
+        return res == subgraphValue;
+    }
+
+    public int travelSubgraph(ListVertex<T> node) {
+        if (node == null) return 0;
+
+        for (ListEdge<T> edge : node.getEdges()) {
+            return node.getDistance() + edge.getWeight() + travelSubgraph(edge.getRightVertex());
+        }
+
+        return node.getDistance();
+    }
+
+
     @Override
-    public Map<T, T> dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
+    public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
+        int dist = 0;
 
         if (startVertexIndex == -1 || endVertexIndex == -1) {
             throw new VertexNotFoundException("Start or end vertex not found.");
@@ -154,13 +172,12 @@ public class ListGraph<T> implements IGraph<T> {
                 ListVertex<T> v = edge.getRightVertex();
                 int alt = u.getDistance() + edge.getWeight();
                 if (alt < v.getDistance()) {
+                    dist += alt;
                     v.setDistance(alt);
                     v.setFather(u);
                 }
             }
         }
-
-
 
         ListVertex<T> currentVertex = list.get(endVertexIndex);
         if (currentVertex.getDistance() == Integer.MAX_VALUE) {
@@ -171,10 +188,13 @@ public class ListGraph<T> implements IGraph<T> {
             currentVertex = currentVertex.getFather();
         }
 
-        return chain;
+        return dist;
     }
 
+    @Override
+    public void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
 
+    }
 
 
     private ListVertex<T> getVertexWithMinDistance(List<ListVertex<T>> vertices) {
@@ -190,18 +210,37 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
     @Override
-    public void DFS( T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
-        int startIndex = searchVertexIndex(startVertex); // Índice del vértice de inicio
-
-        if (startIndex == -1) {
-            throw new VertexNotFoundException("Start vertex not found.");
+    public boolean DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+        ArrayList<Integer> indexes = new ArrayList<>();
+        ArrayList<ListVertex<T>> temps = new ArrayList<>();
+        ArrayList<ListVertex<T>> sub_graph = new ArrayList<>();
+        for (T vertex : vertexes) {
+            indexes.add(searchVertexIndex(vertex));
         }
 
-        // Llama a la función auxiliar para realizar DFS de manera recursiva
-        depthFirstSearchRecursive(list.get(startIndex));
+        for (Integer index : indexes) {
+            if (index == -1) {
+                throw new VertexNotFoundException("Start vertex not found.");
+            }
+
+            temps.add(list.get(index));
+        }
+
+        sub_graph.add(temps.get(0).clone());
+        sub_graph.get(0).setVisited(false);
+
+        for (int i = 1; i < temps.size(); i++) {
+            sub_graph.add(temps.get(i).clone());
+            sub_graph.get(i).setVisited(false);
+            sub_graph.get(i - 1).getEdges().add(new ListEdge<>(sub_graph.get(i - 1), sub_graph.get(i), i + "", 0));
+        }
+
+        return depthFirstSearchRecursive(sub_graph.get(0));
     }
 
-    private void depthFirstSearchRecursive(ListVertex<T> vertex) {
+    //me permite saber si el subgrafo tiene correctamente las conexciones, el metodo
+    //de validar las correcciones se encuentra en el enum
+    private boolean depthFirstSearchRecursive(ListVertex<T> vertex) {
         vertex.setVisited(true); // Marca el vértice actual como visitado
         //System.out.println(vertex.getValue());
 
@@ -209,15 +248,16 @@ public class ListGraph<T> implements IGraph<T> {
         for (ListEdge<T> edge : vertex.getEdges()) {
             ListVertex<T> neighbor = edge.getRightVertex();
             if (!neighbor.isVisited()) {
-                depthFirstSearchRecursive(neighbor);
+                if (vertex.getState().checkConnection(neighbor.getState())) {
+                    depthFirstSearchRecursive(neighbor);
+                } else {
+                    return false;
+                }
             }
         }
+
+        return true;
     }
-
-
-
-
-
 
     @Override
     public String toString() {
@@ -229,7 +269,7 @@ public class ListGraph<T> implements IGraph<T> {
             for (ListVertex<T> v : u.getEdges().stream().map(ListEdge::getRightVertex).toList()) {
                 ans.append(String.format("%s, ", v.getValue()));
             }
-            if (u.getEdges().size() > 0) ans.replace(ans.length() - 2, ans.length(), "");
+            if (!u.getEdges().isEmpty()) ans.replace(ans.length() - 2, ans.length(), "");
             ans.append(" }\n");
         }
         return ans.toString();
