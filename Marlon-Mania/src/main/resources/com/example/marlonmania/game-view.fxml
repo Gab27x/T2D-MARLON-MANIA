@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
+   <HBox prefHeight="41.0" prefWidth="600.0">
+      <Label alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="MARLON MANIA" />
+   </HBox>
+   <VBox prefHeight="200.0" prefWidth="100.0">
+      <Label fx:id="nickNameLabel" alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="Name: " />
+
+   </VBox>
+
+
+
+</AnchorPane>

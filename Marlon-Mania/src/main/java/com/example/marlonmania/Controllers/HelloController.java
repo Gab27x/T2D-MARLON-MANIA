@@ -1,17 +1,18 @@
 package com.example.marlonmania.Controllers;
 
+import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.model.Player;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -72,11 +73,15 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    void onClickPlay() {
+    void onClickPlay(){
         if ((listButton.isSelected() || matrixButton.isSelected()) && !enterNickname.getText().isEmpty()) {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
-                gameName.setText("TODO BIEN");
+                GameController.getInstance().setPlayerName(enterNickname.getText());
+
+                MainApplication.openWindow("game-view.fxml");
+
+
 
             } else {
                 showAlert("SELECT DIFFICULTY");
@@ -91,6 +96,8 @@ public class HelloController implements Initializable {
         }
 
     }
+
+
 
     private void showAlert(String mistake) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
