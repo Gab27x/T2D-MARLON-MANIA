@@ -14,7 +14,8 @@ public class ListEdge<T> {
         this.weight = weight;
     }
 
-    public ListVertex<T> getLeftVertex() {
+    public ListVertex<T
+            > getLeftVertex() {
         return leftVertex;
     }
 
