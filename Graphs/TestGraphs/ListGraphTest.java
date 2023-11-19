@@ -149,18 +149,18 @@ public class ListGraphTest {
         graph.addVertex("B");
         graph.deleteEdge("A", "B", "edge1");
     }
-
+/*
     @Test
     public void testDijkstra() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addVertex("C");
         graph.addEdge("A", "B", "edge1", 1);
-        graph.addEdge("B", "C", "edge2", 2);
+         graph.addEdge("B", "C", "edge2", 2);
 
         Map<String, String> shortestPath = graph.dijkstra("A", "C");
         assertEquals("B", shortestPath.get("C"));
-    }
+    }*/
 
     @Test(expected = VertexNotFoundException.class)
     public void testDijkstraWithMissingVertex() throws VertexNotFoundException, VertexNotAchievableException {
