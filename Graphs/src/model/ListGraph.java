@@ -144,26 +144,23 @@ public class ListGraph<T> implements IGraph<T> {
     public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
-        int dist = 0;
 
         if (startVertexIndex == -1 || endVertexIndex == -1) {
             throw new VertexNotFoundException("Start or end vertex not found.");
         }
 
-        Map<T, T> chain = new HashMap<>();
-        List<ListVertex<T>> unvisited = new ArrayList<>();
+        PriorityQueue<ListVertex<T>> q = new PriorityQueue<>(Comparator.comparingInt(ListVertex::getDistance));
 
         for (ListVertex<T> vertex : list) {
             vertex.setDistance(Integer.MAX_VALUE);
             vertex.setFather(null);
-            unvisited.add(vertex);
+            q.add(vertex);
         }
 
         list.get(startVertexIndex).setDistance(0);
 
-        while (!unvisited.isEmpty()) {
-            ListVertex<T> u = getVertexWithMinDistance(unvisited);
-            unvisited.remove(u);
+        while (!q.isEmpty()) {
+            ListVertex<T> u = q.poll();
             if (u == null) {
                 throw new VertexNotAchievableException("No path found between the specified vertices.");
             }
@@ -172,9 +169,10 @@ public class ListGraph<T> implements IGraph<T> {
                 ListVertex<T> v = edge.getRightVertex();
                 int alt = u.getDistance() + edge.getWeight();
                 if (alt < v.getDistance()) {
-                    dist += alt;
                     v.setDistance(alt);
                     v.setFather(u);
+                    q.remove(v);
+                    q.add(v);
                 }
             }
         }
@@ -183,19 +181,41 @@ public class ListGraph<T> implements IGraph<T> {
         if (currentVertex.getDistance() == Integer.MAX_VALUE) {
             throw new VertexNotAchievableException("End Vertex Not Achievable");
         }
-        while (currentVertex != null && !currentVertex.getValue().equals(startVertex)) {
-            chain.put(currentVertex.getValue(), currentVertex.getFather().getValue());
-            currentVertex = currentVertex.getFather();
-        }
 
-        return dist;
+
+
+        return currentVertex.getDistance();
     }
+
+
+
 
     @Override
     public void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
+        int startIndex = searchVertexIndex(startVertex);
 
+        if (startIndex == -1) {
+            throw new VertexNotFoundException("Start vertex not found.");
+        }
+
+        Stack<ListVertex<T>> stack = new Stack<>();
+        stack.push(list.get(startIndex));
+
+        while (!stack.isEmpty()) {
+            ListVertex<T> currentVertex = stack.pop();
+
+            if (!currentVertex.isVisited()) {
+                currentVertex.setVisited(true);
+
+                for (ListEdge<T> edge : currentVertex.getEdges()) {
+                    ListVertex<T> neighbor = edge.getRightVertex();
+                    if (!neighbor.isVisited()) {
+                        stack.push(neighbor);
+                    }
+                }
+            }
+        }
     }
-
 
     private ListVertex<T> getVertexWithMinDistance(List<ListVertex<T>> vertices) {
         ListVertex<T> minVertex = null;
@@ -210,7 +230,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
     @Override
-    public boolean DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<ListVertex<T>> temps = new ArrayList<>();
         ArrayList<ListVertex<T>> sub_graph = new ArrayList<>();
