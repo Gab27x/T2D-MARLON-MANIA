@@ -144,26 +144,23 @@ public class ListGraph<T> implements IGraph<T> {
     public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
-        int dist = 0;
 
         if (startVertexIndex == -1 || endVertexIndex == -1) {
             throw new VertexNotFoundException("Start or end vertex not found.");
         }
 
-        Map<T, T> chain = new HashMap<>();
-        List<ListVertex<T>> unvisited = new ArrayList<>();
+        PriorityQueue<ListVertex<T>> q = new PriorityQueue<>(Comparator.comparingInt(ListVertex::getDistance));
 
         for (ListVertex<T> vertex : list) {
             vertex.setDistance(Integer.MAX_VALUE);
             vertex.setFather(null);
-            unvisited.add(vertex);
+            q.add(vertex);
         }
 
         list.get(startVertexIndex).setDistance(0);
 
-        while (!unvisited.isEmpty()) {
-            ListVertex<T> u = getVertexWithMinDistance(unvisited);
-            unvisited.remove(u);
+        while (!q.isEmpty()) {
+            ListVertex<T> u = q.poll();
             if (u == null) {
                 throw new VertexNotAchievableException("No path found between the specified vertices.");
             }
@@ -172,9 +169,10 @@ public class ListGraph<T> implements IGraph<T> {
                 ListVertex<T> v = edge.getRightVertex();
                 int alt = u.getDistance() + edge.getWeight();
                 if (alt < v.getDistance()) {
-                    dist += alt;
                     v.setDistance(alt);
                     v.setFather(u);
+                    q.remove(v);
+                    q.add(v);
                 }
             }
         }
@@ -183,18 +181,18 @@ public class ListGraph<T> implements IGraph<T> {
         if (currentVertex.getDistance() == Integer.MAX_VALUE) {
             throw new VertexNotAchievableException("End Vertex Not Achievable");
         }
-        while (currentVertex != null && !currentVertex.getValue().equals(startVertex)) {
-            chain.put(currentVertex.getValue(), currentVertex.getFather().getValue());
-            currentVertex = currentVertex.getFather();
-        }
 
-        return dist;
+
+
+        return currentVertex.getDistance();
     }
+
 
     @Override
     public void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
 
     }
+
 
 
     private ListVertex<T> getVertexWithMinDistance(List<ListVertex<T>> vertices) {

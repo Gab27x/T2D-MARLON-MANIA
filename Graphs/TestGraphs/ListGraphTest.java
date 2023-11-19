@@ -72,6 +72,9 @@ public class ListGraphTest {
     }
 
 
+
+
+
     @Test
     public void testAddVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
@@ -170,15 +173,10 @@ public class ListGraphTest {
     @Test
     public void testDFS() throws VertexNotFoundException, VertexNotAchievableException {
         setUpExistingNodesAllConnectedDFS();
-        boolean[] visited = new boolean[graph.getList().size()];
-        graph.DFS("F");
-        for (int i = 0; i < graph.getList().size(); i++) {
-            visited[i] = graph.getList().get(i).isVisited();
-        }
-        for (boolean isVisited : visited) {
 
-            assertTrue(isVisited);
-        }
+        String[] vertexes = {"F", "G", "H", "I", "J"};
+        assertTrue(graph.DFS(vertexes));
+
     }
 
     @Test

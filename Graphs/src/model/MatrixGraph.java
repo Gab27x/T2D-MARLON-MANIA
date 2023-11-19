@@ -143,7 +143,6 @@ public class MatrixGraph<T> implements IGraph<T> {
     public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
-        int dist = 0;
 
         if (startVertexIndex == -1 || endVertexIndex == -1) {
             throw new VertexNotFoundException("Vertex was not found");
@@ -151,41 +150,50 @@ public class MatrixGraph<T> implements IGraph<T> {
 
         PriorityQueue<MatrixVertex<T>> q = new PriorityQueue<>(Comparator.comparingInt(MatrixVertex::getDistance));
 
-        for (int i = 0; i < vertices.length; i++) {
-            if (i != startVertexIndex) {
-                vertices[i].setDistance(Integer.MAX_VALUE);
-            } else {
-                vertices[i].setDistance(0);
+        for (MatrixVertex<T> vertex : vertices) {
+            if (vertex != null) {
+                vertex.setDistance(Integer.MAX_VALUE);
+                vertex.setFather(null);
+                vertex.setVisited(false);
             }
-            vertices[i].setFather(null);
-            q.add(vertices[i]);
         }
 
-        while (!q.isEmpty() && q.peek() != vertices[endVertexIndex]) {
+        vertices[startVertexIndex].setDistance(0);
+        q.add(vertices[startVertexIndex]);
+
+        while (!q.isEmpty()) {
             MatrixVertex<T> u = q.poll();
+
+            if (u.isVisited()) {
+                continue;
+            }
+
             int uIndex = searchVertexIndex(u.getValue());
 
             for (int i = 0; i < vertices.length; i++) {
-                if (matrix[uIndex][i] != 0 && i != uIndex) {
+                if (matrix[uIndex][i] != 0 && !vertices[i].isVisited()) {
                     int alt = u.getDistance() + matrix[uIndex][i];
 
                     if (alt < vertices[i].getDistance()) {
                         vertices[i].setDistance(alt);
                         vertices[i].setFather(u);
-                        dist += alt;
 
                         q.add(vertices[i]);
                     }
                 }
             }
+
+            u.setVisited(true);
         }
 
         if (vertices[endVertexIndex].getDistance() == Integer.MAX_VALUE) {
             throw new VertexNotAchievableException("The end vertex is not reachable from the start vertex.");
         }
 
-        return dist;
+        return vertices[endVertexIndex].getDistance();
     }
+
+
 
 
     //DFS normal para recorrer todo el arbol
