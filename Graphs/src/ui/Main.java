@@ -13,10 +13,10 @@ public class Main {
     public static void main(String[] args) throws VertexNotAchievableException, VertexNotFoundException {
 
         Main m = new Main();
-/*        try {
+        try {
             try {
                 m.test1();
-                m.test3();
+/*                m.test3();*/
             } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException e) {
                 throw new RuntimeException(e);
             }
@@ -24,7 +24,7 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        }*/
+
 /*        try {
             try {
                 m.test2();
@@ -53,16 +53,38 @@ public class Main {
         MatrixGraph<String> graph = new MatrixGraph<>(false,4);
 
         graph.addVertex("A");
+        graph.obtainVertex(graph.searchVertexIndex("A")).setState(State.START);
+
         graph.addVertex("B");
+        graph.obtainVertex(graph.searchVertexIndex("B")).setState(State.EMPTY);
+
         graph.addVertex("C");
+        graph.obtainVertex(graph.searchVertexIndex("C")).setState(State.VERTICAL);
+
         graph.addVertex("D");
+        graph.obtainVertex(graph.searchVertexIndex("D")).setState(State.END);
+
+
         graph.addEdge("A","B","A-B",1);
         graph.addEdge("A","C","A-C",12);
         graph.addEdge("C","D","C-D",8);
+
+      String[] simulate= new String[3];
+        simulate[0]="A";
+        simulate[1]="C";
+        simulate[2]="D";
+        System.out.println(graph.DFSVALIDATOR(simulate));
+
+
+
+
 /*        graph.addEdge("B","D","C-D",2);*/
 
 
+
+
         System.out.println(graph.dijkstra("A","D"));
+
 
 
 

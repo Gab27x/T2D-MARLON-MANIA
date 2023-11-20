@@ -5,6 +5,9 @@ public class MatrixVertex<T> implements Cloneable {
     private int distance;
     private boolean visited;
     private State state;
+    private int posX;
+
+    private int posY;
 
     private MatrixVertex<T> father;
 
@@ -48,6 +51,23 @@ public class MatrixVertex<T> implements Cloneable {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     @Override

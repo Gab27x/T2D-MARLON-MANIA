@@ -10,6 +10,10 @@ public class ListVertex<T> implements Cloneable {
     private ListVertex<T> father;
     private State state;
 
+    private int posX;
+
+    private int posY;
+
     public ListVertex(T value) {
         this.value = value;
         this.state = State.CONNECTOR;
@@ -58,6 +62,23 @@ public class ListVertex<T> implements Cloneable {
 
     public void setState(State state) {
         this.state = state;
+    }
+
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 
     @Override
