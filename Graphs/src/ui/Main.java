@@ -2,6 +2,9 @@ package ui;
 import exceptions.*;
 import model.*;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
 
 public class Main {
 
@@ -50,47 +53,52 @@ public class Main {
     // TESTING
 
     void test1() throws VertexAlreadyAddedException, VertexNotAchievableException, VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
-        MatrixGraph<String> graph = new MatrixGraph<>(false,4);
+        ListGraph<String> graph = new ListGraph<>(false, false, false);
 
         graph.addVertex("A");
         graph.obtainVertex(graph.searchVertexIndex("A")).setState(State.START);
+        graph.obtainVertex(graph.searchVertexIndex("A")).setPosX(0);
 
-        graph.addVertex("B");
-        graph.obtainVertex(graph.searchVertexIndex("B")).setState(State.EMPTY);
+        graph.obtainVertex(graph.searchVertexIndex("A")).setPosY(0);
 
         graph.addVertex("C");
         graph.obtainVertex(graph.searchVertexIndex("C")).setState(State.VERTICAL);
+        graph.obtainVertex(graph.searchVertexIndex("C")).setPosX(0);  // <-- Corregir aquí
+        graph.obtainVertex(graph.searchVertexIndex("C")).setPosY(1);
 
         graph.addVertex("D");
         graph.obtainVertex(graph.searchVertexIndex("D")).setState(State.END);
+        graph.obtainVertex(graph.searchVertexIndex("D")).setPosX(0);
+        graph.obtainVertex(graph.searchVertexIndex("D")).setPosY(2);
+
+        // Asegurarse de que las conexiones reflejen la disposición deseada
+        graph.addEdge("A", "C", "AC", 1);
+        graph.addEdge("C", "D", "CD", 1);
+
+        System.out.println("PRUEBA" + graph.toString());
 
 
-        graph.addEdge("A","B","A-B",1);
-        graph.addEdge("A","C","A-C",12);
-        graph.addEdge("C","D","C-D",8);
+        String[] simulate = new String[3];
+        simulate[0] = "A";
+        simulate[1] = "C";
+        simulate[2] = "D";
 
-      String[] simulate= new String[3];
-        simulate[0]="A";
-        simulate[1]="C";
-        simulate[2]="D";
-        System.out.println(graph.DFSVALIDATOR(simulate));
-
-
-
-
-/*        graph.addEdge("B","D","C-D",2);*/
-
-
-
-
-        System.out.println(graph.dijkstra("A","D"));
+        System.out.println(  graph.obtainVertex(graph.searchVertexIndex(simulate[0])).getPosY());
+        System.out.println(  graph.obtainVertex(graph.searchVertexIndex(simulate[1])).getPosY());
+        System.out.println(  graph.obtainVertex(graph.searchVertexIndex(simulate[2])).getPosY());
 
 
 
-
-
-
+        try {
+            System.out.println("SIMULATE: " + graph.DFSVALIDATOR(simulate));
+        } catch (VertexNotFoundException | VertexNotAchievableException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
+
 
 
 
@@ -107,7 +115,7 @@ public class Main {
 
 
         System.out.println("LIST"+graphList.dijkstra("A","D"));
-        System.out.println(graphList.toString());
+       // System.out.println(graphList.toString());
 
 
     }
@@ -125,7 +133,7 @@ public class Main {
         /*        graph.addEdge("B","D","C-D",2);*/
 
 
-        System.out.println(graph.dijkstra("1,2","1,5"));
+        //System.out.println(graph.dijkstra("1,2","1,5"));
         graph.print();
 
 
