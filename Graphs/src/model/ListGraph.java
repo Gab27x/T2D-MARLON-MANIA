@@ -23,9 +23,42 @@ public class ListGraph<T> implements IGraph<T> {
         if (searchVertexIndex(vertex) == -1) {
             list.add(new ListVertex<>(vertex));
         } else {
-            throw new VertexAlreadyAddedException("Vertex found: " + vertex);
+            System.err.println("ALGO RARO");
+            /*throw new VertexAlreadyAddedException("Vertex found: " + vertex);*/
         }
-    }
+    }/*
+    @Override
+    public void addEdge(T start, T end, String id, int weight)
+            throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
+        int startVertex = searchVertexIndex(start);
+        int endVertex = searchVertexIndex(end);
+
+        // Verifica si los vértices existen
+        if (startVertex == -1) {
+            throw new VertexNotFoundException("Error. Start vertex not found: " + start);
+        }
+
+        if (endVertex == -1) {
+            throw new VertexNotFoundException("Error. End vertex not found: " + end);
+        }
+
+        // Verifica si hay bucles
+        if (startVertex == endVertex && !allowsLoop) {
+            throw new LoopsNotAllowedException("Error. Loops not allowed.");
+        }
+
+        // Verifica si ya existe la arista
+        if (searchEdgeIndex(list.get(startVertex), list.get(endVertex), id) != -1 && !isMultiple) {
+            throw new MultipleEdgesNotAllowedException("Error. Multiple edges between vertex not allowed.");
+        }
+
+        // Añade la arista
+        if (!isGuided) {
+            // Si no es dirigido, añade la arista en ambas direcciones
+            list.get(endVertex).getEdges().add(new ListEdge<>(list.get(endVertex), list.get(startVertex), id, weight));
+        }
+        list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
+    }*/
 
 
     @Override
@@ -34,13 +67,18 @@ public class ListGraph<T> implements IGraph<T> {
     ) throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
         int startVertex = searchVertexIndex(start);
         int endVertex = searchVertexIndex(end);
+
         if (startVertex == -1 || endVertex == -1) {
+            System.err.println("ALGO RARO 1");
+
             throw new VertexNotFoundException("Error. Vertex not found.");
         }
         if (startVertex == endVertex && !allowsLoop) {
+            System.err.println("ALGO RARO 2");
             throw new LoopsNotAllowedException("Error. Loops not allowed.");
         }
         if (searchEdgeIndex(list.get(startVertex), list.get(endVertex), id) != -1 && !isMultiple) {
+            System.err.println("ALGO RARO 3");
             throw new MultipleEdgesNotAllowedException("Error. Multiple edges between vertex not allowed.");
         }
         if (!isGuided) {
@@ -102,7 +140,7 @@ public class ListGraph<T> implements IGraph<T> {
 
     public int searchVertexIndex(T vertex) {
         for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getValue() == vertex) {
+            if (list.get(i).getValue().equals(vertex)) {
                 return i;
             }
         }

@@ -18,6 +18,9 @@ public class MatrixGraph<T> implements IGraph<T> {
         this.matrix = new int[vertices][vertices];
     }
 
+    public int getNumOfVertices(){
+        return vertices.length;
+    }
 
     public void addVertex(T value) throws VertexAlreadyAddedException {
         boolean stop = false;
@@ -39,7 +42,12 @@ public class MatrixGraph<T> implements IGraph<T> {
         int vertex1 = searchVertexIndex(start);
         int vertex2 = searchVertexIndex(end);
 
-        if (vertex1 == vertex2) throw new LoopsNotAllowedException("Loops are not allowed");
+        if (vertex1 == vertex2) {
+            System.out.println(start + " -> " + end);
+            throw new LoopsNotAllowedException("Loops are not allowed");
+
+        }
+
         if (vertex1 != -1 && vertex2 != -1) {
             if (matrix[vertex1][vertex2] != 0)
                 throw new MultipleEdgesNotAllowedException("Multiples edges are not allowed");
@@ -277,9 +285,50 @@ public class MatrixGraph<T> implements IGraph<T> {
 
         return true;
     }
+/*
+    public void print() {
+        String msg = "      ";
+        for (int i = 0; i < vertices.length; i++){
+            msg += vertices[i].getValue() + "  ";
+        }
+        System.out.println(msg);
+
+        for (int i = 0; i < vertices.length; i++) {
+            System.out.print(vertices[i].getValue() + " [ ");
+
+            for (int j = 0; j < vertices.length; j++) {
+                System.out.print(matrix[i][j] + "  ");
+            }
+            System.out.print(" ]");
+            System.out.println();
+
+        }
+    }
+*/
 
 
+    public void print(){
+
+        StringBuilder msg = new StringBuilder("      ");
+        for (MatrixVertex<T> vertex : vertices) {
+            msg.append(vertex.getValue()).append("  ");
+        }
+        System.out.println(msg.toString());
+
+        for (int i = 0; i < vertices.length; i++) {
+            System.out.printf("%-4s [ ", vertices[i].getValue());
+
+            for (int j = 0; j < vertices.length; j++) {
+                System.out.printf("%-4d ", matrix[i][j]);
+            }
+
+            System.out.print("]");
+            System.out.println();
+        }
+
+    }
     public MatrixVertex<T>[] getVertices() {
         return vertices;
     }
 }
+
