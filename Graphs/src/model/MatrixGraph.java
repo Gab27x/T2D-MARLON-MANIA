@@ -6,6 +6,19 @@ import exceptions.*;
 
 
 public class MatrixGraph<T> implements IGraph<T> {
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    public boolean isDirected() {
+        return isDirected;
+    }
+
+    public int[][] getDIRS() {
+        return DIRS;
+    }
+
+
     private final MatrixVertex<T>[] vertices;
     private final int[][] matrix;
     private final boolean isDirected;
@@ -29,6 +42,7 @@ public class MatrixGraph<T> implements IGraph<T> {
         for (int i = 0; i < vertices.length && !stop; i++) {
             if (vertices[i] == null) {
                 vertices[i] = new MatrixVertex<>(value);
+                vertices[i].setState(State.EMPTY);
                 stop = true;
             }
         }
@@ -106,6 +120,11 @@ public class MatrixGraph<T> implements IGraph<T> {
         }
 
         return -1;
+    }
+
+    public MatrixVertex<T> obtainVertex(int index){
+        return vertices[index];
+
     }
 
     @Override
@@ -242,7 +261,7 @@ public class MatrixGraph<T> implements IGraph<T> {
             indexes.add(searchVertexIndex(vertex));
         }
 
-        for (int i = 0; i < vertices.length; i++) {
+        for (int i = 0; i < vertices.length-1; i++) {
             if (indexes.get(i) == -1) {
                 throw new VertexNotFoundException("Start vertex not found.");
             }

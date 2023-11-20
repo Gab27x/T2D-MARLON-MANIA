@@ -21,7 +21,9 @@ public class ListGraph<T> implements IGraph<T> {
     @Override
     public void addVertex(T vertex) throws VertexAlreadyAddedException {
         if (searchVertexIndex(vertex) == -1) {
-            list.add(new ListVertex<>(vertex));
+           ListVertex<T> newVertex= new ListVertex<>(vertex);
+           newVertex.setState(State.EMPTY);
+            list.add(newVertex);
         } else {
             System.err.println("ALGO RARO");
             /*throw new VertexAlreadyAddedException("Vertex found: " + vertex);*/
