@@ -28,7 +28,8 @@ public class ListGraph<T> implements IGraph<T> {
             System.err.println("ALGO RARO");
             /*throw new VertexAlreadyAddedException("Vertex found: " + vertex);*/
         }
-    }/*
+    }
+
     @Override
     public void addEdge(T start, T end, String id, int weight)
             throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
@@ -60,34 +61,10 @@ public class ListGraph<T> implements IGraph<T> {
             list.get(endVertex).getEdges().add(new ListEdge<>(list.get(endVertex), list.get(startVertex), id, weight));
         }
         list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
-    }*/
-
-
-    @Override
-    public void addEdge(
-            T start, T end, String id, int weight
-    ) throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
-        int startVertex = searchVertexIndex(start);
-        int endVertex = searchVertexIndex(end);
-
-        if (startVertex == -1 || endVertex == -1) {
-            System.err.println("ALGO RARO 1");
-
-            throw new VertexNotFoundException("Error. Vertex not found.");
-        }
-        if (startVertex == endVertex && !allowsLoop) {
-            System.err.println("ALGO RARO 2");
-            throw new LoopsNotAllowedException("Error. Loops not allowed.");
-        }
-        if (searchEdgeIndex(list.get(startVertex), list.get(endVertex), id) != -1 && !isMultiple) {
-            System.err.println("ALGO RARO 3");
-            throw new MultipleEdgesNotAllowedException("Error. Multiple edges between vertex not allowed.");
-        }
-        if (!isGuided) {
-            list.get(endVertex).getEdges().add(new ListEdge<>(list.get(endVertex), list.get(startVertex), id, weight));
-        }
-        list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
     }
+
+
+
 
 
     @Override
@@ -147,6 +124,10 @@ public class ListGraph<T> implements IGraph<T> {
             }
         }
         return -1;
+    }
+
+    public ListVertex<T> obtainVertex(int index){
+        return list.get(index);
     }
 
 
@@ -308,7 +289,8 @@ public class ListGraph<T> implements IGraph<T> {
         for (ListEdge<T> edge : vertex.getEdges()) {
             ListVertex<T> neighbor = edge.getRightVertex();
             if (!neighbor.isVisited()) {
-                if (vertex.getState().checkConnection(neighbor.getState())) {
+
+                if (vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
                     depthFirstSearchRecursive(neighbor);
                 } else {
                     return false;

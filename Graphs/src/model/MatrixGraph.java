@@ -295,7 +295,7 @@ public class MatrixGraph<T> implements IGraph<T> {
         vertex.setVisited(true);
 
         for (MatrixVertex<T> neighbor : subGraph) {
-            if (!neighbor.isVisited() && vertex.getState().checkConnection(neighbor.getState())) {
+            if (!neighbor.isVisited() && vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
                 if (!depthFirstSearchRecursive(neighbor, subGraph)) {
                     return false;
                 }

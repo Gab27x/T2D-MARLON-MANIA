@@ -16,9 +16,11 @@ public class ListVertex<T> implements Cloneable {
 
     public ListVertex(T value) {
         this.value = value;
-        this.state = State.CONNECTOR;
+        this.state = State.EMPTY;
         edges = new ArrayList<>();
+
     }
+
 
     public T getValue() {
         return value;
@@ -85,18 +87,17 @@ public class ListVertex<T> implements Cloneable {
     public ListVertex<T> clone() {
         try {
             ListVertex<T> clone = (ListVertex<T>) super.clone();
-
+            clone.posX = this.posX;
+            clone.posY = this.posY;
             clone.edges = new ArrayList<>();
-
-            // Clonar el campo mutable father si no es nulo
             if (father != null) {
                 clone.father = father.clone();
             }
 
-            // Aquí puedes realizar la clonación de otros campos mutables si los tienes
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
+
 }
