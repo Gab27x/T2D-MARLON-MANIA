@@ -173,9 +173,10 @@ public class ListGraphTest {
     @Test
     public void testDFS() throws VertexNotFoundException, VertexNotAchievableException {
         setUpExistingNodesAllConnectedDFS();
-
-        String[] vertexes = {"F", "G", "H", "I", "J"};
-        assertTrue(graph.DFS(vertexes));
+        graph.DFS("F");
+        for(ListVertex<String> vertex : graph.getList()){
+            assertTrue(vertex.isVisited());
+        }
 
     }
 

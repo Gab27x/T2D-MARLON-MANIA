@@ -28,5 +28,5 @@ public interface IGraph<T> {
     void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException;
 
 
-    boolean DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException;
+    boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException;
 }

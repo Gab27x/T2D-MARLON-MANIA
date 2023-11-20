@@ -226,7 +226,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     //DFS para asegurarme que el camino entre los grafos es correcto
 
     @Override
-    public boolean DFS(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<MatrixVertex<T>> temps = new ArrayList<>();
         ArrayList<MatrixVertex<T>> sub_graph = new ArrayList<>();
