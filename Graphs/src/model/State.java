@@ -2,6 +2,7 @@ package model;
 
 public enum State {
     VERTICAL,
+    EMPTY,
     HORIZONTAL,
     CONNECTOR,
     START,

@@ -1,6 +1,8 @@
 package ui;
 import exceptions.*;
 import model.*;
+
+
 public class Main {
 
     public Main(){
@@ -11,18 +13,10 @@ public class Main {
     public static void main(String[] args) throws VertexNotAchievableException, VertexNotFoundException {
 
         Main m = new Main();
-        try {
+/*        try {
             try {
                 m.test1();
-            } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (VertexAlreadyAddedException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            try {
-                m.test2();
+                m.test3();
             } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException e) {
                 throw new RuntimeException(e);
             }
@@ -30,6 +24,27 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        }*/
+/*        try {
+            try {
+                m.test2();
+            } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (VertexAlreadyAddedException e) {
+            throw new RuntimeException(e);
+        }*/
+
+  /*      try{
+
+
+            m.generateMethod();
+
+        }catch (Exception e){
+            System.err.println("MAL");
+        }
+        System.out.println("\n\n\n");*/
+        m.generateMethod2();
 
     }
     // TESTING
@@ -42,12 +57,14 @@ public class Main {
         graph.addVertex("C");
         graph.addVertex("D");
         graph.addEdge("A","B","A-B",1);
-        graph.addEdge("A","C","A-C",2);
-        graph.addEdge("C","D","C-D",2);
-        graph.addEdge("B","D","C-D",2);
+        graph.addEdge("A","C","A-C",12);
+        graph.addEdge("C","D","C-D",8);
+/*        graph.addEdge("B","D","C-D",2);*/
 
 
         System.out.println(graph.dijkstra("A","D"));
+
+
 
 
 
@@ -68,7 +85,201 @@ public class Main {
 
 
         System.out.println("LIST"+graphList.dijkstra("A","D"));
+        System.out.println(graphList.toString());
 
 
     }
+
+    void test3() throws VertexAlreadyAddedException, VertexNotAchievableException, VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
+        MatrixGraph<String> graph = new MatrixGraph<>(false,4);
+
+        graph.addVertex("1,2");
+        graph.addVertex("1,3");
+        graph.addVertex("1,4");
+        graph.addVertex("1,5");
+        graph.addEdge("1,2","1,3","A-B",1);
+        graph.addEdge("1,2","1,4","A-C",12);
+        graph.addEdge("1,4","1,5","C-D",8);
+        /*        graph.addEdge("B","D","C-D",2);*/
+
+
+        System.out.println(graph.dijkstra("1,2","1,5"));
+        graph.print();
+
+
+
+    }
+
+    void generateMethod() {
+        MatrixGraph<String> graph = new MatrixGraph<>(false, 64);
+        System.out.println(graph.getNumOfVertices());
+
+        for (int i = 0; i < 8; i++) {
+            try {
+                graph.addVertex((i + "," + 0));
+            } catch (VertexAlreadyAddedException e) {
+                System.err.println("Error al agregar vértice: " + e.getMessage());
+            }
+
+            for (int j = 1; j < 8; j++) {
+                try {
+                    graph.addVertex((i + "," + j));
+                } catch (VertexAlreadyAddedException e) {
+                    System.err.println("Error al agregar vértice: " + e.getMessage());
+                }
+
+                try {
+                    graph.addEdge(i + "," + (j - 1), i + "," + j, "none" + i, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista: " + e.getMessage());
+                }
+            }
+        }
+
+        // Agregar conexiones entre filas consecutivas
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    graph.addEdge(i + "," + j, (i + 1) + "," + j, "none_between_rows", 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista entre filas: " + e.getMessage());
+                }
+            }
+        }
+
+        graph.print();
+    }
+
+    void generateMethod2() {
+        ListGraph<String> graph = new ListGraph<>(false, false, false);
+
+        for (int i = 0; i < 8; i++) {
+            try {
+                graph.addVertex(i + "," + 0);
+            } catch (VertexAlreadyAddedException e) {
+                System.err.println("Error al agregar vértice: " + e.getMessage());
+            }
+
+            for (int j = 1; j < 8; j++) {
+                try {
+                    graph.addVertex((i) + "," + j);
+                } catch (VertexAlreadyAddedException e) {
+                    System.err.println("Error al agregar vértice: " + e.getMessage());
+                }
+
+                try {
+                    String edgeId = String.format("%s -> %s", (i) + "," + (j - 1), (i) + "," + j);
+                    graph.addEdge((i + "," + (j - 1)), (i + "," + j), edgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista: " + e.getMessage());
+                }
+            }
+        }
+
+        // Agregar conexiones entre filas consecutivas
+        /*for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    String edgeId = String.format("%s -> %s", String.valueOf(i) + "," + j, String.valueOf(i + 1) + "," + j);
+                    graph.addEdge(String.valueOf(i) + "," + j, String.valueOf(i + 1) + "," + j, edgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista entre filas: " + e.getMessage());
+                }
+            }
+        }*/
+
+        // Mostrar la representación del grafo
+        System.out.println(graph);
+    }
+
+/*
+
+    void generateMethod2() {
+        ListGraph<String> graph = new ListGraph<>(false, false, false);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    graph.addVertex(String.format("%d,%d", i, j));
+                } catch (VertexAlreadyAddedException e) {
+                    System.err.println("Error al agregar vértice: " + e.getMessage());
+                }
+            }
+        }
+
+        // Agregar aristas horizontales
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 7; j++) {
+                try {
+                    String edgeId = String.format("%d -> %d", i, j);
+                    graph.addEdge(String.format("%d,%d", i, j-1), String.format("%d,%d", i, j ), edgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista: " + e.getMessage());
+                }
+            }
+        }
+
+        // Agregar aristas verticales
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    String edgeId = String.format("%d -> %d", i, j);
+                    graph.addEdge(String.format("%d,%d", i, j), String.format("%d,%d", i + 1, j), edgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista: " + e.getMessage());
+                }
+            }
+        }
+
+        // Mostrar la representación del grafo
+        System.out.println(graph);
+    }
+
+*/
+    /*
+    void generateMethod2() {
+        ListGraph<String> graph = new ListGraph<>(false, false, false);
+
+        for (int i = 0; i < 8; i++) {
+            try {
+                graph.addVertex(String.valueOf(i) + "," + 0);
+            } catch (VertexAlreadyAddedException e) {
+                System.err.println("Error al agregar vértice: " + e.getMessage());
+            }
+
+            for (int j = 1; j < 8; j++) {
+                try {
+                    graph.addVertex(String.valueOf(i) + "," + j);
+                } catch (VertexAlreadyAddedException e) {
+                    System.err.println("Error al agregar vértice: " + e.getMessage());
+                }
+
+                try {
+                    String edgeId = String.format("%d -> %d", i, j);
+                    graph.addEdge(String.valueOf(i) + "," + (j - 1), String.valueOf(i) + "," + j, edgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista: " + e.getMessage());
+                }
+            }
+        }
+
+        // Agregar conexiones entre filas consecutivas
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    String edgeId = String.format("%d -> %d", i, j);
+                    String nextEdgeId = String.format("%d -> %d", i + 1, j);
+                    graph.addEdge(String.valueOf(i) + "," + j, String.valueOf(i + 1) + "," + j, nextEdgeId, 1);
+                } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
+                    System.err.println("Error al agregar arista entre filas: " + e.getMessage());
+                }
+            }
+        }
+
+        // Mostrar la representación del grafo
+        System.out.println(graph);
+    }
+*/
+
+
 }
