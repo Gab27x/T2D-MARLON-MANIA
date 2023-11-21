@@ -1,9 +1,6 @@
 package com.example.marlonmania.Controllers;
 
-import com.example.marlonmania.model.Game;
-import com.example.marlonmania.model.ListEdge;
-import com.example.marlonmania.model.ListGraph;
-import com.example.marlonmania.model.ListVertex;
+import com.example.marlonmania.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -43,6 +40,9 @@ public class GameController implements Initializable {
     private Button addPipe;
 
     @FXML
+    private Button simulate;
+
+    @FXML
     private RadioButton vertical;
     @FXML
     private RadioButton horizontal;
@@ -59,6 +59,7 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.newGame = new Game();
         newGame.initGrafo();
+        newGame.init();
   /*      newGame.initGrafoDescendente();*/
 
         displayGraph();
@@ -79,6 +80,10 @@ public class GameController implements Initializable {
     public void onClickCircular(){
         horizontal.setSelected(false);
         vertical.setSelected(false);
+    }
+    @FXML
+    public void onClickSimulate(){
+        newGame.simulate();
     }
 
     private void displayGraph() {
@@ -106,9 +111,20 @@ public class GameController implements Initializable {
         graphGroup.getChildren().add(circle);
 
         // Agregar texto dentro del círculo
-        Text text = new Text(vertex.getValue());
+        String state = "nop";
+        switch (vertex.getState()){
+            case EMPTY -> {state = "X" ;}
+            case VERTICAL -> {state = "||" ;}
+            case HORIZONTAL -> {state = "="; }
+            case END -> {state = "D";}
+            case START -> {state = "F";}
+            case CONNECTOR -> {state = "0";}
+        }
+
+        Text text = new Text(state);
         text.setX(posX - text.getLayoutBounds().getWidth() / 2);
         text.setY(posY + text.getLayoutBounds().getHeight() / 4);
+
         graphGroup.getChildren().add(text);
 
         // Dibujar líneas desde este nodo a sus nodos adyacentes
@@ -162,7 +178,23 @@ public class GameController implements Initializable {
     }
     @FXML
     public void onClickAddPipe(){
-        if( choiceBoxX.getValue() != null && choiceBoxY.getValue() != null){
+        if( choiceBoxX.getValue() != null && choiceBoxY.getValue() != null &&
+                (circular.isSelected() || vertical.isSelected() || horizontal.isSelected())){
+            String vertex = choiceBoxX.getValue() + "," + choiceBoxY.getValue();
+
+            if(circular.isSelected()){
+                newGame.addPipe(vertex, State.CONNECTOR);
+
+            } else if (vertical.isSelected()) {
+                newGame.addPipe(vertex, State.VERTICAL);
+
+            } else if (horizontal.isSelected()) {
+                newGame.addPipe(vertex, State.HORIZONTAL);
+
+            }
+
+            graphGroup.getChildren().clear();
+            displayGraph();
 
         }
         else {

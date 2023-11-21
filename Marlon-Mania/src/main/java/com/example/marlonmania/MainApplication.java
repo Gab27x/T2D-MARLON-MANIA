@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        openWindow("menu2.fxml");
+        openWindow("new-Game-Setup.fxml");
     }
 
     public static void openWindow(String fxml){

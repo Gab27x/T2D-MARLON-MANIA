@@ -16,17 +16,16 @@ public class Main {
     public static void main(String[] args) throws VertexNotAchievableException, VertexNotFoundException {
 
         Main m = new Main();
-   /*     try {
+        try {
             try {
                 m.test1();
-*//*                m.test3();*//*
+/*                m.test3();*/
             } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException e) {
                 throw new RuntimeException(e);
             }
         } catch (VertexAlreadyAddedException e) {
             throw new RuntimeException(e);
         }
-*/
 
 /*        try {
             try {
