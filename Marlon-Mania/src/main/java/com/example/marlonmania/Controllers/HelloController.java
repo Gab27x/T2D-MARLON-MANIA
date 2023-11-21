@@ -77,7 +77,6 @@ public class HelloController implements Initializable {
         if ((listButton.isSelected() || matrixButton.isSelected()) && !enterNickname.getText().isEmpty()) {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
-                GameController.getInstance().setPlayerName(enterNickname.getText());
 
                 MainApplication.openWindow("game-view.fxml");
 

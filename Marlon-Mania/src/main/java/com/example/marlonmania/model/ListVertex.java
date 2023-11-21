@@ -1,23 +1,43 @@
-package model;
+package com.example.marlonmania.model;
 
-public class MatrixVertex<T> implements Cloneable {
-    private final T Value;
-    private int distance;
+import java.util.ArrayList;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+public class ListVertex<T>  extends Circle implements Cloneable {
+    private final T value;
+    private ArrayList<ListEdge<T>> edges;
     private boolean visited;
+    private int distance;
+    private ListVertex<T> father;
     private State state;
+
     private int posX;
 
     private int posY;
 
-    private MatrixVertex<T> father;
-
-    public MatrixVertex(T Value) {
-        this.Value = Value;
+    public ListVertex(T value) {
+        this.value = value;
         this.state = State.EMPTY;
+        edges = new ArrayList<>();
+
+        this.setRadius(20.0); // Establece el radio predeterminado
+        this.setFill(Color.BLUE); // Establece el color del círculo
+
+
     }
 
+
     public T getValue() {
-        return Value;
+        return value;
+    }
+
+    public ArrayList<ListEdge<T>> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(ArrayList<ListEdge<T>> newEdges) {
+        this.edges = newEdges;
     }
 
     public int getDistance() {
@@ -28,12 +48,11 @@ public class MatrixVertex<T> implements Cloneable {
         this.distance = distance;
     }
 
-
-    public MatrixVertex<T> getFather() {
+    public ListVertex<T> getFather() {
         return father;
     }
 
-    public void setFather(MatrixVertex<T> father) {
+    public void setFather(ListVertex<T> father) {
         this.father = father;
     }
 
@@ -71,15 +90,20 @@ public class MatrixVertex<T> implements Cloneable {
     }
 
     @Override
-    public MatrixVertex<T> clone() {
+    public ListVertex<T> clone() {
         try {
-            MatrixVertex<T> clone = (MatrixVertex<T>) super.clone();
+            ListVertex<T> clone = (ListVertex<T>) super.clone();
+            clone.posX = this.posX;
+            clone.posY = this.posY;
+            clone.edges = new ArrayList<>();
             if (father != null) {
                 clone.father = father.clone();
             }
+
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
     }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -12,6 +13,9 @@
 
    </VBox>
 
+   <Group fx:id="graphGroup" layoutX="100.0" layoutY="200.0">
+
+   </Group>
 
 
 </AnchorPane>
