@@ -7,19 +7,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
-   <HBox prefHeight="96.0" prefWidth="600.0">
-      <Label alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="MARLON MANIA" />
-      <Label fx:id="nickNameLabel" alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="Name: " />
-   </HBox>
+<AnchorPane prefHeight="660.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
 
-   <Group fx:id="graphGroup" layoutX="100" layoutY="50.0">
+   <Group fx:id="graphGroup" layoutX="100" layoutY="80.0">
 
    </Group>
-   <HBox layoutX="23.0" layoutY="458.0" prefHeight="122.0" prefWidth="569.0" spacing="40.0">
+   <HBox layoutX="16.0" layoutY="499.0" prefHeight="122.0" prefWidth="569.0" spacing="40.0">
       <VBox spacing="20.0">
-         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="162.0" text="Enter x coordenate" />
-         <ChoiceBox prefWidth="150.0">
+         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="162.0" text="Enter X coordinate" />
+         <ChoiceBox fx:id="choiceBoxX" prefWidth="150.0">
             <items>
                <FXCollections fx:factory="observableArrayList">
                   <String fx:value="0" />
@@ -36,8 +32,8 @@
       </VBox>
 
       <VBox spacing="20.0">
-         <Label alignment="CENTER" prefHeight="17.0" prefWidth="155.0" text="Enter y coordenate" />
-         <ChoiceBox layoutY="10.0" prefWidth="150.0">
+         <Label alignment="CENTER" prefHeight="17.0" prefWidth="155.0" text="Enter Y coordinate" />
+         <ChoiceBox fx:id="choiceBoxY" layoutY="10.0" prefWidth="150.0">
             <items>
                <FXCollections fx:factory="observableArrayList">
                   <String fx:value="0" />
@@ -55,16 +51,29 @@
       <VBox prefHeight="122.0" prefWidth="151.0" spacing="10.0">
          <children>
             <Label alignment="CENTER" prefHeight="17.0" prefWidth="166.0" text="Select PIPE" />
-            <RadioButton mnemonicParsing="false" text="Vertical" />
-            <RadioButton mnemonicParsing="false" text="Horizontal" />
-            <RadioButton mnemonicParsing="false" text="Circular" />
+            <RadioButton fx:id="vertical" mnemonicParsing="false" onAction="#onClickVertical" text="Vertical" />
+            <RadioButton fx:id="horizontal" mnemonicParsing="false" onAction="#onClickHorizontal" text="Horizontal" />
+            <RadioButton fx:id="circular" mnemonicParsing="false" onAction="#onClickCircular" text="Circular" />
          </children>
       </VBox>
       <padding>
          <Insets left="10.0" right="10.0" />
       </padding>
    </HBox>
-   <Button layoutX="277.0" layoutY="580.0" mnemonicParsing="false" text="AddPiPe" />
+   <Button fx:id="addPipe" layoutX="270.0" layoutY="621.0" mnemonicParsing="false" text="AddPiPe" onAction="#onClickAddPipe" />
+
+
+
+   <VBox alignment="CENTER" layoutX="208.0" prefHeight="46.0" prefWidth="184.0">
+      <children>
+         <Label fx:id="title" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="MARLON MANIA" />
+      </children>
+   </VBox>
+   <VBox alignment="CENTER" layoutX="430.0" layoutY="14.0" prefHeight="46.0" prefWidth="184.0">
+      <children>
+         <Label fx:id="nickNameLabel" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="203.0" text="Player: " />
+      </children>
+   </VBox>
 
 
 

@@ -10,9 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -78,7 +80,8 @@ public class HelloController implements Initializable {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
 
-                MainApplication.openWindow("game-view.fxml");
+                MainApplication.openGameWindow("game-view.fxml",enterNickname.getText());
+                MainApplication.closeWindow((Stage) playButton.getScene().getWindow());
 
 
 
@@ -97,7 +100,31 @@ public class HelloController implements Initializable {
     }
 
 
+    private void setFonts() {
 
+        InputStream is = getClass().getResourceAsStream("/Font/f1.ttf");
+
+
+
+        if (is != null) {
+            // Resto del código para cargar la fuente y aplicarla
+            Font myFont = Font.loadFont(is, 12.0);
+            gameName.setFont(myFont);
+            implementationMenu.setFont(myFont);
+            difficultyMenu.setFont(myFont);
+            matrixButton.setFont(myFont);
+            playButton.setFont(myFont);
+            easyButton.setFont(myFont);
+            difficultButton.setFont(myFont);
+            listButton.setFont(myFont);
+
+        } else {
+            System.err.println("No se pudo cargar el InputStream de la fuente");
+
+
+        }
+
+    }
     private void showAlert(String mistake) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
@@ -117,6 +144,7 @@ public class HelloController implements Initializable {
         score.setCellValueFactory(new PropertyValueFactory<>("Score"));
 
         playerTableView.setItems(ControllerPlayers.getInstance().getPlayers());
+        setFonts();
 
     }
 }
