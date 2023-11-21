@@ -8,30 +8,21 @@ public enum State {
     START,
     END;
 
-    public boolean checkConnection(State comparing, int currentX, int currentY, int neighborghX, int neighborghY) {
-        switch (this) {
-            case VERTICAL -> {
+    public boolean checkConnection(State comparing, int x, int y, int nX, int nY) {
 
-                if (comparing == CONNECTOR || comparing == START || comparing == END || comparing == VERTICAL) {
-                    return true;
-                }
-            }
-            case HORIZONTAL -> {
-                if (comparing == CONNECTOR || comparing == START || comparing == END || comparing == HORIZONTAL) {
-                    return true;
-                }
-            }
-            case CONNECTOR, START, END -> {
-                if (comparing == HORIZONTAL || comparing == VERTICAL) {
-                    return  true;
-                }
-            }case EMPTY -> {
-                return false;
-            }
+        if (this == EMPTY || comparing == EMPTY) {
+            return false;
         }
 
-        return false;
+        switch (this) {
+            case VERTICAL:
+                return (comparing == VERTICAL && (x == nX) && (y == nY + 1 || y == nY - 1));
+            case HORIZONTAL:
+                return (comparing == HORIZONTAL && (y == nY) && (x == nX + 1 || x == nX - 1));
+            case CONNECTOR,START,END:
+                return (comparing == HORIZONTAL && y == nY && (x == nX + 1 || x == nX - 1)) || (comparing == VERTICAL && x == nX && (y == nY + 1 || y == nY - 1));
+            default:
+                return false;
+        }
     }
-
-
 }
