@@ -65,7 +65,7 @@
         <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="251.0" spacing="20" BorderPane.alignment="CENTER">
 
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="249.0" styleClass="black-background">
-                <Label prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName" />
+                <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName" />
                 <TextArea fx:id="enterNickname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="144.0" HBox.hgrow="NEVER">
                     <HBox.margin>
                         <Insets />
@@ -74,14 +74,14 @@
 
             </HBox>
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="227.0" styleClass="black-background">
-                <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="207.0" styleClass="red-text" text="Ranking Table" />
+                <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="207.0" styleClass="red-text" text="Ranking Table" />
 
             </HBox>
             <!--Visual Array list-->
             <VBox alignment="CENTER">
                 <TableView fx:id="playerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="142.0" prefWidth="219.0">
                     <columns>
-                        <TableColumn fx:id="nickName" prefWidth="117.0" text="NickName" />
+                        <TableColumn fx:id="nickName2" prefWidth="117.0" text="NickName" />
                         <TableColumn fx:id="score" prefWidth="101.0" text="Score" />
 
                     </columns>

@@ -30,6 +30,10 @@ public class HelloController implements Initializable {
     private Label implementationMenu;
     @FXML
     private Label difficultyMenu;
+    @FXML
+    private Label nickName;
+    @FXML
+    private Label rankingTable;
 
     @FXML
     private Button playButton;
@@ -47,7 +51,7 @@ public class HelloController implements Initializable {
     private TableView<Player> playerTableView;
 
     @FXML
-    private TableColumn<Player, String> nickName;
+    private TableColumn<Player, String> nickName2;
     @FXML
     private TableColumn<Player, Double> score;
     @FXML
@@ -117,6 +121,8 @@ public class HelloController implements Initializable {
             easyButton.setFont(myFont);
             difficultButton.setFont(myFont);
             listButton.setFont(myFont);
+            nickName.setFont(myFont);
+            rankingTable.setFont(myFont);
 
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
@@ -140,7 +146,7 @@ public class HelloController implements Initializable {
         gameName.setText("MARLON MANIA");
         implementationMenu.setText("SELECT IMPLEMENTATION");
         difficultyMenu.setText("SELECT DIFFICULTY");
-        nickName.setCellValueFactory(new PropertyValueFactory<>("NickName"));
+        nickName2.setCellValueFactory(new PropertyValueFactory<>("NickName"));
         score.setCellValueFactory(new PropertyValueFactory<>("Score"));
 
         playerTableView.setItems(ControllerPlayers.getInstance().getPlayers());
