@@ -4,18 +4,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
-   <HBox prefHeight="41.0" prefWidth="600.0">
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
+   <HBox prefHeight="96.0" prefWidth="600.0">
       <Label alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="MARLON MANIA" />
-   </HBox>
-   <VBox prefHeight="200.0" prefWidth="100.0">
       <Label fx:id="nickNameLabel" alignment="CENTER" prefHeight="17.0" prefWidth="621.0" text="Name: " />
+   </HBox>
 
-   </VBox>
-
-   <Group fx:id="graphGroup" layoutX="100.0" layoutY="200.0">
+   <Group fx:id="graphGroup" layoutX="60.0" layoutY="50.0">
 
    </Group>
+   <HBox layoutY="478.0" prefHeight="122.0" prefWidth="600.0">
+      <children>
+         <Label prefHeight="17.0" prefWidth="73.0" text="ADD PIPE" />
+         <ChoiceBox prefWidth="150.0" />
+         <ChoiceBox layoutX="83.0" layoutY="10.0" prefWidth="150.0" />
+      </children>
+   </HBox>
 
 
 </AnchorPane>

@@ -6,7 +6,7 @@ import  com.example.marlonmania.exceptions.*;
 
 public interface IGraph<T> {
 
-    void addVertex(T vertex) throws VertexAlreadyAddedException;
+    void addVertex(T vertex, int posX, int posY) throws VertexAlreadyAddedException;
 
     void addEdge(
             T start, T end, String id, int weight

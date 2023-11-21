@@ -13,7 +13,7 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        openWindow("menu-view.fxml");
+        openWindow("game-view.fxml");
     }
 
     public static void openWindow(String fxml){

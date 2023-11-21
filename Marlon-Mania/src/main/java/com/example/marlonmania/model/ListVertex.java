@@ -16,13 +16,15 @@ public class ListVertex<T>  extends Circle implements Cloneable {
 
     private int posY;
 
-    public ListVertex(T value) {
+    public ListVertex(T value, int posX, int posY) {
         this.value = value;
         this.state = State.EMPTY;
         edges = new ArrayList<>();
+        this.posX = posX;
+        this.posY = posY;
 
-        this.setRadius(20.0); // Establece el radio predeterminado
-        this.setFill(Color.BLUE); // Establece el color del círculo
+        this.setRadius(15.0); // Establece el radio predeterminado
+        this.setFill(Color.LIGHTBLUE);
 
 
     }

@@ -10,6 +10,7 @@ public class ListGraph<T> implements IGraph<T> {
     private final boolean allowsLoop;
     private final ArrayList<ListVertex<T>> list;
 
+
     public ListGraph(boolean isGuided, boolean isMultiple, boolean allowsLoop) {
         list = new ArrayList<>();
         this.isGuided = isGuided;
@@ -19,9 +20,9 @@ public class ListGraph<T> implements IGraph<T> {
 
 
     @Override
-    public void addVertex(T vertex) throws VertexAlreadyAddedException {
+    public void addVertex(T vertex,int posX,int posY) throws VertexAlreadyAddedException {
         if (searchVertexIndex(vertex) == -1) {
-           ListVertex<T> newVertex= new ListVertex<>(vertex);
+           ListVertex<T> newVertex= new ListVertex<>(vertex,posX,posY);
            newVertex.setState(State.EMPTY);
             list.add(newVertex);
         } else {
