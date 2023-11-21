@@ -13,14 +13,14 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        openWindow("menu-view.fxml");
+        openWindow("game-view.fxml");
     }
 
     public static void openWindow(String fxml){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxml));
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 600, 600);
+            Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle("MARLON-MANIA");
             stage.setScene(scene);
@@ -35,7 +35,6 @@ public class MainApplication extends Application {
 
     }
 
-    
 
     public static void main(String[] args) {
         launch();
