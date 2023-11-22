@@ -81,10 +81,12 @@ public class ListGraphTest {
         assertTrue(graph.searchVertexIndex("A") != -1);
     }
 
-    @Test(expected = VertexAlreadyAddedException.class)
+    @Test
     public void testAddDuplicateVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
         graph.addVertex("A");
+        assertThrows(VertexAlreadyAddedException.class, () -> graph.addVertex("A"));
+
     }
 
     @Test

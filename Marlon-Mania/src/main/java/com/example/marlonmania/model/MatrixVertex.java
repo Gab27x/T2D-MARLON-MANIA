@@ -1,4 +1,4 @@
-package model;
+package com.example.marlonmania.model;
 
 public class MatrixVertex<T> implements Cloneable {
     private final T Value;
