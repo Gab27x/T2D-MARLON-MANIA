@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
 
 
+    private int level;
+
+    private int difficulty;
 
     @FXML
     private Label nickNameLabel;
@@ -176,6 +179,7 @@ public class GameController implements Initializable {
         }
 
     }
+
     @FXML
     public void onClickAddPipe(){
         if( choiceBoxX.getValue() != null && choiceBoxY.getValue() != null &&
@@ -198,7 +202,7 @@ public class GameController implements Initializable {
 
         }
         else {
-            System.err.println("MALPARIDO SELECCIONA ALGO");
+            System.err.println("MALPARIDO TE FALTA ALGO");
         }
 
     }
