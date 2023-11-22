@@ -1,14 +1,12 @@
-package model;
+package com.example.marlonmania.model;
 
-import exceptions.*;
 
-import java.util.ArrayList;
-import java.util.Map;
+import  com.example.marlonmania.exceptions.*;
 
 
 public interface IGraph<T> {
 
-    void addVertex(T vertex) throws VertexAlreadyAddedException;
+    void addVertex(T vertex, int posX, int posY) throws VertexAlreadyAddedException;
 
     void addEdge(
             T start, T end, String id, int weight

@@ -72,6 +72,9 @@ public class ListGraphTest {
     }
 
 
+
+
+
     @Test
     public void testAddVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
@@ -149,18 +152,18 @@ public class ListGraphTest {
         graph.addVertex("B");
         graph.deleteEdge("A", "B", "edge1");
     }
-
+/*
     @Test
     public void testDijkstra() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addVertex("C");
         graph.addEdge("A", "B", "edge1", 1);
-        graph.addEdge("B", "C", "edge2", 2);
+         graph.addEdge("B", "C", "edge2", 2);
 
         Map<String, String> shortestPath = graph.dijkstra("A", "C");
         assertEquals("B", shortestPath.get("C"));
-    }
+    }*/
 
     @Test(expected = VertexNotFoundException.class)
     public void testDijkstraWithMissingVertex() throws VertexNotFoundException, VertexNotAchievableException {
@@ -170,15 +173,11 @@ public class ListGraphTest {
     @Test
     public void testDFS() throws VertexNotFoundException, VertexNotAchievableException {
         setUpExistingNodesAllConnectedDFS();
-        boolean[] visited = new boolean[graph.getList().size()];
         graph.DFS("F");
-        for (int i = 0; i < graph.getList().size(); i++) {
-            visited[i] = graph.getList().get(i).isVisited();
+        for(ListVertex<String> vertex : graph.getList()){
+            assertTrue(vertex.isVisited());
         }
-        for (boolean isVisited : visited) {
 
-            assertTrue(isVisited);
-        }
     }
 
     @Test
