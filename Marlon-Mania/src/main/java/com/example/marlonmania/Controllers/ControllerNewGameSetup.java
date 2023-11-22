@@ -72,7 +72,7 @@ public class ControllerNewGameSetup implements Initializable {
             // implementation: matrix 0 - list 1
             // difficulty: easy 0 - difficult 1
 
-            MainApplication.openGameWindow("game-view.fxml", enterNickname.getText());
+            MainApplication.openGameWindow("game.fxml", enterNickname.getText());
             MainApplication.closeWindow((Stage)mainPane.getScene().getWindow());
         }
 

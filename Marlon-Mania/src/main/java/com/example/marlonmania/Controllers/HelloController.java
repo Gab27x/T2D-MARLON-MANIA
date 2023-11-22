@@ -54,9 +54,9 @@ public class HelloController implements Initializable {
     private TableColumn<Player, String> nickName2;
     @FXML
     private TableColumn<Player, Double> score;
+
     @FXML
     private TextArea enterNickname;
-
 
     @FXML
     void onClickEasy() {
@@ -84,7 +84,7 @@ public class HelloController implements Initializable {
 
             if (difficultButton.isSelected() || easyButton.isSelected()) {
 
-                MainApplication.openGameWindow("game-view.fxml",enterNickname.getText());
+                MainApplication.openGameWindow("game.fxml",enterNickname.getText());
                 MainApplication.closeWindow((Stage) playButton.getScene().getWindow());
 
 
@@ -146,6 +146,7 @@ public class HelloController implements Initializable {
         gameName.setText("MARLON MANIA");
         implementationMenu.setText("SELECT IMPLEMENTATION");
         difficultyMenu.setText("SELECT DIFFICULTY");
+
         nickName2.setCellValueFactory(new PropertyValueFactory<>("NickName"));
         score.setCellValueFactory(new PropertyValueFactory<>("Score"));
 

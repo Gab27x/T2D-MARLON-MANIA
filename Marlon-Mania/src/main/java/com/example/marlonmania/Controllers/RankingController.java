@@ -1,11 +1,14 @@
 package com.example.marlonmania.Controllers;
 
 import com.example.marlonmania.MainApplication;
+import com.example.marlonmania.model.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -14,39 +17,38 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MenuController implements Initializable {
+public class RankingController implements Initializable {
 
     @FXML
     private AnchorPane mainPane;
 
     @FXML
-    private Label title;
+    private Label rankingTable;
+
     @FXML
-    private Button newGame;
+    private TableView<Player> playerTableView;
+
     @FXML
-    private Button ranking;
+    private TableColumn<Player, String> nickName2;
+    @FXML
+    private TableColumn<Player, Double> score;
+    @FXML
+    private Button menu;
+
     @FXML
     private Button exit;
 
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setFonts();
-    }
 
+        nickName2.setCellValueFactory(new PropertyValueFactory<>("nickName"));
+        score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
-    @FXML
-    public void onClickNewGame(){
-        MainApplication.openWindow("new-Game-Setup.fxml");
-        onClickExit();
-
-
-
-    }
-    @FXML
-    public void onClickRanking(){
-        MainApplication.openWindow("ranking.fxml");
-        onClickExit();
+        playerTableView.setItems(ControllerPlayers.getInstance().getPlayers());
+/*        setFonts();*/
 
 
     }
@@ -55,21 +57,29 @@ public class MenuController implements Initializable {
         MainApplication.closeWindow((Stage)mainPane.getScene().getWindow());
 
     }
+    @FXML
+    public void onClickMenu(){
+        MainApplication.openWindow("menu.fxml");
+        onClickExit();
+
+    }
 
 
     private void setFonts() {
 
         InputStream is = getClass().getResourceAsStream("/Font/f1.ttf");
 
+
         if (is != null) {
             // Resto del código para cargar la fuente y aplicarla
-            Font myFont = Font.loadFont(is, 12.0);
+            Font myFont = Font.loadFont(is,12);
             Font titleFont = Font.font(myFont.getFamily(), 20.0);
 
-            title.setFont(titleFont);
-            newGame.setFont(myFont);
-            ranking.setFont(myFont);
-            exit.setFont(myFont);
+            rankingTable.setFont(titleFont);
+
+
+
+
 
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
@@ -78,13 +88,4 @@ public class MenuController implements Initializable {
         }
 
     }
-
-    private void showAlert(String mistake) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setTitle("Error");
-        alert.setContentText(mistake);
-        alert.showAndWait();
-    }
-
 }

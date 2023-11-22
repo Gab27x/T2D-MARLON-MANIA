@@ -9,50 +9,68 @@
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" styleClass="screen-background"
             fx:controller="com.example.marlonmania.Controllers.HelloController">-->
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="459.0" prefWidth="537.0" styleClass="screen-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.HelloController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="459.0" prefWidth="537.0"
+            styleClass="screen-background" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.HelloController">
     <stylesheets>
-        <URL value="@stylesheet.css" />
+        <URL value="@stylesheet.css"/>
     </stylesheets>
 
     <top>
-        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="56.0" prefWidth="178.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-            <Label fx:id="gameName" alignment="CENTER" styleClass="red-text" text="MARLON MANIA" />
+        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="56.0" prefWidth="178.0"
+              style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <Label fx:id="gameName" alignment="CENTER" styleClass="red-text" text="MARLON MANIA"/>
             <BorderPane.margin>
-                <Insets top="20.0" />
+                <Insets top="20.0"/>
             </BorderPane.margin>
         </HBox>
 
     </top>
 
     <bottom>
-        <Button fx:id="playButton" layoutX="224.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickPlay" prefHeight="39.0" prefWidth="68.0" styleClass="play-button" text="PLAY" BorderPane.alignment="BASELINE_CENTER">
+        <Button fx:id="playButton" layoutX="224.0" layoutY="328.0" mnemonicParsing="false" onAction="#onClickPlay"
+                prefHeight="39.0" prefWidth="68.0" styleClass="play-button" text="PLAY"
+                BorderPane.alignment="BASELINE_CENTER">
 
         </Button>
 
     </bottom>
     <left>
-        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="275.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" prefHeight="270.0" prefWidth="275.0" spacing="10.0" BorderPane.alignment="CENTER">
 
 
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10.0" style="-fx-background-color: black;">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                  minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10.0"
+                  style="-fx-background-color: black;">
 
-                <Label fx:id="implementationMenu" alignment="CENTER" prefHeight="17.0" prefWidth="200.0" styleClass="red-text" text="SELECT IMPLEMENTATION" />
+                <Label fx:id="implementationMenu" alignment="CENTER" prefHeight="17.0" prefWidth="200.0"
+                       styleClass="red-text" text="SELECT IMPLEMENTATION"/>
 
-                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="181.0" spacing="10">
-                    <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0" prefWidth="187.0" styleClass="red-text" text="LIST" />
-                    <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix" styleClass="red-text" text="MATRIX" />
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="44.0" prefWidth="181.0" spacing="10">
+                    <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0"
+                                 prefWidth="187.0" styleClass="red-text" text="LIST"/>
+                    <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix"
+                                 styleClass="red-text" text="MATRIX"/>
                 </VBox>
 
             </VBox>
-            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10" style="-fx-background-color: black ">
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                  minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10"
+                  style="-fx-background-color: black ">
 
 
-                <Label fx:id="difficultyMenu" alignment="CENTER" prefHeight="30.0" prefWidth="304.0" styleClass="red-text" text="SELECT MODE" />
+                <Label fx:id="difficultyMenu" alignment="CENTER" prefHeight="30.0" prefWidth="304.0"
+                       styleClass="red-text" text="SELECT MODE"/>
 
-                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="162.0" spacing="10.0" style="-fx-background-color: black;">
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="44.0" prefWidth="162.0" spacing="10.0" style="-fx-background-color: black;">
 
-                    <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy" styleClass="red-text" text="EASY" />
-                    <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult" styleClass="red-text" text="HARD" />
+                    <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy"
+                                 styleClass="red-text" text="EASY"/>
+                    <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult"
+                                 styleClass="red-text" text="HARD"/>
                 </VBox>
 
 
@@ -62,31 +80,36 @@
         </VBox>
     </left>
     <right>
-        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="251.0" spacing="20" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" prefHeight="270.0" prefWidth="251.0" spacing="20" BorderPane.alignment="CENTER">
 
-            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="249.0" styleClass="black-background">
-                <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName" />
-                <TextArea fx:id="enterNickname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="144.0" HBox.hgrow="NEVER">
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                  minWidth="-Infinity" prefHeight="40.0" prefWidth="249.0" styleClass="black-background">
+                <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName"/>
+                <TextArea fx:id="enterNickname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                          minWidth="-Infinity" prefHeight="25.0" prefWidth="144.0" HBox.hgrow="NEVER">
                     <HBox.margin>
-                        <Insets />
+                        <Insets/>
                     </HBox.margin>
                 </TextArea>
 
             </HBox>
-            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="227.0" styleClass="black-background">
-                <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="207.0" styleClass="red-text" text="Ranking Table" />
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                  minWidth="-Infinity" prefHeight="43.0" prefWidth="227.0" styleClass="black-background">
+                <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" prefHeight="17.0"
+                       prefWidth="207.0" styleClass="red-text" text="Ranking Table"/>
 
             </HBox>
             <!--Visual Array list-->
             <VBox alignment="CENTER">
-                <TableView fx:id="playerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="142.0" prefWidth="219.0">
+                <TableView fx:id="playerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                           minWidth="-Infinity" prefHeight="142.0" prefWidth="219.0">
                     <columns>
-                        <TableColumn fx:id="nickName2" prefWidth="117.0" text="NickName" />
-                        <TableColumn fx:id="score" prefWidth="101.0" text="Score" />
+                        <TableColumn fx:id="nickName2" prefWidth="117.0" text="NickName"/>
+                        <TableColumn fx:id="score" prefWidth="101.0" text="Score"/>
 
                     </columns>
                 </TableView>
-
 
 
             </VBox>
