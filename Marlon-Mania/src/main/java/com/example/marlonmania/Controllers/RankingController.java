@@ -48,7 +48,7 @@ public class RankingController implements Initializable {
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         playerTableView.setItems(ControllerPlayers.getInstance().getPlayers());
-/*        setFonts();*/
+        setFonts();
 
 
     }
@@ -76,6 +76,15 @@ public class RankingController implements Initializable {
             Font titleFont = Font.font(myFont.getFamily(), 20.0);
 
             rankingTable.setFont(titleFont);
+            // Aplicar la fuente a la TableView
+            playerTableView.setStyle("-fx-font-family: '" + myFont.getFamily() + "';");
+
+            // Aplicar la fuente a las columnas específicas
+            nickName2.setStyle("-fx-font-family: '" + myFont.getFamily() + "';");
+            score.setStyle("-fx-font-family: '" + myFont.getFamily() + "';");
+
+            exit.setFont(myFont);
+            menu.setFont(myFont);
 
 
 
