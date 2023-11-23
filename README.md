@@ -46,11 +46,23 @@ For this integrative task, the main data structure used was a graph in 2 differe
 
 ## Game Instructions
 
-*Marlon Mania*
+*Marlon Mania* is a game in which players will have to go deep into the sewage system to solve a massive problem caused by a huge earthquake. This earthquake has destroyed some crucial parts of the sewage system, leaving most of the population without access to water. To solve this problem the player must be able to connect two sets of pipes that were disconnected due to the earthquake. The starting point will be known as the source (represented on the board game as an `F`) and the arrival point will be known as the drainage (represented on the board game as a `D`). 
+
+The idea is that the player achieves this connection using the least amount of pipes and for the most serious damage, the player must place the pipes so that the water takes the shortest time to arrive. In order to do this, the player is able to place 3 different types of pipes: 
+
+1. *Horizontal Pipe (`=`):*
+   Allows water to flow form right to left or vice versa
+2. *Vertical Pipe (`||`):*
+   Allows water to flow up and down or vice versa
+3. *Circular Pipe (`o`):*
+   Allows to change the flow of water from up or down to left or right.
+
+Players must know that the game calculates the score based on how effective the player's solution is.
+At the beggining of the game they can choose the level difficulty (which can be `Easy` or `Hard`), and the graph implementation that they wish to use (which can be `List` or `Matrix`). 
 
 ## Documentation
 
-Inside the project structure, you will find a folder called `docs` that contains the project´s documentation, including:
+Inside the project structure, you will find a folder called `Docs` that contains the project´s documentation, including:
 - Engineering Method.
 - Graph Structure TAD.
 - Test Documentation.
