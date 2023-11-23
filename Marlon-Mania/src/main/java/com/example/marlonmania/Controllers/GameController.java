@@ -31,6 +31,12 @@ public class GameController implements Initializable {
 
     @FXML
     private Label title;
+    @FXML
+    private Label enterX;
+    @FXML
+    private Label enterY;
+    @FXML
+    private Label selectPipe;
 
     @FXML
     private Group graphGroup;
@@ -169,8 +175,17 @@ public class GameController implements Initializable {
         if (is != null) {
             // Resto del código para cargar la fuente y aplicarla
             Font myFont = Font.loadFont(is, 12.0);
+            Font titleFont = Font.font(myFont.getFamily(), 20.0);
             nickNameLabel.setFont(myFont);
-            title.setFont(myFont);
+            title.setFont(titleFont);
+            vertical.setFont(myFont);
+            horizontal.setFont(myFont);
+            circular.setFont(myFont);
+            addPipe.setFont(myFont);
+            simulate.setFont(myFont);
+            enterX.setFont(myFont);
+            enterY.setFont(myFont);
+            selectPipe.setFont(myFont);
 
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
