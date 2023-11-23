@@ -1,11 +1,15 @@
-package model;
-
-import java.util.*;
-
-import exceptions.*;
+package com.example.marlonmania.model;
 
 
-public class MatrixGraph<T> implements IGraph<T> {
+import  com.example.marlonmania.exceptions.*;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Stack;
+
+
+public class MatrixGraph<T> /*implements IGraph<T>*/ {
     public int[][] getMatrix() {
         return matrix;
     }
@@ -49,7 +53,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     }
 
 
-    @Override
+/*    @Override*/
     public void addEdge(
             T start, T end, String id, int weight
     ) throws VertexNotFoundException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
@@ -78,7 +82,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     }
 
 
-    @Override
+/*    @Override*/
     public void deleteVertex(T value) throws VertexNotFoundException {
         int oldVerPos = searchVertexIndex(value);
         if (oldVerPos == -1) throw new VertexNotFoundException("There's no such vertex in the graph");
@@ -96,7 +100,7 @@ public class MatrixGraph<T> implements IGraph<T> {
     }
 
 
-    @Override
+/*    @Override*/
     public void deleteEdge(T start, T end, String id) throws EdgeNotFoundException, VertexNotFoundException {
         int posVal1 = searchVertexIndex(start);
         int posVal2 = searchVertexIndex(end);
@@ -127,7 +131,7 @@ public class MatrixGraph<T> implements IGraph<T> {
 
     }
 
-    @Override
+/*    @Override*/
     public boolean searchEdge(T start, T end, String id) throws VertexNotFoundException {
         int vertex1 = searchVertexIndex(start);
         int vertex2 = searchVertexIndex(end);
@@ -166,7 +170,7 @@ public class MatrixGraph<T> implements IGraph<T> {
         return res == acu;
     }
 
-    @Override
+/*    @Override*/
     public int dijkstra(T startVertex, T endVertex) throws VertexNotFoundException, VertexNotAchievableException {
         int startVertexIndex = searchVertexIndex(startVertex);
         int endVertexIndex = searchVertexIndex(endVertex);
@@ -224,7 +228,7 @@ public class MatrixGraph<T> implements IGraph<T> {
 
 
     //DFS normal para recorrer todo el arbol
-    @Override
+/*    @Override*/
     public void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException {
         Stack<MatrixVertex<T>> stack = new Stack<>();
 
@@ -252,7 +256,7 @@ public class MatrixGraph<T> implements IGraph<T> {
 
     //DFS para asegurarme que el camino entre los grafos es correcto
 
-    @Override
+/*    @Override*/
     public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<MatrixVertex<T>> temps = new ArrayList<>();

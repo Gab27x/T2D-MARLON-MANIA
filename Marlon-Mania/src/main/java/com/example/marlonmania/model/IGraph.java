@@ -1,14 +1,14 @@
-package model;
+package com.example.marlonmania.model;
 
-import exceptions.*;
+
+import  com.example.marlonmania.exceptions.*;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public interface IGraph<T> {
 
-    void addVertex(T vertex) throws VertexAlreadyAddedException;
+    void addVertex(T vertex, int posX, int posY) throws VertexAlreadyAddedException;
 
     void addEdge(
             T start, T end, String id, int weight
@@ -28,5 +28,5 @@ public interface IGraph<T> {
     void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException;
 
 
-    boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException;
+    boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException;
 }

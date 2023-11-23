@@ -2,21 +2,25 @@ package model;
 
 import java.util.ArrayList;
 
-public class ListVertex<T> {
-
+public class ListVertex<T> implements Cloneable {
     private final T value;
-    private final ArrayList<ListEdge<T>> edges;
-
+    private ArrayList<ListEdge<T>> edges;
     private boolean visited;
-
-
     private int distance;
     private ListVertex<T> father;
+    private State state;
+
+    private int posX;
+
+    private int posY;
 
     public ListVertex(T value) {
         this.value = value;
+        this.state = State.EMPTY;
         edges = new ArrayList<>();
+
     }
+
 
     public T getValue() {
         return value;
@@ -26,6 +30,9 @@ public class ListVertex<T> {
         return edges;
     }
 
+    public void setEdges(ArrayList<ListEdge<T>> newEdges) {
+        this.edges = newEdges;
+    }
 
     public int getDistance() {
         return distance;
@@ -50,4 +57,47 @@ public class ListVertex<T> {
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    @Override
+    public ListVertex<T> clone() {
+        try {
+            ListVertex<T> clone = (ListVertex<T>) super.clone();
+            clone.posX = this.posX;
+            clone.posY = this.posY;
+            clone.edges = new ArrayList<>();
+            if (father != null) {
+                clone.father = father.clone();
+            }
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
+
 }

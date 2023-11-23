@@ -25,8 +25,9 @@ public class ControllerPlayers {
         init();
     }
     public void init(){
-        players.add(new Player("gab",600));
-        players.add(new Player("gab2",200));
+        players.add(new Player("GOLD",800));
+        players.add(new Player("SILVER",600));
+        players.add(new Player("BRONZE",400));
     }
     public void addPlayer(String nickName, double score){
         players.add(new Player(nickName,score));

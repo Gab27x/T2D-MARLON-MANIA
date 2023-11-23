@@ -1,6 +1,6 @@
-package model;
+package com.example.marlonmania.model;
 
-import exceptions.*;
+import  com.example.marlonmania.exceptions.*;
 
 import java.util.*;
 
@@ -9,6 +9,7 @@ public class ListGraph<T> implements IGraph<T> {
     private final boolean isMultiple;
     private final boolean allowsLoop;
     private final ArrayList<ListVertex<T>> list;
+
 
     public ListGraph(boolean isGuided, boolean isMultiple, boolean allowsLoop) {
         list = new ArrayList<>();
@@ -19,10 +20,10 @@ public class ListGraph<T> implements IGraph<T> {
 
 
     @Override
-    public void addVertex(T vertex) throws VertexAlreadyAddedException {
+    public void addVertex(T vertex,int posX,int posY) throws VertexAlreadyAddedException {
         if (searchVertexIndex(vertex) == -1) {
-            ListVertex<T> newVertex = new ListVertex<>(vertex);
-            newVertex.setState(State.EMPTY);
+           ListVertex<T> newVertex= new ListVertex<>(vertex,posX,posY);
+           newVertex.setState(State.EMPTY);
             list.add(newVertex);
         } else {
             System.err.println("ALGO RARO");
@@ -62,6 +63,9 @@ public class ListGraph<T> implements IGraph<T> {
         }
         list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
     }
+
+
+
 
 
     @Override
@@ -123,7 +127,7 @@ public class ListGraph<T> implements IGraph<T> {
         return -1;
     }
 
-    public ListVertex<T> obtainVertex(int index) {
+    public ListVertex<T> obtainVertex(int index){
         return list.get(index);
     }
 
@@ -201,8 +205,11 @@ public class ListGraph<T> implements IGraph<T> {
         }
 
 
+
         return currentVertex.getDistance();
     }
+
+
 
 
     @Override
@@ -245,7 +252,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
     @Override
-    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<ListVertex<T>> temps = new ArrayList<>();
         ArrayList<ListVertex<T>> sub_graph = new ArrayList<>();
@@ -284,7 +291,7 @@ public class ListGraph<T> implements IGraph<T> {
             ListVertex<T> neighbor = edge.getRightVertex();
             if (!neighbor.isVisited()) {
 
-                if (vertex.getState().checkConnection(neighbor.getState(), vertex.getPosX(), vertex.getPosY(), neighbor.getPosX(), neighbor.getPosY())) {
+                if (vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
                     depthFirstSearchRecursive(neighbor);
                 } else {
                     return false;
