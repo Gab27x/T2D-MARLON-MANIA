@@ -63,13 +63,15 @@ public class GameController implements Initializable {
     @FXML
     private RadioButton matrixButton;
     private Game newGame;
+    private ListGame newListGame;
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.newGame = new Game(nickNameLabel.getText());
+        /*this.newGame = new Game(nickNameLabel.getText());*/
+        this.newListGame = new ListGame(nickNameLabel.getText());
 
         displayGraph();
         setFonts();
@@ -106,11 +108,12 @@ public class GameController implements Initializable {
 
     @FXML
     public void onClickSimulate(){
-        newGame.simulate();
+        /*newGame.simulate();*/
+        newListGame.simulate();
     }
 
     private void displayGraph() {
-    ArrayList<ListVertex<String>> vertices = newGame.getListGraph();
+    ArrayList<ListVertex<String>> vertices = newListGame.getListGraph();
 
     if (vertices.isEmpty()) {
         System.out.println("La lista de nodos está vacía.");
@@ -297,16 +300,20 @@ public class GameController implements Initializable {
             String vertex = choiceBoxX.getValue() + "," + choiceBoxY.getValue();
 
             if(circular.isSelected()){
-                newGame.addPipe(vertex, State.CONNECTOR);
+                /*newGame.addPipe(vertex, State.CONNECTOR);*/
+                newListGame.addPipe(vertex, State.CONNECTOR);
 
             } else if (vertical.isSelected()) {
-                newGame.addPipe(vertex, State.VERTICAL);
+                /*newGame.addPipe(vertex, State.VERTICAL);*/
+                newListGame.addPipe(vertex, State.VERTICAL);
 
             } else if (horizontal.isSelected()) {
-                newGame.addPipe(vertex, State.HORIZONTAL);
+               /* newGame.addPipe(vertex, State.HORIZONTAL);*/
+                newListGame.addPipe(vertex, State.HORIZONTAL);
 
             } else if (empty.isSelected()) {
-                newGame.addPipe(vertex, State.EMPTY);
+                /*newGame.addPipe(vertex, State.EMPTY);*/
+                newListGame.addPipe(vertex, State.EMPTY);
             }
 
             graphGroup.getChildren().clear();
