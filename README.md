@@ -62,7 +62,7 @@ At the beggining of the game they can choose the level difficulty (which can be 
 
 ## Documentation
 
-Inside the project structure, you will find a folder called `docs` that contains the project´s documentation, including:
+Inside the project structure, you will find a folder called `Docs` that contains the project´s documentation, including:
 - Engineering Method.
 - Graph Structure TAD.
 - Test Documentation.
