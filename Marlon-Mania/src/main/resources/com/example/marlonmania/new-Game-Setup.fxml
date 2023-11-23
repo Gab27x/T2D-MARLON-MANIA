@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane" prefHeight="458.0" prefWidth="380.0" styleClass="screen-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.ControllerNewGameSetup">
+
+    <HBox alignment="CENTER" layoutX="91.0" layoutY="14.0" prefHeight="58.0" prefWidth="200.0">
+        <Label fx:id="title" alignment="CENTER" prefHeight="17.0" prefWidth="207.0" text="NEW GAME" />
+    </HBox>
+
+    <HBox alignment="CENTER" layoutX="66.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="249.0" styleClass="black-background">
+        <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName" />
+        <TextArea fx:id="enterNickname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="144.0" HBox.hgrow="NEVER">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+        </TextArea>
+
+    </HBox>
+
+    <VBox alignment="TOP_CENTER" layoutX="53.0" layoutY="142.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="275.0" spacing="10.0" BorderPane.alignment="CENTER">
+
+
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10.0">
+
+            <Label fx:id="implementationMenu" alignment="CENTER" prefHeight="17.0" prefWidth="200.0" styleClass="red-text" text="SELECT IMPLEMENTATION" />
+
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="181.0" spacing="10">
+                <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0" prefWidth="187.0" styleClass="red-text" text="LIST" />
+                <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix" styleClass="red-text" text="MATRIX" />
+            </VBox>
+
+        </VBox>
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10">
+
+
+            <Label fx:id="difficultyMenu" alignment="CENTER" prefHeight="30.0" prefWidth="304.0" styleClass="red-text" text="SELECT MODE" />
+
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="162.0" spacing="10.0">
+
+                <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy" styleClass="red-text" text="EASY" />
+                <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult" styleClass="red-text" text="HARD" />
+            </VBox>
+
+
+        </VBox>
+
+
+    </VBox>
+    <Button fx:id="play" layoutX="146.0" layoutY="390.0" mnemonicParsing="false" onAction="#onClickPlay" prefHeight="44.0" prefWidth="104.0" text="PLAY">
+        <style>
+            -fx-background-color: lightblue;
+            -fx-background-radius: 50; /* Valor grande para simular una elipse */
+            -fx-border-color: #87CEFA;
+            -fx-border-width: 2px;
+            -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+            -fx-padding: 5px 25px;
+        </style>
+
+    </Button>
+
+    <!--   <children>
+      <VBox alignment="CENTER" layoutX="96.0" layoutY="93.0" prefHeight="248.0" prefWidth="189.0" spacing="10.0" />
+
+   </children>-->
+</AnchorPane>

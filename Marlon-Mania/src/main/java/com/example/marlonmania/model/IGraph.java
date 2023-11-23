@@ -3,6 +3,8 @@ package com.example.marlonmania.model;
 
 import  com.example.marlonmania.exceptions.*;
 
+import java.util.ArrayList;
+
 
 public interface IGraph<T> {
 
@@ -26,5 +28,5 @@ public interface IGraph<T> {
     void DFS(T startVertex) throws VertexNotFoundException, VertexNotAchievableException;
 
 
-    boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException;
+    boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException;
 }

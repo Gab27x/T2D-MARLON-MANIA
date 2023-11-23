@@ -1,0 +1,8 @@
+/* Estilo CSS en un archivo separado (style.css) */
+.screen-background {
+    -fx-background-image: url("../../../imagenes/fondo1.jpg");
+    -fx-background-size: cover ;
+}
+
+
+

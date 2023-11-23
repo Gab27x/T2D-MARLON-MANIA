@@ -252,7 +252,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
     @Override
-    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<ListVertex<T>> temps = new ArrayList<>();
         ArrayList<ListVertex<T>> sub_graph = new ArrayList<>();
