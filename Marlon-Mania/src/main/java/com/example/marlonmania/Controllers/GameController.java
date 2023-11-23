@@ -155,7 +155,81 @@ public class GameController implements Initializable {
         graphGroup.getChildren().add(text);
 
         // Dibujar líneas desde este nodo a sus nodos adyacentes
+
         for (ListEdge<String> edge : vertex.getEdges()) {
+            int endRow = edge.getRightVertex().getPosY();
+            int endCol = edge.getRightVertex().getPosX();
+
+            double endX = endCol * gridSpacing;
+            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+
+            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+            double dirX = endX - posX;
+            double dirY = endY - posY;
+            double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+            // Calcular los puntos de inicio y fin en el borde del círculo
+            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+
+            // Crear la línea
+            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+            line.setStrokeWidth(3.0);
+
+            // Crear el Text con el valor del peso y ajustar su posición
+            double textX = ((startXAdjusted + endXAdjusted) / 2) + 2 ;
+            double textY = ((startYAdjusted + endYAdjusted) / 2) - 2 ;
+
+            Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
+            weightText.setFill(Color.BLACK); // Color del texto
+
+            // Agregar la línea y el Text al graphGroup
+            graphGroup.getChildren().addAll(line, weightText);
+        }
+
+
+/*
+
+
+        for (ListEdge<String> edge : vertex.getEdges()) {
+            int endRow = edge.getRightVertex().getPosY();
+            int endCol = edge.getRightVertex().getPosX();
+
+            double endX = endCol * gridSpacing;
+            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+
+            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+            double dirX = endX - posX;
+            double dirY = endY - posY;
+            double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+            // Calcular los puntos de inicio y fin en el borde del círculo
+            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+
+            // Crear la línea
+            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+            line.setStrokeWidth(3.0);
+
+            // Crear el Text con el valor del peso y ajustar su posición
+            double textX = (startXAdjusted + endXAdjusted) / 2;
+            double textY = (startYAdjusted + endYAdjusted) / 2;
+
+            Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
+            weightText.setFill(Color.BLACK); // Color del texto
+
+            // Agregar la línea y el Text al graphGroup
+            graphGroup.getChildren().addAll(line, weightText);
+        }
+
+        */
+
+
+ /*       for (ListEdge<String> edge : vertex.getEdges()) {
             int endRow = edge.getRightVertex().getPosY();
             int endCol = edge.getRightVertex().getPosX();
 
@@ -176,7 +250,8 @@ public class GameController implements Initializable {
             Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
             line.setStrokeWidth(3.0);
             graphGroup.getChildren().add(line);
-            }
+
+            }*/
         }
     }
 
@@ -194,7 +269,8 @@ public class GameController implements Initializable {
             // Resto del código para cargar la fuente y aplicarla
             Font myFont = Font.loadFont(is, 12.0);
             Font titleFont = Font.font(myFont.getFamily(), 20.0);
-            nickNameLabel.setFont(myFont);
+            Font midFont = Font.font(myFont.getFamily(), 14.0);
+            nickNameLabel.setFont(midFont);
             title.setFont(titleFont);
             vertical.setFont(myFont);
             horizontal.setFont(myFont);
