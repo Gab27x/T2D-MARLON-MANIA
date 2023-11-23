@@ -1,12 +1,10 @@
 package com.example.marlonmania;
 
-import com.example.marlonmania.Controllers.GameController;
+import com.example.marlonmania.Controllers.GameListController;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,8 +12,8 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-       /* openWindow("menu.fxml");*/
-        openGameWindow("game.fxml","Gabriel");
+        openWindow("menu.fxml");
+/*        openGameWindow("game-list.fxml","Gabriel");*/
     }
 
     public static void openWindow(String fxml){
@@ -45,7 +43,7 @@ public class MainApplication extends Application {
             stage.setTitle("MARLON-MANIA");
             stage.setScene(scene);
 
-            GameController controller = fxmlLoader.getController();
+            GameListController controller = fxmlLoader.getController();
 
             controller.setNickNameLabel(nickName);
 
