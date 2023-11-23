@@ -4,19 +4,62 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="423.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.MenuController">
+<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="423.0" styleClass="screen-background"
+            stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.marlonmania.Controllers.MenuController">
 
     <HBox layoutX="112.0" layoutY="20.0" prefHeight="55.0" prefWidth="209.0">
-        <Label fx:id="title" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="212.0" text="MARLON MANIA" textAlignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
+        <Label fx:id="title" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0"
+               prefWidth="212.0" text="MARLON MANIA" textAlignment="CENTER">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Label>
     </HBox>
 
     <VBox alignment="CENTER" layoutX="133.0" layoutY="102.0" prefHeight="243.0" prefWidth="158.0" spacing="50.0">
-        <Button fx:id="newGame" mnemonicParsing="false" prefHeight="40.0" prefWidth="113.0" text="New Game" onAction="#onClickNewGame" />
-        <Button fx:id="ranking" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="113.0" text="Ranking" onAction="#onClickRanking" />
-        <Button fx:id="exit" layoutX="10.0" layoutY="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="113.0" text="Exit" onAction="#onClickExit" />
+        <Button fx:id="newGame" cache="true" mnemonicParsing="false" onAction="#onClickNewGame" prefHeight="40.0"
+                prefWidth="125.0" text="NEW GAME">
+            <style>
+                -fx-background-color: lightblue;
+                -fx-background-radius: 50; /* Valor grande para simular una elipse */
+                -fx-border-color: #87CEFA;
+                -fx-border-width: 2px;
+                -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+                -fx-padding: 5px 25px;
+            </style>
+
+
+        </Button>
+
+
+        <Button fx:id="ranking" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickRanking"
+                prefHeight="40.0" prefWidth="113.0" text="RANKING">
+        <style>
+            -fx-background-color: lightblue;
+            -fx-background-radius: 50; /* Valor grande para simular una elipse */
+            -fx-border-color: #87CEFA;
+            -fx-border-width: 2px;
+            -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+            -fx-padding: 5px 25px;
+        </style>
+
+        </Button>
+
+
+
+        <Button fx:id="exit" layoutX="10.0" layoutY="100.0" mnemonicParsing="false" onAction="#onClickExit"
+                prefHeight="40.0" prefWidth="113.0" text="EXIT">
+            <style>
+                -fx-background-color: lightblue;
+                -fx-background-radius: 50; /* Valor grande para simular una elipse */
+                -fx-border-color: #87CEFA;
+                -fx-border-width: 2px;
+                -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+                -fx-padding: 5px 25px;
+            </style>
+
+        </Button>
     </VBox>
 
 </AnchorPane>

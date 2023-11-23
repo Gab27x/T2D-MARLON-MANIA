@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 import java.io.InputStream;
@@ -31,6 +32,12 @@ public class GameController implements Initializable {
 
     @FXML
     private Label title;
+    @FXML
+    private Label enterX;
+    @FXML
+    private Label enterY;
+    @FXML
+    private Label selectPipe;
 
     @FXML
     private Group graphGroup;
@@ -52,6 +59,8 @@ public class GameController implements Initializable {
     @FXML
     private RadioButton circular;
     @FXML
+    private RadioButton empty;
+    @FXML
     private RadioButton matrixButton;
     private Game newGame;
 
@@ -60,30 +69,41 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.newGame = new Game();
-        newGame.initGrafo();
-        newGame.init();
-  /*      newGame.initGrafoDescendente();*/
+        this.newGame = new Game(nickNameLabel.getText());
 
         displayGraph();
         setFonts();
     }
 
+
+
     @FXML
     public void onClickVertical(){
         horizontal.setSelected(false);
         circular.setSelected(false);
+        empty.setSelected(false);
     }
     @FXML
     public void onClickHorizontal(){
         vertical.setSelected(false);
         circular.setSelected(false);
+        empty.setSelected(false);
     }
     @FXML
     public void onClickCircular(){
         horizontal.setSelected(false);
         vertical.setSelected(false);
+        empty.setSelected(false);
     }
+
+    @FXML
+    public void onClickEmpty(){
+        horizontal.setSelected(false);
+        vertical.setSelected(false);
+        circular.setSelected(false);
+    }
+
+
     @FXML
     public void onClickSimulate(){
         newGame.simulate();
@@ -125,13 +145,91 @@ public class GameController implements Initializable {
         }
 
         Text text = new Text(state);
+        if(!text.getText().equals("X")){
+            text.setFont(Font.font("", FontWeight.BOLD,12));
+
+        }
         text.setX(posX - text.getLayoutBounds().getWidth() / 2);
         text.setY(posY + text.getLayoutBounds().getHeight() / 4);
 
         graphGroup.getChildren().add(text);
 
         // Dibujar líneas desde este nodo a sus nodos adyacentes
+
         for (ListEdge<String> edge : vertex.getEdges()) {
+            int endRow = edge.getRightVertex().getPosY();
+            int endCol = edge.getRightVertex().getPosX();
+
+            double endX = endCol * gridSpacing;
+            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+
+            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+            double dirX = endX - posX;
+            double dirY = endY - posY;
+            double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+            // Calcular los puntos de inicio y fin en el borde del círculo
+            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+
+            // Crear la línea
+            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+            line.setStrokeWidth(3.0);
+
+            // Crear el Text con el valor del peso y ajustar su posición
+            double textX = ((startXAdjusted + endXAdjusted) / 2) + 2 ;
+            double textY = ((startYAdjusted + endYAdjusted) / 2) - 2 ;
+
+            Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
+            weightText.setFill(Color.BLACK); // Color del texto
+
+            // Agregar la línea y el Text al graphGroup
+            graphGroup.getChildren().addAll(line, weightText);
+        }
+
+
+/*
+
+
+        for (ListEdge<String> edge : vertex.getEdges()) {
+            int endRow = edge.getRightVertex().getPosY();
+            int endCol = edge.getRightVertex().getPosX();
+
+            double endX = endCol * gridSpacing;
+            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+
+            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+            double dirX = endX - posX;
+            double dirY = endY - posY;
+            double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+            // Calcular los puntos de inicio y fin en el borde del círculo
+            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+
+            // Crear la línea
+            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+            line.setStrokeWidth(3.0);
+
+            // Crear el Text con el valor del peso y ajustar su posición
+            double textX = (startXAdjusted + endXAdjusted) / 2;
+            double textY = (startYAdjusted + endYAdjusted) / 2;
+
+            Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
+            weightText.setFill(Color.BLACK); // Color del texto
+
+            // Agregar la línea y el Text al graphGroup
+            graphGroup.getChildren().addAll(line, weightText);
+        }
+
+        */
+
+
+ /*       for (ListEdge<String> edge : vertex.getEdges()) {
             int endRow = edge.getRightVertex().getPosY();
             int endCol = edge.getRightVertex().getPosX();
 
@@ -152,7 +250,8 @@ public class GameController implements Initializable {
             Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
             line.setStrokeWidth(3.0);
             graphGroup.getChildren().add(line);
-            }
+
+            }*/
         }
     }
 
@@ -169,8 +268,19 @@ public class GameController implements Initializable {
         if (is != null) {
             // Resto del código para cargar la fuente y aplicarla
             Font myFont = Font.loadFont(is, 12.0);
-            nickNameLabel.setFont(myFont);
-            title.setFont(myFont);
+            Font titleFont = Font.font(myFont.getFamily(), 20.0);
+            Font midFont = Font.font(myFont.getFamily(), 14.0);
+            nickNameLabel.setFont(midFont);
+            title.setFont(titleFont);
+            vertical.setFont(myFont);
+            horizontal.setFont(myFont);
+            circular.setFont(myFont);
+            addPipe.setFont(myFont);
+            simulate.setFont(myFont);
+            enterX.setFont(myFont);
+            enterY.setFont(myFont);
+            selectPipe.setFont(myFont);
+            empty.setFont(myFont);
 
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
@@ -183,7 +293,7 @@ public class GameController implements Initializable {
     @FXML
     public void onClickAddPipe(){
         if( choiceBoxX.getValue() != null && choiceBoxY.getValue() != null &&
-                (circular.isSelected() || vertical.isSelected() || horizontal.isSelected())){
+                (circular.isSelected() || vertical.isSelected() || horizontal.isSelected() || empty.isSelected())){
             String vertex = choiceBoxX.getValue() + "," + choiceBoxY.getValue();
 
             if(circular.isSelected()){
@@ -195,6 +305,8 @@ public class GameController implements Initializable {
             } else if (horizontal.isSelected()) {
                 newGame.addPipe(vertex, State.HORIZONTAL);
 
+            } else if (empty.isSelected()) {
+                newGame.addPipe(vertex, State.EMPTY);
             }
 
             graphGroup.getChildren().clear();

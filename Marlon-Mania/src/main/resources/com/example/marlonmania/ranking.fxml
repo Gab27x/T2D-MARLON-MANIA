@@ -3,24 +3,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainPane" prefHeight="432.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.RankingController">
+<AnchorPane fx:id="mainPane" prefHeight="432.0" prefWidth="444.0" styleClass="screen-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.RankingController">
 
-    <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" layoutX="119.0" layoutY="14.0"
-           prefHeight="22.0" prefWidth="207.0" styleClass="red-text" text="RANKING TABLE"/>
+    <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" layoutX="119.0" layoutY="14.0" prefHeight="22.0" prefWidth="207.0" text="RANKING TABLE" />
 
 
-    <TableView fx:id="playerTableView" layoutX="99.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity"
-               minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="247.0">
+    <TableView fx:id="playerTableView" layoutX="99.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="247.0">
         <columns>
-            <TableColumn fx:id="nickName2" prefWidth="123.0" text="NickName"/>
-            <TableColumn fx:id="score" prefWidth="123.0" text="Score"/>
+            <TableColumn fx:id="nickName2" prefWidth="123.0" text="NickName" />
+            <TableColumn fx:id="score" prefWidth="123.0" text="Score" />
 
         </columns>
     </TableView>
 
-    <Button fx:id="menu" onAction="#onClickMenu" layoutX="253.0" layoutY="369.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="73.0" text="MENU"/>
-    <Button fx:id="exit" onAction="#onClickExit" layoutX="119.0" layoutY="369.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="73.0" text="EXIT"/>
+    <Button fx:id="menu" layoutX="233.0" layoutY="369.0" mnemonicParsing="false" onAction="#onClickMenu" prefHeight="33.0" prefWidth="93.0" text="MENU">
+        <style>
+            -fx-background-color: lightblue;
+            -fx-background-radius: 50; /* Valor grande para simular una elipse */
+            -fx-border-color: #87CEFA;
+            -fx-border-width: 2px;
+            -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+            -fx-padding: 5px 25px;
+        </style>
+    </Button>
+
+
+
+    <Button fx:id="exit" layoutX="99.0" layoutY="369.0" mnemonicParsing="false" onAction="#onClickExit" prefHeight="33.0" prefWidth="93.0" text="EXIT">
+        <style>
+            -fx-background-color: lightblue;
+            -fx-background-radius: 50; /* Valor grande para simular una elipse */
+            -fx-border-color: #87CEFA;
+            -fx-border-width: 2px;
+            -fx-border-radius: 50; /* Hace que el borde siga la forma ovalada */
+            -fx-padding: 5px 25px;
+        </style>
+    </Button>
 
 
 </AnchorPane>
