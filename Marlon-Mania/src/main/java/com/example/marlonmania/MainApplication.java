@@ -15,6 +15,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
         openWindow("menu.fxml");
+  /*      openGameWindow("game.fxml","Gabriel");*/
     }
 
     public static void openWindow(String fxml){
