@@ -21,8 +21,8 @@ public class ListGraph<T> implements IGraph<T> {
     @Override
     public void addVertex(T vertex) throws VertexAlreadyAddedException {
         if (searchVertexIndex(vertex) == -1) {
-           ListVertex<T> newVertex= new ListVertex<>(vertex);
-           newVertex.setState(State.EMPTY);
+            ListVertex<T> newVertex = new ListVertex<>(vertex);
+            newVertex.setState(State.EMPTY);
             list.add(newVertex);
         } else {
             System.err.println("ALGO RARO");
@@ -62,9 +62,6 @@ public class ListGraph<T> implements IGraph<T> {
         }
         list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
     }
-
-
-
 
 
     @Override
@@ -126,7 +123,7 @@ public class ListGraph<T> implements IGraph<T> {
         return -1;
     }
 
-    public ListVertex<T> obtainVertex(int index){
+    public ListVertex<T> obtainVertex(int index) {
         return list.get(index);
     }
 
@@ -204,11 +201,8 @@ public class ListGraph<T> implements IGraph<T> {
         }
 
 
-
         return currentVertex.getDistance();
     }
-
-
 
 
     @Override
@@ -290,7 +284,7 @@ public class ListGraph<T> implements IGraph<T> {
             ListVertex<T> neighbor = edge.getRightVertex();
             if (!neighbor.isVisited()) {
 
-                if (vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
+                if (vertex.getState().checkConnection(neighbor.getState(), vertex.getPosX(), vertex.getPosY(), neighbor.getPosX(), neighbor.getPosY())) {
                     depthFirstSearchRecursive(neighbor);
                 } else {
                     return false;

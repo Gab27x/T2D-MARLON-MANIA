@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane" prefHeight="432.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.RankingController">
+
+    <Label fx:id="rankingTable" alignment="CENTER" contentDisplay="RIGHT" layoutX="119.0" layoutY="14.0"
+           prefHeight="22.0" prefWidth="207.0" styleClass="red-text" text="RANKING TABLE"/>
+
+
+    <TableView fx:id="playerTableView" layoutX="99.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity"
+               minHeight="-Infinity" minWidth="-Infinity" prefHeight="253.0" prefWidth="247.0">
+        <columns>
+            <TableColumn fx:id="nickName2" prefWidth="123.0" text="NickName"/>
+            <TableColumn fx:id="score" prefWidth="123.0" text="Score"/>
+
+        </columns>
+    </TableView>
+
+    <Button fx:id="menu" onAction="#onClickMenu" layoutX="253.0" layoutY="369.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="73.0" text="MENU"/>
+    <Button fx:id="exit" onAction="#onClickExit" layoutX="119.0" layoutY="369.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="73.0" text="EXIT"/>
+
+
+</AnchorPane>

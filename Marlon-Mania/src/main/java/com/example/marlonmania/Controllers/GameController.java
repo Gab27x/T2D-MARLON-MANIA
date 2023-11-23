@@ -1,43 +1,92 @@
 package com.example.marlonmania.Controllers;
 
-import com.example.marlonmania.model.Game;
-import com.example.marlonmania.model.ListEdge;
-import com.example.marlonmania.model.ListGraph;
-import com.example.marlonmania.model.ListVertex;
+import com.example.marlonmania.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameController implements Initializable {
 
+
+    private int level;
+
+    private int difficulty;
+
     @FXML
-    private Label nickNameLabel = new Label();
+    private Label nickNameLabel;
+
+    @FXML
+    private Label title;
 
     @FXML
     private Group graphGroup;
+    @FXML
+    private ChoiceBox<String> choiceBoxX;
+    @FXML
+    private ChoiceBox<String> choiceBoxY;
 
+    @FXML
+    private Button addPipe;
+
+    @FXML
+    private Button simulate;
+
+    @FXML
+    private RadioButton vertical;
+    @FXML
+    private RadioButton horizontal;
+    @FXML
+    private RadioButton circular;
+    @FXML
+    private RadioButton matrixButton;
     private Game newGame;
 
-    public void setPlayerName(String nickName) {
-        nickNameLabel.setText(nickName);
-    }
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.newGame = new Game();
         newGame.initGrafo();
+        newGame.init();
   /*      newGame.initGrafoDescendente();*/
 
         displayGraph();
+        setFonts();
+    }
+
+    @FXML
+    public void onClickVertical(){
+        horizontal.setSelected(false);
+        circular.setSelected(false);
+    }
+    @FXML
+    public void onClickHorizontal(){
+        vertical.setSelected(false);
+        circular.setSelected(false);
+    }
+    @FXML
+    public void onClickCircular(){
+        horizontal.setSelected(false);
+        vertical.setSelected(false);
+    }
+    @FXML
+    public void onClickSimulate(){
+        newGame.simulate();
     }
 
     private void displayGraph() {
@@ -65,9 +114,20 @@ public class GameController implements Initializable {
         graphGroup.getChildren().add(circle);
 
         // Agregar texto dentro del círculo
-        Text text = new Text(vertex.getValue());
+        String state = "nop";
+        switch (vertex.getState()){
+            case EMPTY -> {state = "X" ;}
+            case VERTICAL -> {state = "||" ;}
+            case HORIZONTAL -> {state = "="; }
+            case END -> {state = "D";}
+            case START -> {state = "F";}
+            case CONNECTOR -> {state = "0";}
+        }
+
+        Text text = new Text(state);
         text.setX(posX - text.getLayoutBounds().getWidth() / 2);
         text.setY(posY + text.getLayoutBounds().getHeight() / 4);
+
         graphGroup.getChildren().add(text);
 
         // Dibujar líneas desde este nodo a sus nodos adyacentes
@@ -92,9 +152,59 @@ public class GameController implements Initializable {
             Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
             line.setStrokeWidth(3.0);
             graphGroup.getChildren().add(line);
+            }
         }
     }
-}
 
+    public void setNickNameLabel(String nickName){
+        nickNameLabel.setText("Player: "+ nickName);
+
+    }
+    private void setFonts() {
+
+        InputStream is = getClass().getResourceAsStream("/Font/f1.ttf");
+
+
+
+        if (is != null) {
+            // Resto del código para cargar la fuente y aplicarla
+            Font myFont = Font.loadFont(is, 12.0);
+            nickNameLabel.setFont(myFont);
+            title.setFont(myFont);
+
+        } else {
+            System.err.println("No se pudo cargar el InputStream de la fuente");
+
+
+        }
+
+    }
+
+    @FXML
+    public void onClickAddPipe(){
+        if( choiceBoxX.getValue() != null && choiceBoxY.getValue() != null &&
+                (circular.isSelected() || vertical.isSelected() || horizontal.isSelected())){
+            String vertex = choiceBoxX.getValue() + "," + choiceBoxY.getValue();
+
+            if(circular.isSelected()){
+                newGame.addPipe(vertex, State.CONNECTOR);
+
+            } else if (vertical.isSelected()) {
+                newGame.addPipe(vertex, State.VERTICAL);
+
+            } else if (horizontal.isSelected()) {
+                newGame.addPipe(vertex, State.HORIZONTAL);
+
+            }
+
+            graphGroup.getChildren().clear();
+            displayGraph();
+
+        }
+        else {
+            System.err.println("MALPARIDO TE FALTA ALGO");
+        }
+
+    }
 
 }
