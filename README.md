@@ -1,7 +1,6 @@
 # T2D-MARLON-MANIA
-Profesor: Marlon Victoria
-<br>
-Grupo
+**Marlon Mania** is a new version of a game known as *Pipe Mania*, developed as the integrative task for the course "Computación y Estructuras Discretas I" at the University of Icesi, Colombia.The goal of the project was to implement different versions of a graph and usage of graph algorithms through the development of a game.
+
 
 ## Table of Contents
 
@@ -29,7 +28,10 @@ Marlon Gomez Victoria, Ph.D.
 ## Technologies and Concepts Used
 
 ### Technologies
+- Java 21 (Logic): Used for the project's logic.
+- JavaFX 21 (UI): Used for creating the user interface.
 - Maven (Dependency management): Used for managing project dependencies.
+- JUnit 5 (Testing): Used for writing and running tests.
 
 ### Concepts
 For this integrative task, the main data structure used was a graph in 2 different implementations and along 2 different of its algorithms:
@@ -43,6 +45,8 @@ For this integrative task, the main data structure used was a graph in 2 differe
 - Dijkstra´s algorithm
 
 ## Game Instructions
+
+*Marlon Mania*
 
 ## Documentation
 
