@@ -1,12 +1,14 @@
 package com.example.marlonmania.model;
 
-public class MatrixVertex<T> implements Cloneable {
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+public class MatrixVertex<T>  extends Circle implements Cloneable {
     private final T Value;
     private int distance;
     private boolean visited;
     private State state;
     private int posX;
-
     private int posY;
 
     private MatrixVertex<T> father;
@@ -14,6 +16,8 @@ public class MatrixVertex<T> implements Cloneable {
     public MatrixVertex(T Value) {
         this.Value = Value;
         this.state = State.EMPTY;
+        this.setRadius(15.0); // Establece el radio predeterminado
+        this.setFill(Color.LIGHTBLUE);
     }
 
     public T getValue() {

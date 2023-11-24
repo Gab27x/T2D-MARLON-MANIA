@@ -13,9 +13,6 @@ public abstract class Game2 {
     public Game2(String nickName){
         this.nickName = nickName;
         this.numOfPipes = 0;
-
-
-
     }
 
     public abstract void init();

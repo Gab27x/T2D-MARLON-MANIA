@@ -277,18 +277,23 @@ public class ListGraph<T> implements IGraph<T> {
             sub_graph.get(i - 1).getEdges().add(new ListEdge<>(sub_graph.get(i - 1), sub_graph.get(i), i + "", 0));
         }
 
+
         return depthFirstSearchRecursive(sub_graph.get(0));
     }
 
     //me permite saber si el subgrafo tiene correctamente las conexciones, el metodo
     //de validar las correcciones se encuentra en el enum
     private boolean depthFirstSearchRecursive(ListVertex<T> vertex) {
+
         vertex.setVisited(true); // Marca el vértice actual como visitado
         //System.out.println(vertex.getValue());
+
 
         // Recorre los vértices adyacentes no visitados
         for (ListEdge<T> edge : vertex.getEdges()) {
             ListVertex<T> neighbor = edge.getRightVertex();
+            System.out.println("ACTUAL"+vertex.getValue());
+            System.out.println("VECINO"+neighbor.getValue());
             if (!neighbor.isVisited()) {
 
                 if (vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
