@@ -1,12 +1,12 @@
 package com.example.marlonmania.model;
 
 public enum State {
-    VERTICAL,
-    EMPTY,
-    HORIZONTAL,
-    CONNECTOR,
-    START,
-    END;
+    VERTICAL, //||
+    EMPTY,//X
+    HORIZONTAL, //=
+    CONNECTOR, //O
+    START, //F
+    END; //D
 
     public boolean checkConnection(State comparing, int x, int y, int nX, int nY) {
 

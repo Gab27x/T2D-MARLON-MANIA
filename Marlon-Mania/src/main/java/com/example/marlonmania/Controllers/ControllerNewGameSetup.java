@@ -65,17 +65,15 @@ public class ControllerNewGameSetup implements Initializable {
 
     @FXML
     void onClickPlay(){
-        if( (easyButton.isSelected() || difficultButton.isSelected()) &&
-                (matrixButton.isSelected() || listButton.isSelected()) &&
-                enterNickname.getText() != null){
-            // FIXME
-            // implementation: matrix 0 - list 1
-            // difficulty: easy 0 - difficult 1
 
+        if( easyButton.isSelected()  && enterNickname.getText() != null){
             MainApplication.openGameWindow("game-list.fxml", enterNickname.getText());
             MainApplication.closeWindow((Stage)mainPane.getScene().getWindow());
-        }
+        } else if (difficultButton.isSelected() ) {
+            MainApplication.openGameWindow("game-matrix.fxml", enterNickname.getText());
+            MainApplication.closeWindow((Stage)mainPane.getScene().getWindow());
 
+        }
 
     }
 

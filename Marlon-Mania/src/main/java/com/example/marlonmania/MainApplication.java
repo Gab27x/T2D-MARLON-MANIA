@@ -1,6 +1,7 @@
 package com.example.marlonmania;
 
 import com.example.marlonmania.Controllers.GameListController;
+import com.example.marlonmania.Controllers.GameMatrixController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,10 +44,13 @@ public class MainApplication extends Application {
             stage.setTitle("MARLON-MANIA");
             stage.setScene(scene);
 
-            GameListController controller = fxmlLoader.getController();
-
-            controller.setNickNameLabel(nickName);
-
+            if(fxmlLoader.getController() instanceof GameListController){
+                GameListController controller = fxmlLoader.getController();
+                controller.setNickNameLabel(nickName);
+            } else if (fxmlLoader.getController() instanceof GameMatrixController) {
+                GameMatrixController controller = fxmlLoader.getController();
+                controller.setNickNameLabel(nickName);
+            }
 
 
             stage.show();
@@ -55,7 +59,6 @@ public class MainApplication extends Application {
         catch (IOException ex){
             ex.printStackTrace();
         }
-
 
     }
     public static void closeWindow(Stage stage){
