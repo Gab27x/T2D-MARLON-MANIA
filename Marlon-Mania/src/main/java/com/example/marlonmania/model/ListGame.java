@@ -1,10 +1,7 @@
 package com.example.marlonmania.model;
 
 import com.example.marlonmania.MainApplication;
-import com.example.marlonmania.exceptions.LoopsNotAllowedException;
-import com.example.marlonmania.exceptions.MultipleEdgesNotAllowedException;
-import com.example.marlonmania.exceptions.VertexAlreadyAddedException;
-import com.example.marlonmania.exceptions.VertexNotFoundException;
+import com.example.marlonmania.exceptions.*;
 
 import java.util.ArrayList;
 
@@ -16,7 +13,9 @@ public class ListGame extends Game2 {
     public ListGame(String nickName) {
         super(nickName);
         listGraph = new ListGraph<>(false,false,false);
-        this.path = new ArrayList<>();
+
+        this.path = new ArrayList<>(); //camino de pipes
+
         init();
 
 
@@ -43,10 +42,6 @@ public class ListGame extends Game2 {
         listGraph.obtainVertex(listGraph.searchVertexIndex(getD())).setState(State.END);
 
         path.add(getF());
-        path.add(getD());
-
-
-
 
     }
 
@@ -54,14 +49,25 @@ public class ListGame extends Game2 {
     public void addPipe(String vertex, State newState) {
         if(!vertex.equals(getF()) && !vertex.equals(getD())){
 
-
             listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).setState(newState);
-
             System.out.println("Funciona: " + vertex);
-            setNumOfPipes(getNumOfPipes() + 1);
 
-            if(!path.contains(vertex)){
+            ListVertex<String> temporalVertex =  listGraph.obtainVertex(listGraph.searchVertexIndex(vertex));
+            ListVertex<String> D =  listGraph.obtainVertex(listGraph.searchVertexIndex(getD()));
+            ListVertex<String> F =  listGraph.obtainVertex(listGraph.searchVertexIndex(getF()));
+
+            int posY= temporalVertex.getPosY();
+            int posX= temporalVertex.getPosX();
+
+            if( !path.contains(vertex) && (posY+1==D.getPosY())  || (posY-1==D.getPosY()) || (posX+1==D.getPosX()) || (posX-1==D.getPosX())){
                 path.add(vertex);
+                setNumOfPipes(getNumOfPipes() + 1);
+                path.add(getD());
+                simulate();
+            } else if (!path.contains(vertex)) {
+                System.out.println("CONDICION INICIAL"+path.size());
+                path.add(vertex);
+                setNumOfPipes(getNumOfPipes() + 1);
             }
 
             path.removeIf( v-> v.equals(vertex) && listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).getState().equals(State.EMPTY));
@@ -111,33 +117,34 @@ public class ListGame extends Game2 {
     }
 
     @Override
-    public void simulate() {
-        path.removeIf( v-> v.equals(getD()));
-        path.add(getD());
+    public void simulate()  {
+        if (!path.get(path.size()-1).equals(getD())){
+            //resetear el simulate si esta mal
+            System.out.println("FALSE");
+            path= new ArrayList<>();
+            this.path.add(getF());
+            setNumOfPipes(0);
 
+        }else{
+            System.out.println("path " + path.size() );
+            for (String v : path) {
+                System.out.print( v + " ");
 
-        System.out.println("path " + path.size());
-        for (String v : path) {
-            System.out.print( v + " ");
-
-        }
-
-
-
-        try{
-
-            if(this.listGraph.DFSVALIDATOR(path)){
-                MainApplication.openWindow("menu.fxml");
-                System.out.println("-> true");
-
-            }else {
-                System.out.println("-> false");
             }
 
-        }catch (Exception e){
-            System.err.println("TOCA PEGARLE A LUIS");
-        }
+            try {
+                if(this.listGraph.DFSVALIDATOR(path)){
+                    System.out.println("VALIDADO");
+                    MainApplication.openGameWindow("menu.fxml", getNickName());
 
+                }
+
+            } catch (VertexNotFoundException | VertexNotAchievableException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        }
 
     }
 }

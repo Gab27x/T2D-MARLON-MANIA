@@ -27,7 +27,7 @@ public class Game {
         this.nickName = nickName;
         listGraph = new ListGraph<>(false,false,false);
         this.numOfPipes = 0;
-        this.path = new ArrayList<>();
+        this.path = new ArrayList<>(); //camino de pipes
 
         init();
 
@@ -65,11 +65,11 @@ public class Game {
         this.d = "3,5";
         this.f = "7,5";
 
-        listGraph.obtainVertex(listGraph.searchVertexIndex(f)).setState(State.START);
-        listGraph.obtainVertex(listGraph.searchVertexIndex(d)).setState(State.END);
+        listGraph.obtainVertex(listGraph.searchVertexIndex(f)).setState(State.START); //F
+        listGraph.obtainVertex(listGraph.searchVertexIndex(d)).setState(State.END); //D
 
         path.add(this.f);
-        path.add(this.d);
+
 
 
 
@@ -86,12 +86,28 @@ public class Game {
             listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).setState(newSate);
 
             System.out.println("Funciona: " + vertex);
-            this.numOfPipes ++;
 
-            if(!path.contains(vertex)){
+
+            ListVertex<String> temporalVertex =  listGraph.obtainVertex(listGraph.searchVertexIndex(vertex));
+            ListVertex<String> D =  listGraph.obtainVertex(listGraph.searchVertexIndex(this.d));
+            ListVertex<String> F =  listGraph.obtainVertex(listGraph.searchVertexIndex(this.f));
+
+
+            int posY= temporalVertex.getPosY();
+            int posX= temporalVertex.getPosX();
+
+
+            if ( !path.contains(vertex) && (posY+1==D.getPosY())  || (posY-1==D.getPosY()) || (posX+1==D.getPosX()) || (posX-1==D.getPosX())) {
+                System.out.println("CONDICION FINAL"+path.size());
                 path.add(vertex);
+                this.numOfPipes ++;
+                path.add(this.d);
+                simulate();
+            }else if(!path.contains(vertex)){
+                System.out.println("CONDICION INICIAL"+path.size());
+                path.add(vertex);
+                this.numOfPipes ++;
             }
-
             path.removeIf( v-> v.equals(vertex) && listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).getState().equals(State.EMPTY));
 
         }
@@ -144,37 +160,30 @@ public class Game {
 
 
     public void simulate()  {
-        path.removeIf( v-> v.equals(this.d));
-        path.add(this.d);
 
+        if (path.get(path.size()-1)!=this.d){
+            System.out.println("FALSE");
+            path= new ArrayList<>();
+            path.add(this.f);
+            this.numOfPipes=0;
+        }else{
+            System.out.println("path " + path.size() );
+            for (String v : path) {
+                System.out.print( v + " ");
 
-        System.out.println("path " + path.size() );
-        for (String v : path) {
-            System.out.print( v + " ");
+            }
 
-        }
+            try {
+                if(this.listGraph.DFSVALIDATOR(path)){
+                    System.out.println("TRUE");
 
-
-
-        try{
-
-
-            if(this.listGraph.DFSVALIDATOR(path)){
-                MainApplication.openWindow("menu.fxml");
-                System.out.println("-> true");
-
-            }else {
-                System.out.println("-> false");
+                }
+            } catch (VertexNotFoundException | VertexNotAchievableException e) {
+                throw new RuntimeException(e);
             }
 
 
-
-        }catch (Exception e){
-            System.err.println("TOCA PEGARLE A LUIS");
         }
-
-
-
 
     }
 }
