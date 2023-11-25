@@ -6,6 +6,10 @@ import com.example.marlonmania.exceptions.*;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+
+
+// FIXME CUANDO EL JUGADOR GANE TOCA AGREGAR SU PUNTAJE CON CONTROLLERPLAYERS.GETINSTANCE Y DEVOLVERLO AL MENU PARA QUE PUEDA ACCEDER AL RANKING
+
 public class MatrixGame extends Game2 {
 
     private MatrixGraph<String> matrixGraph;
@@ -16,6 +20,7 @@ public class MatrixGame extends Game2 {
         super(nickName);
 
         matrixGraph = new MatrixGraph<>(false,64);
+        this.path = new ArrayList<>();
         init();
     }
 
@@ -51,6 +56,11 @@ public class MatrixGame extends Game2 {
 
     @Override
     public void addPipe(String vertex, State newState) {
+        // FIXME LUIS DEBES TERMINAR ESTO YA QUE TUS METODOS DEPENDE DE ESTE
+        // FIXME CUANDO EL JUGADOR GANE TOCA AGREGAR SU PUNTAJE CON CONTROLLERPLAYERS.GETINSTANCE Y DEVOLVERLO AL MENU PARA QUE PUEDA ACCEDER AL RANKING
+
+
+
 
     }
 
@@ -71,7 +81,7 @@ public class MatrixGame extends Game2 {
                 }
 
                 if (y > 0) {
-                    int weight = 1/*ThreadLocalRandom.current().nextInt(2,10)*/;
+                    int weight = ThreadLocalRandom.current().nextInt(2,10);
                     try {
                         String edgeId = String.format("%s -> %s", x + "," + (y - 1), x + "," + y);
                         matrixGraph.addEdge(x + "," + (y - 1), x + "," + y, edgeId, weight);
@@ -82,7 +92,7 @@ public class MatrixGame extends Game2 {
 
                 if (x > 0) {
 
-                    int weight = 1/* ThreadLocalRandom.current().nextInt(2,6)*/;
+                    int weight =  ThreadLocalRandom.current().nextInt(2,6);
                     try {
                         String edgeId = String.format("%s -> %s", (x - 1) + "," + y, x + "," + y);
                         matrixGraph.addEdge((x - 1) + "," + y, x + "," + y, edgeId, weight);
@@ -98,6 +108,7 @@ public class MatrixGame extends Game2 {
 
     @Override
     public void simulate() {
+        // FIXME LEVEL 0 ES FACIL Y VA CON DFS - LEVEL 1 ES HARD Y VA CON EL OTRO
 
         ArrayList<MatrixVertex<String>> userPathVertex= new ArrayList<>();
         for (String temp: path){

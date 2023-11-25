@@ -23,11 +23,15 @@ public class GameMatrixController implements Initializable {
 
     private int level;
 
-    private String nickName;
+        // FIXME CUANDO EL JUGADOR GANE TOCA AGREGAR SU PUNTAJE CON CONTROLLERPLAYERS.GETINSTANCE Y DEVOLVERLO AL MENU PARA QUE PUEDA ACCEDER AL RANKING
+
 
 
     @FXML
     private Label nickNameLabel;
+
+    @FXML
+    private Label matrix;
 
     @FXML
     private Label title;
@@ -242,139 +246,6 @@ public class GameMatrixController implements Initializable {
     }
 
 
-    private void addLine2(MatrixVertex<String> vertex, MatrixVertex<String> end){
-
-        int row = vertex.getPosY();
-        int col = vertex.getPosX();
-
-        double posX = col * gridSpacing;
-        double posY = (gridRows - 1 - row) * gridSpacing;
-
-        double endX = end.getPosX() * gridSpacing;
-        double endY = (gridRows - 1 - end.getPosY()) * gridSpacing;
-
-        double dirX = endX - posX;
-        double dirY = endY - posY;
-        double length = Math.sqrt(dirX * dirX + dirY * dirY);
-
-        double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
-        double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
-        double endXAdjusted = endX - (dirX / length) * end.getRadius();
-        double endYAdjusted = endY - (dirY / length) * end.getRadius();
-
-        Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
-        line.setStrokeWidth(3.0);
-
-        double textX = ((startXAdjusted + endXAdjusted) / 2) + 2;
-        double textY = ((startYAdjusted + endYAdjusted) / 2) - 2;
-
-        Text weightText = new Text(textX, textY, String.valueOf(matrixGraphGame.getMatrixGraph().getMatrix()[vertex.getPosY()][vertex.getPosX()+1]));
-        weightText.setFill(Color.BLACK);
-        graphGroup.getChildren().addAll(line, weightText);
-
-    }
-
-
-/*
-    private void displayGraph() {
-        MatrixVertex<String>[] vertices = matrixGraphGame.getMatrixGraph().getVertices();
-
-        int m = 55;
-
-        for(MatrixVertex<String> vertex : vertices){
-            System.out.println(vertex.getValue());
-            Circle circle = new Circle(vertex.getPosX()* m,vertex.getPosY()*m,vertex.getRadius());
-            circle.setFill(Color.LIGHTBLUE);
-            graphGroup.getChildren().add(circle);
-
-        }
-
-
-
-*/
-/*        System.out.println(vertices.length);
-        for (MatrixVertex<String> v  :vertices) {
-            System.out.println(v.getValue());
-
-        }*//*
-
-
-    }
-*/
-
-
-    /*private void displayGraph() {
-        MatrixVertex<String>[] vertices = matrixGraphGame.getMatrixGraph().getVertices();
-
-        if (vertices.length == 0) {
-            System.out.println("La lista de nodos está vacía.");
-            return;
-        }
-
-        int gridSpacing = 55;
-        int gridRows = 8;
-
-        for (MatrixVertex<String> vertex : vertices) {
-            if (vertex != null) {  // Verificar si el vértice no es nulo
-                int row = vertex.getPosY();
-                int col = vertex.getPosX();
-
-                double posX = col * gridSpacing;
-                double posY = (gridRows - 1 - row) * gridSpacing;
-
-                Circle circle = new Circle(posX, posY, vertex.getRadius());
-                circle.setFill(Color.LIGHTBLUE);
-                graphGroup.getChildren().add(circle);
-
-                String state = "nop";
-                switch (vertex.getState()) {
-                    case EMPTY -> state = "X";
-                    case VERTICAL -> state = "||";
-                    case HORIZONTAL -> state = "=";
-                    case END -> state = "D";
-                    case START -> state = "F";
-                    case CONNECTOR -> state = "0";
-                }
-
-                Text text = new Text(state);
-                if (!text.getText().equals("X")) {
-                    text.setFont(Font.font("", FontWeight.BOLD, 12));
-                }
-                text.setX(posX - text.getLayoutBounds().getWidth() / 2);
-                text.setY(posY + text.getLayoutBounds().getHeight() / 4);
-                graphGroup.getChildren().add(text);
-
-                for (int i = 0; i < vertices.length; i++) {
-                    if (vertices[i] != null && matrixGraphGame.getMatrixGraph().getMatrix()[vertex.getPosX()][i] != 0) {
-                        MatrixVertex<String> neighbor = vertices[i];
-
-                        double endX = neighbor.getPosX() * gridSpacing;
-                        double endY = (gridRows - 1 - neighbor.getPosY()) * gridSpacing;
-
-                        double dirX = endX - posX;
-                        double dirY = endY - posY;
-                        double length = Math.sqrt(dirX * dirX + dirY * dirY);
-
-                        double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
-                        double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
-                        double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
-                        double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
-
-                        Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
-                        line.setStrokeWidth(3.0);
-
-                        double textX = ((startXAdjusted + endXAdjusted) / 2) + 2;
-                        double textY = ((startYAdjusted + endYAdjusted) / 2) - 2;
-
-                        Text weightText = new Text(textX, textY, String.valueOf(matrixGraphGame.getMatrixGraph().getMatrix()[vertex.getPosX()][i]));
-                        weightText.setFill(Color.BLACK);
-                        graphGroup.getChildren().addAll(line, weightText);
-                    }
-                }
-            }
-        }
-    }*/
-
     public void setNickNameLabel(String nickName) {
         nickNameLabel.setText("Player: " + nickName);
     }
@@ -397,6 +268,7 @@ public class GameMatrixController implements Initializable {
             enterY.setFont(myFont);
             selectPipe.setFont(myFont);
             empty.setFont(myFont);
+            matrix.setFont(myFont);
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
         }

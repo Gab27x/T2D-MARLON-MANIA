@@ -70,7 +70,7 @@ public class ControllerNewGameSetup implements Initializable {
         int level = easyButton.isSelected()? 0 : 1;
         System.out.println(level);
 
-        if( (easyButton.isSelected() || difficultButton.isSelected()) && enterNickname.getText() != null && listButton.isSelected()){
+        if( (easyButton.isSelected() || difficultButton.isSelected()) && !enterNickname.getText().isEmpty() && listButton.isSelected()){
 
 
 
@@ -79,7 +79,7 @@ public class ControllerNewGameSetup implements Initializable {
             MainApplication.closeWindow((Stage)mainPane.getScene().getWindow());
 
 
-        } else if ((easyButton.isSelected() || difficultButton.isSelected())&& enterNickname.getText() != null && matrixButton.isSelected() ){
+        } else if ((easyButton.isSelected() || difficultButton.isSelected())&& !enterNickname.getText().isEmpty() && matrixButton.isSelected() ){
 
             MainApplication.openGameWindow("game-matrix.fxml", enterNickname.getText(),level);
 
