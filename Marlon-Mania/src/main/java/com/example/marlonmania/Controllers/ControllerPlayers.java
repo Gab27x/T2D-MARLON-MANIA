@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import com.example.marlonmania.model.Player;
 
+import java.util.Collections;
+
 
 public class ControllerPlayers {
     private static ControllerPlayers instance;
@@ -31,6 +33,7 @@ public class ControllerPlayers {
     }
     public void addPlayer(String nickName, double score){
         players.add(new Player(nickName,score));
+       FXCollections.sort(players,players.sorted().getComparator());
 
     }
 
