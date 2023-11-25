@@ -58,12 +58,12 @@ public class ListGame extends Game2 {
 
         path.add(getF());
 
+
     }
 
     @Override
     public void addPipe(String vertex, State newState) {
-        System.out.println(this.getNickName());
-        System.out.println(this.getLevel());
+
         if(!vertex.equals(getF()) && !vertex.equals(getD())){
 
             listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).setState(newState);
@@ -138,6 +138,7 @@ public class ListGame extends Game2 {
             }
         }
         System.out.println(listGraph.toString());
+
     }
 
     public ArrayList<ListVertex<String>> getListGraph() {
@@ -145,24 +146,13 @@ public class ListGame extends Game2 {
         return listGraph.getList();
     }
 
-    @Override
     public void simulate()  {
 
-        try {
-            System.out.println("DIKSTRAJ"+listGraph.dijkstra(getF(),getD()));
-        } catch (VertexNotFoundException | VertexNotAchievableException e) {
-            throw new RuntimeException(e);
-        }
-
         if (!path.get(path.size()-1).equals(getD())){
-            //resetear el simulate si esta mal
             System.out.println("FALSE");
             path= new ArrayList<>();
-            this.path.add(getF());
+            path.add(getF());
             setNumOfPipes(0);
-            System.out.println("new path");
-            printPath();
-
         }else{
             System.out.println("path " + path.size() );
             for (String v : path) {
@@ -171,45 +161,19 @@ public class ListGame extends Game2 {
             }
 
             try {
-                if(getLevel() == 0){
-                    if(this.listGraph.DFSVALIDATOR(path)){
-                        System.out.println("VALIDADO");
-                        MainApplication.openWindow("menu.fxml");
-                    }
-
-                }else {
-
-                    int shortPath= listGraph.dijkstra(getF(), getD());
-                    int userShortPath= listGraph.subGraphDistance(path);
-                    if(userShortPath>shortPath){
-                        System.out.println("CAMINO MAS CORTO"+shortPath);
-                        System.out.println("CAMINO DEL USUARIO"+userShortPath);
-                        System.out.println("PERDISTE, EL CAMINO ERA MUY GRANDE");
-                    }else{
-                        System.out.println("GANASTE");
-                        MainApplication.openWindow("menu.fxml");
-                    }
-                    // FIXME AQUI VA EL DIJSKTRA
-                 /*   if(this.listGraph.dijkstra(path)){
-                        System.out.println("VALIDADO");
-                        MainApplication.openWindow("menu.fxml");
-
-                    }
-                    */
-
+                if(this.listGraph.DFSVALIDATOR(path)){
+                    System.out.println("TRUE");
+                    MainApplication.openWindow("menu.fxml");
 
                 }
-
-
-
             } catch (VertexNotFoundException | VertexNotAchievableException e) {
                 throw new RuntimeException(e);
             }
 
 
         }
-
     }
+
 
 
 }
