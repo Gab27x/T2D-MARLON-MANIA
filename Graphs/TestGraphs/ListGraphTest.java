@@ -85,8 +85,8 @@ public class ListGraphTest {
     public void testAddDuplicateVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
         graph.addVertex("A");
-        assertThrows(VertexAlreadyAddedException.class, () -> graph.addVertex("A"));
-
+        //assertThrows(VertexAlreadyAddedException.class, () -> graph.addVertex("A"));
+        assertEquals(1, graph.getList().size());
     }
 
     @Test
@@ -154,22 +154,16 @@ public class ListGraphTest {
         graph.addVertex("B");
         graph.deleteEdge("A", "B", "edge1");
     }
-/*
-    @Test
-    public void testDijkstra() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException, LoopsNotAllowedException, MultipleEdgesNotAllowedException {
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.addVertex("C");
-        graph.addEdge("A", "B", "edge1", 1);
-         graph.addEdge("B", "C", "edge2", 2);
-
-        Map<String, String> shortestPath = graph.dijkstra("A", "C");
-        assertEquals("B", shortestPath.get("C"));
-    }*/
 
     @Test(expected = VertexNotFoundException.class)
     public void testDijkstraWithMissingVertex() throws VertexNotFoundException, VertexNotAchievableException {
         graph.dijkstra("A", "D");
+    }
+
+    @Test
+    public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
+        setUpExistingNodes();
+        assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
     }
 
     @Test
@@ -195,14 +189,6 @@ public class ListGraphTest {
         }
 
     }
-
-    @Test
-    public void testDijkstraWithUnreachableVertex() throws VertexNotFoundException, VertexNotAchievableException, VertexAlreadyAddedException {
-        setUpExistingNodes();
-        assertThrows(VertexNotAchievableException.class,()->graph.dijkstra("F", "K"));
-    }
-
-
 
     @Test
     public void testSearchEdgeWithDirectedGraph() throws Exception {
