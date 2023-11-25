@@ -335,7 +335,6 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
                 int weight = matrix[currentVertexIndex][nextVertexIndex];
                 edgeWeights.add(weight);
             } else {
-
                 System.out.println("One of the vertices is not found in the graph.");
             }
         }
