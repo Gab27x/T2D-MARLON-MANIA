@@ -1,5 +1,6 @@
 package com.example.marlonmania.Controllers;
 
+import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -109,8 +111,14 @@ public class GameListController implements Initializable {
 
     @FXML
     public void onClickSimulate(){
+        int wins = ControllerPlayers.getInstance().getPlayers().size();
 
         newListGame.simulate();
+
+        if(wins != ControllerPlayers.getInstance().getPlayers().size()){
+            MainApplication.closeWindow((Stage)graphGroup.getScene().getWindow());
+
+        }
     }
 
     public void setLevel(int level){
@@ -357,7 +365,7 @@ public class GameListController implements Initializable {
 
         }
         else {
-            System.err.println("MALPARIDO TE FALTA ALGO");
+            System.err.println(" TE FALTA ALGO");
         }
 
     }

@@ -1,5 +1,6 @@
 package com.example.marlonmania.model;
 
+import com.example.marlonmania.Controllers.ControllerPlayers;
 import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.exceptions.*;
 
@@ -30,7 +31,6 @@ public class MatrixGame extends Game2 {
 
 
 
-        /*
         int fx = ThreadLocalRandom.current().nextInt(8);
         int fy = ThreadLocalRandom.current().nextInt(4);
 
@@ -39,11 +39,9 @@ public class MatrixGame extends Game2 {
         int dy = ThreadLocalRandom.current().nextInt(6, 8);
 
 
-        this.d = dx + "," + dy;
-        this.f = fx + "," + fy;*/
-        setD("3,5");
-        setF("7,5");
 
+        setD(dx + "," + dy);
+        setF(fx + "," + fy);
         matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(getF())).setState(State.START);
         matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(getD())).setState(State.END);
 
@@ -162,7 +160,10 @@ public class MatrixGame extends Game2 {
                         System.out.println("DIFERENCIA"+Math.abs(shortPath-userShortPath));
                     }else  {
                         System.out.println("GANASTE");
+                        int score = 1000 - ((50)* ( getNumOfPipes() - (path.size() -2) ));
+                        ControllerPlayers.getInstance().addPlayer(getNickName(),score);
                         MainApplication.openWindow("menu.fxml");
+
                     }
                 } catch (VertexNotFoundException | VertexNotAchievableException e) {
                     throw new RuntimeException(e);
@@ -175,7 +176,10 @@ public class MatrixGame extends Game2 {
                 try {
                     if(this.matrixGraph.DFSVALIDATOR(path)){
                         System.out.println("VALIDADO GANASTE");
+                        int score = 1000 - ((50)* ( getNumOfPipes() - (path.size() -2) ));
+                        ControllerPlayers.getInstance().addPlayer(getNickName(),score);
                         MainApplication.openWindow("menu.fxml");
+
                     }else {
                         System.out.println("PERDISTE");
                     }

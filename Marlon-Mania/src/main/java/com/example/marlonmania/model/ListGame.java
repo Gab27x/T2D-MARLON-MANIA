@@ -1,5 +1,6 @@
 package com.example.marlonmania.model;
 
+import com.example.marlonmania.Controllers.ControllerPlayers;
 import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.exceptions.*;
 
@@ -39,7 +40,6 @@ public class ListGame extends Game2 {
     @Override
     public void init() {
         initGrafo();
-/*
         int fx = ThreadLocalRandom.current().nextInt(8);
         int fy = ThreadLocalRandom.current().nextInt(4);
 
@@ -48,10 +48,8 @@ public class ListGame extends Game2 {
         int dy = ThreadLocalRandom.current().nextInt(5, 8);
 
 
-        this.d = dx + "," + dy;
-        this.f = fx + "," + fy;*/
-        setD("3,5");
-        setF("7,5");
+        setD(dx + "," + dy);
+        setF(fx + "," + fy);
 
         listGraph.obtainVertex(listGraph.searchVertexIndex(getF())).setState(State.START);
         listGraph.obtainVertex(listGraph.searchVertexIndex(getD())).setState(State.END);
@@ -163,7 +161,11 @@ public class ListGame extends Game2 {
             try {
                 if(this.listGraph.DFSVALIDATOR(path)){
                     System.out.println("TRUE");
+                    int score = 1000 - ((50)* ( getNumOfPipes() - (path.size() -2) ));
+                    ControllerPlayers.getInstance().addPlayer(getNickName(),score);
                     MainApplication.openWindow("menu.fxml");
+
+
 
                 }
             } catch (VertexNotFoundException | VertexNotAchievableException e) {

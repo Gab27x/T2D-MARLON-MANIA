@@ -299,8 +299,9 @@ public class GameMatrixController implements Initializable {
 
             graphGroup.getChildren().clear();
             displayGraph();
+
         } else {
-            System.err.println("MALPARIDO TE FALTA ALGO");
+            System.err.println(" TE FALTA ALGO");
         }
 
     }
