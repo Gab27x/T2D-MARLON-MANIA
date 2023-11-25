@@ -201,9 +201,9 @@ public class ListGraph<T> implements IGraph<T> {
             throw new VertexNotAchievableException("End Vertex Not Achievable");
         }
 
-
         return currentVertex.getDistance();
     }
+
 
 
     @Override
@@ -317,6 +317,36 @@ public class ListGraph<T> implements IGraph<T> {
         return ans.toString();
 
     }
+
+    public int subGraphDistance(ArrayList<T> subVertices) throws VertexNotFoundException {
+        if (subVertices.size() < 2) {
+            throw new IllegalArgumentException("Subgraph must contain at least two vertices.");
+        }
+
+        int totalDistance = 0;
+        for (int i = 0; i < subVertices.size() - 1; i++) {
+            T startVertex = subVertices.get(i);
+            T endVertex = subVertices.get(i + 1);
+
+            int startVertexIndex = searchVertexIndex(startVertex);
+            int endVertexIndex = searchVertexIndex(endVertex);
+
+            if (startVertexIndex == -1 || endVertexIndex == -1) {
+                throw new VertexNotFoundException("Error. One vertex not found.");
+            }
+
+            int distance = 0;
+            try {
+                distance = dijkstra(startVertex, endVertex);
+            } catch (VertexNotAchievableException e) {
+                throw new RuntimeException(e);
+            }
+            totalDistance += distance;
+        }
+
+        return totalDistance;
+    }
+
 
 
     public ArrayList<ListVertex<T>> getList() {

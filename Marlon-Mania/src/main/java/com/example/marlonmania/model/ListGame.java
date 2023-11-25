@@ -148,6 +148,12 @@ public class ListGame extends Game2 {
     @Override
     public void simulate()  {
 
+        try {
+            System.out.println("DIKSTRAJ"+listGraph.dijkstra(getF(),getD()));
+        } catch (VertexNotFoundException | VertexNotAchievableException e) {
+            throw new RuntimeException(e);
+        }
+
         if (!path.get(path.size()-1).equals(getD())){
             //resetear el simulate si esta mal
             System.out.println("FALSE");
@@ -169,10 +175,20 @@ public class ListGame extends Game2 {
                     if(this.listGraph.DFSVALIDATOR(path)){
                         System.out.println("VALIDADO");
                         MainApplication.openWindow("menu.fxml");
-
                     }
 
                 }else {
+
+                    int shortPath= listGraph.dijkstra(getF(), getD());
+                    int userShortPath= listGraph.subGraphDistance(path);
+                    if(userShortPath>shortPath){
+                        System.out.println("CAMINO MAS CORTO"+shortPath);
+                        System.out.println("CAMINO DEL USUARIO"+userShortPath);
+                        System.out.println("PERDISTE, EL CAMINO ERA MUY GRANDE");
+                    }else{
+                        System.out.println("GANASTE");
+                        MainApplication.openWindow("menu.fxml");
+                    }
                     // FIXME AQUI VA EL DIJSKTRA
                  /*   if(this.listGraph.dijkstra(path)){
                         System.out.println("VALIDADO");
@@ -194,4 +210,6 @@ public class ListGame extends Game2 {
         }
 
     }
+
+
 }
