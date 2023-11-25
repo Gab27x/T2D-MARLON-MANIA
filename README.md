@@ -69,5 +69,16 @@ Inside the project structure, you will find a folder called `Docs` that contains
 
 ## View
 
+*Start screen*
+
+![Alt text](Docs/view/screen1.png)
+
+*Easy level*
+
+![Alt text](Docs/view/easyLevel.png)
+
+*Hard Level*
+
+![Alt text](Docs/view/hardLevel.png)
 
 
