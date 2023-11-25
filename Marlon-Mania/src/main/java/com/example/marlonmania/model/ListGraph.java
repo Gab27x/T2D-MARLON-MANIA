@@ -1,6 +1,6 @@
 package com.example.marlonmania.model;
 
-import  com.example.marlonmania.exceptions.*;
+import com.example.marlonmania.exceptions.*;
 
 import java.util.*;
 
@@ -20,10 +20,10 @@ public class ListGraph<T> implements IGraph<T> {
 
 
     @Override
-    public void addVertex(T vertex,int posX,int posY) throws VertexAlreadyAddedException {
+    public void addVertex(T vertex, int posX, int posY) throws VertexAlreadyAddedException {
         if (searchVertexIndex(vertex) == -1) {
-           ListVertex<T> newVertex= new ListVertex<>(vertex,posX,posY);
-           newVertex.setState(State.EMPTY);
+            ListVertex<T> newVertex = new ListVertex<>(vertex, posX, posY);
+            newVertex.setState(State.EMPTY);
             list.add(newVertex);
         } else {
             System.err.println("ALGO RARO");
@@ -63,9 +63,6 @@ public class ListGraph<T> implements IGraph<T> {
         }
         list.get(startVertex).getEdges().add(new ListEdge<>(list.get(startVertex), list.get(endVertex), id, weight));
     }
-
-
-
 
 
     @Override
@@ -127,7 +124,7 @@ public class ListGraph<T> implements IGraph<T> {
         return -1;
     }
 
-    public ListVertex<T> obtainVertex(int index){
+    public ListVertex<T> obtainVertex(int index) {
         return list.get(index);
     }
 
@@ -205,11 +202,8 @@ public class ListGraph<T> implements IGraph<T> {
         }
 
 
-
         return currentVertex.getDistance();
     }
-
-
 
 
     @Override
@@ -252,7 +246,7 @@ public class ListGraph<T> implements IGraph<T> {
     }
 
     @Override
-    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    public boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException {
         ArrayList<Integer> indexes = new ArrayList<>();
         ArrayList<ListVertex<T>> temps = new ArrayList<>();
         ArrayList<ListVertex<T>> sub_graph = new ArrayList<>();
@@ -277,21 +271,26 @@ public class ListGraph<T> implements IGraph<T> {
             sub_graph.get(i - 1).getEdges().add(new ListEdge<>(sub_graph.get(i - 1), sub_graph.get(i), i + "", 0));
         }
 
+
         return depthFirstSearchRecursive(sub_graph.get(0));
     }
 
     //me permite saber si el subgrafo tiene correctamente las conexciones, el metodo
     //de validar las correcciones se encuentra en el enum
     private boolean depthFirstSearchRecursive(ListVertex<T> vertex) {
+
         vertex.setVisited(true); // Marca el vértice actual como visitado
         //System.out.println(vertex.getValue());
+
 
         // Recorre los vértices adyacentes no visitados
         for (ListEdge<T> edge : vertex.getEdges()) {
             ListVertex<T> neighbor = edge.getRightVertex();
+            System.out.println("ACTUAL" + vertex.getValue());
+            System.out.println("VECINO" + neighbor.getValue());
             if (!neighbor.isVisited()) {
 
-                if (vertex.getState().checkConnection(neighbor.getState(),vertex.getPosX(),vertex.getPosY(),neighbor.getPosX(),neighbor.getPosY())) {
+                if (vertex.getState().checkConnection(neighbor.getState(), vertex.getPosX(), vertex.getPosY(), neighbor.getPosX(), neighbor.getPosY())) {
                     depthFirstSearchRecursive(neighbor);
                 } else {
                     return false;
@@ -318,6 +317,7 @@ public class ListGraph<T> implements IGraph<T> {
         return ans.toString();
 
     }
+
 
     public ArrayList<ListVertex<T>> getList() {
         return list;

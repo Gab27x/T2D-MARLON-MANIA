@@ -31,7 +31,7 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
 
     public MatrixGraph(boolean isDirected, int vertices) {
         this.isDirected = isDirected;
-        this.vertices = new MatrixVertex[vertices];
+        this.vertices = new MatrixVertex [vertices];
         this.matrix = new int[vertices][vertices];
     }
 
@@ -39,13 +39,13 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
         return vertices.length;
     }
 
-    public void addVertex(T value) throws VertexAlreadyAddedException {
+    public void addVertex(T value, int posX , int posY) throws VertexAlreadyAddedException {
         boolean stop = false;
         if (searchVertexIndex(value) != -1)
             throw new VertexAlreadyAddedException("There is a vertex with the same value");
         for (int i = 0; i < vertices.length && !stop; i++) {
             if (vertices[i] == null) {
-                vertices[i] = new MatrixVertex<>(value);
+                vertices[i] = new MatrixVertex<>(value,  posX,  posY);
                 vertices[i].setState(State.EMPTY);
                 stop = true;
             }
@@ -131,7 +131,20 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
 
     }
 
-/*    @Override*/
+    public int getEdgeWeight(MatrixVertex<T> startVertex, MatrixVertex<T> endVertex) {
+        int startIndex = searchVertexIndex(startVertex.getValue());
+        int endIndex = searchVertexIndex(endVertex.getValue());
+
+        if (startIndex != -1 && endIndex != -1) {
+            return matrix[startIndex][endIndex];
+        } else {
+            // Manejar el caso donde uno de los vértices no se encuentra
+            return 0; // O podrías lanzar una excepción, dependiendo de tus necesidades
+        }
+    }
+
+
+    /*    @Override*/
     public boolean searchEdge(T start, T end, String id) throws VertexNotFoundException {
         int vertex1 = searchVertexIndex(start);
         int vertex2 = searchVertexIndex(end);
@@ -245,7 +258,6 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
             MatrixVertex<T> vertex = stack.pop();
             for (int i = 0; i < vertices.length; i++) {
                 int currentIndex = searchVertexIndex(vertex.getValue());
-
                 if (!vertices[i].isVisited() && matrix[currentIndex][i] != 0) {
                     stack.push(vertices[i]);
                     vertices[i].setVisited(true);
@@ -307,6 +319,32 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
         }
 
         return true;
+    }
+
+    public ArrayList<Integer> getEdgeWeightsList(ArrayList<MatrixVertex<T>> vertexList) {
+        ArrayList<Integer> edgeWeights = new ArrayList<>();
+
+        for (int i = 0; i < vertexList.size() - 1; i++) {
+            MatrixVertex<T> currentVertex = vertexList.get(i);
+            MatrixVertex<T> nextVertex = vertexList.get(i + 1);
+
+            int currentVertexIndex = searchVertexIndex(currentVertex.getValue());
+            int nextVertexIndex = searchVertexIndex(nextVertex.getValue());
+
+            if (currentVertexIndex != -1 && nextVertexIndex != -1) {
+                int weight = matrix[currentVertexIndex][nextVertexIndex];
+                edgeWeights.add(weight);
+            } else {
+
+                System.out.println("One of the vertices is not found in the graph.");
+            }
+        }
+
+        return edgeWeights;
+    }
+
+    public int subGraphDistance(ArrayList<Integer> subEdges){
+        return subEdges.stream().mapToInt(Integer::valueOf).sum();// no borrar, es un santo grial; SI LO BORRAS TODO SE CAE; POSDATA, EL QUE LO BORRE MERECE EL PURGATORIO
     }
 /*
     public void print() {
