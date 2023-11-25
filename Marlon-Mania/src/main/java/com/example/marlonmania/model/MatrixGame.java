@@ -58,6 +58,32 @@ public class MatrixGame extends Game2 {
     public void addPipe(String vertex, State newState) {
         // FIXME LUIS DEBES TERMINAR ESTO YA QUE TUS METODOS DEPENDE DE ESTE
         // FIXME CUANDO EL JUGADOR GANE TOCA AGREGAR SU PUNTAJE CON CONTROLLERPLAYERS.GETINSTANCE Y DEVOLVERLO AL MENU PARA QUE PUEDA ACCEDER AL RANKING
+        if(!vertex.equals(getF()) && !vertex.equals(getD())){
+
+            matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(vertex)).setState(newState);
+            System.out.println("Funciona: " + vertex);
+
+            MatrixVertex<String> temporalVertex =  matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(vertex));
+            MatrixVertex<String> D =  matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(getD()));
+            MatrixVertex<String> F =  matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(getF()));
+
+            int posY= temporalVertex.getPosY();
+            int posX= temporalVertex.getPosX();
+
+            if( !path.contains(vertex) && (posY+1==D.getPosY())  || (posY-1==D.getPosY()) || (posX+1==D.getPosX()) || (posX-1==D.getPosX())){
+                path.add(vertex);
+                setNumOfPipes(getNumOfPipes() + 1);
+                path.add(getD());
+                simulate();
+            } else if (!path.contains(vertex)) {
+                System.out.println("CONDICION INICIAL"+path.size());
+                path.add(vertex);
+                setNumOfPipes(getNumOfPipes() + 1);
+            }
+
+            path.removeIf( v-> v.equals(vertex) && matrixGraph.obtainVertex(matrixGraph.searchVertexIndex(vertex)).getState().equals(State.EMPTY));
+
+        }
 
 
 
@@ -73,8 +99,6 @@ public class MatrixGame extends Game2 {
                 try {
                     System.out.println(x +","+ y);
                     matrixGraph.addVertex(x + "," + y, x, y);
-
-
 
                 } catch (VertexAlreadyAddedException e) {
                     System.err.println("Error al agregar vértice: " + e.getMessage());
@@ -110,30 +134,64 @@ public class MatrixGame extends Game2 {
     public void simulate() {
         // FIXME LEVEL 0 ES FACIL Y VA CON DFS - LEVEL 1 ES HARD Y VA CON EL OTRO
 
-        ArrayList<MatrixVertex<String>> userPathVertex= new ArrayList<>();
-        for (String temp: path){
-            int tempInd=matrixGraph.searchVertexIndex(temp);
-            userPathVertex.add( matrixGraph.obtainVertex(tempInd));
-        }
-        try {
-            int shortPath= matrixGraph.dijkstra(getF(), getD());
-            ArrayList<Integer> userPathVertexEdges= matrixGraph.getEdgeWeightsList(userPathVertex);
-            int userShortPath= matrixGraph.subGraphDistance(userPathVertexEdges);
+        //el simulate esta o no completo
+        if (!path.get(path.size()-1).equals(getD())){
+            //resetear el simulate si esta mal
+            System.out.println("FALSE");
+            path= new ArrayList<>();
+            this.path.add(getF());
+            setNumOfPipes(0);
+            System.out.println("new path");
 
-            if (shortPath!=userShortPath){
-                System.out.println("NO GANASTE");
-                System.out.println("DIFERENCIA"+Math.abs(shortPath-userShortPath));
-            }else  {
-                System.out.println("GANASTE");
-                MainApplication.openWindow("menu.fxml");
+        }else{
+            if(getLevel()==1){
+                ArrayList<MatrixVertex<String>> userPathVertex= new ArrayList<>();
+                for (String temp: path){
+                    int tempInd=matrixGraph.searchVertexIndex(temp);
+                    userPathVertex.add( matrixGraph.obtainVertex(tempInd));
+                }
+                try {
+                    int shortPath= matrixGraph.dijkstra(getF(), getD());
+                    System.out.println("DIKSTRAJ "+shortPath);
+                    ArrayList<Integer> userPathVertexEdges= matrixGraph.getEdgeWeightsList(userPathVertex);
+                    int userShortPath= matrixGraph.subGraphDistance(userPathVertexEdges);
+                    System.out.println("USER PATH"+ userShortPath);
+
+                    if (shortPath!=userShortPath){
+                        System.out.println("NO GANASTE");
+                        System.out.println("DIFERENCIA"+Math.abs(shortPath-userShortPath));
+                    }else  {
+                        System.out.println("GANASTE");
+                        MainApplication.openWindow("menu.fxml");
+                    }
+                } catch (VertexNotFoundException | VertexNotAchievableException e) {
+                    throw new RuntimeException(e);
+                }
+                path= new ArrayList<>();
+                path.add(getF());
+                setNumOfPipes(0);
+            }else{
+
+                try {
+                    if(this.matrixGraph.DFSVALIDATOR(path)){
+                        System.out.println("VALIDADO GANASTE");
+                        MainApplication.openWindow("menu.fxml");
+                    }else {
+                        System.out.println("PERDISTE");
+                    }
+                } catch (VertexNotFoundException | VertexNotAchievableException e) {
+                    throw new RuntimeException(e);
+                }
+
+
             }
-        } catch (VertexNotFoundException | VertexNotAchievableException e) {
-            throw new RuntimeException(e);
+
         }
-        path= new ArrayList<>();
-        path.add(getF());
-        setNumOfPipes(0);
+
+
     }
+
+
 
     public MatrixGraph<String> getMatrixGraph() {
         return matrixGraph;
