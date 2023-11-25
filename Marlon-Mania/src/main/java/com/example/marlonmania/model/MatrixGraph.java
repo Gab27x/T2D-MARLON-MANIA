@@ -31,7 +31,7 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
 
     public MatrixGraph(boolean isDirected, int vertices) {
         this.isDirected = isDirected;
-        this.vertices = new MatrixVertex[vertices];
+        this.vertices = new MatrixVertex [vertices];
         this.matrix = new int[vertices][vertices];
     }
 
@@ -39,13 +39,13 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
         return vertices.length;
     }
 
-    public void addVertex(T value) throws VertexAlreadyAddedException {
+    public void addVertex(T value, int posX , int posY) throws VertexAlreadyAddedException {
         boolean stop = false;
         if (searchVertexIndex(value) != -1)
             throw new VertexAlreadyAddedException("There is a vertex with the same value");
         for (int i = 0; i < vertices.length && !stop; i++) {
             if (vertices[i] == null) {
-                vertices[i] = new MatrixVertex<>(value);
+                vertices[i] = new MatrixVertex<>(value,  posX,  posY);
                 vertices[i].setState(State.EMPTY);
                 stop = true;
             }
@@ -131,7 +131,20 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
 
     }
 
-/*    @Override*/
+    public int getEdgeWeight(MatrixVertex<T> startVertex, MatrixVertex<T> endVertex) {
+        int startIndex = searchVertexIndex(startVertex.getValue());
+        int endIndex = searchVertexIndex(endVertex.getValue());
+
+        if (startIndex != -1 && endIndex != -1) {
+            return matrix[startIndex][endIndex];
+        } else {
+            // Manejar el caso donde uno de los vértices no se encuentra
+            return 0; // O podrías lanzar una excepción, dependiendo de tus necesidades
+        }
+    }
+
+
+    /*    @Override*/
     public boolean searchEdge(T start, T end, String id) throws VertexNotFoundException {
         int vertex1 = searchVertexIndex(start);
         int vertex2 = searchVertexIndex(end);

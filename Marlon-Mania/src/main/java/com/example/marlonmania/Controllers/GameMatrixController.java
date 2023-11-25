@@ -22,10 +22,16 @@ import java.util.ResourceBundle;
 public class GameMatrixController implements Initializable {
 
     private int level;
-    private int difficulty;
+
+        // FIXME CUANDO EL JUGADOR GANE TOCA AGREGAR SU PUNTAJE CON CONTROLLERPLAYERS.GETINSTANCE Y DEVOLVERLO AL MENU PARA QUE PUEDA ACCEDER AL RANKING
+
+
 
     @FXML
     private Label nickNameLabel;
+
+    @FXML
+    private Label matrix;
 
     @FXML
     private Label title;
@@ -57,10 +63,10 @@ public class GameMatrixController implements Initializable {
     private RadioButton circular;
     @FXML
     private RadioButton empty;
-    @FXML
-    private RadioButton matrixButton;
-    private Game newGame;
+
     private MatrixGame matrixGraphGame;
+    final int gridSpacing = 55;
+    final int gridRows = 8;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -97,10 +103,20 @@ public class GameMatrixController implements Initializable {
         circular.setSelected(false);
     }
 
+
     @FXML
     public void onClickSimulate() {
         matrixGraphGame.simulate();
     }
+
+
+    public void setNickName(String nickName){
+        matrixGraphGame.setNickName(nickName);
+
+    }
+
+
+
 
     private void displayGraph() {
         MatrixVertex<String>[] vertices = matrixGraphGame.getMatrixGraph().getVertices();
@@ -110,11 +126,10 @@ public class GameMatrixController implements Initializable {
             return;
         }
 
-        int gridSpacing = 55;
-        int gridRows = 8;
+
 
         for (MatrixVertex<String> vertex : vertices) {
-            if (vertex != null) {  // Verificar si el vértice no es nulo
+            if (vertex != null) {
                 int row = vertex.getPosY();
                 int col = vertex.getPosX();
 
@@ -125,54 +140,111 @@ public class GameMatrixController implements Initializable {
                 circle.setFill(Color.LIGHTBLUE);
                 graphGroup.getChildren().add(circle);
 
-                String state = "nop";
-                switch (vertex.getState()) {
-                    case EMPTY -> state = "X";
-                    case VERTICAL -> state = "||";
-                    case HORIZONTAL -> state = "=";
-                    case END -> state = "D";
-                    case START -> state = "F";
-                    case CONNECTOR -> state = "0";
-                }
+                String state = switch (vertex.getState()) {
+                    case EMPTY -> "X";
+                    case VERTICAL -> "||";
+                    case HORIZONTAL -> "=";
+                    case END -> "D";
+                    case START -> "F";
+                    case CONNECTOR -> "0";
+                };
 
                 Text text = new Text(state);
-                if (!text.getText().equals("X")) {
+                if (!"X".equals(state)) {
                     text.setFont(Font.font("", FontWeight.BOLD, 12));
                 }
                 text.setX(posX - text.getLayoutBounds().getWidth() / 2);
                 text.setY(posY + text.getLayoutBounds().getHeight() / 4);
                 graphGroup.getChildren().add(text);
 
-                for (int i = 0; i < vertices.length; i++) {
-                    if (vertices[i] != null && matrixGraphGame.getMatrixGraph().getMatrix()[vertex.getPosX()][i] != 0) {
-                        MatrixVertex<String> neighbor = vertices[i];
 
-                        double endX = neighbor.getPosX() * gridSpacing;
-                        double endY = (gridRows - 1 - neighbor.getPosY()) * gridSpacing;
+                int index;
+                for(int x = 0 ;x < 8; x++){
 
-                        double dirX = endX - posX;
-                        double dirY = endY - posY;
-                        double length = Math.sqrt(dirX * dirX + dirY * dirY);
+                    for (int y = 0 ; y < 7; y++){
 
-                        double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
-                        double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
-                        double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
-                        double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+                        index =  matrixGraphGame.getMatrixGraph().searchVertexIndex(x + "," + y);
+                        MatrixVertex<String> v = matrixGraphGame.getMatrixGraph().obtainVertex(index);
 
-                        Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
-                        line.setStrokeWidth(3.0);
+                        index =  matrixGraphGame.getMatrixGraph().searchVertexIndex(x + "," + (y+1));
 
-                        double textX = ((startXAdjusted + endXAdjusted) / 2) + 2;
-                        double textY = ((startYAdjusted + endYAdjusted) / 2) - 2;
+                        MatrixVertex<String> end =  matrixGraphGame.getMatrixGraph().obtainVertex(index);
 
-                        Text weightText = new Text(textX, textY, String.valueOf(matrixGraphGame.getMatrixGraph().getMatrix()[vertex.getPosX()][i]));
-                        weightText.setFill(Color.BLACK);
-                        graphGroup.getChildren().addAll(line, weightText);
+                        addLine(v,end);
+
+
+
+
                     }
                 }
+
+
+                for(int y = 0 ;y < 8; y++){
+
+                    for (int x = 0 ; x < 7; x++){
+
+                        index =  matrixGraphGame.getMatrixGraph().searchVertexIndex(x + "," + y);
+                        MatrixVertex<String> v = matrixGraphGame.getMatrixGraph().obtainVertex(index);
+
+                        index =  matrixGraphGame.getMatrixGraph().searchVertexIndex((x+1) + "," + y);
+
+                        MatrixVertex<String> end =  matrixGraphGame.getMatrixGraph().obtainVertex(index);
+
+                        addLine(v,end);
+
+
+
+
+                    }
+                }
+
             }
         }
     }
+
+
+    private void addLine(MatrixVertex<String> vertex, MatrixVertex<String> end) {
+        int vertexRow = vertex.getPosY();
+        int vertexCol = vertex.getPosX();
+
+        int endRow = end.getPosY();
+        int endCol = end.getPosX();
+
+        double vertexX = vertexCol * gridSpacing;
+        double vertexY = (gridRows - 1 - vertexRow) * gridSpacing;
+
+        double endX = endCol * gridSpacing;
+        double endY = (gridRows - 1 - endRow) * gridSpacing;
+
+        double dirX = endX - vertexX;
+        double dirY = endY - vertexY;
+        double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+        double startXAdjusted = vertexX + (dirX / length) * vertex.getRadius();
+        double startYAdjusted = vertexY + (dirY / length) * vertex.getRadius();
+        double endXAdjusted = endX - (dirX / length) * end.getRadius();
+        double endYAdjusted = endY - (dirY / length) * end.getRadius();
+
+        Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+        line.setStrokeWidth(3.0);
+
+        double textX = ((startXAdjusted + endXAdjusted) / 2) + 2;
+        double textY = ((startYAdjusted + endYAdjusted) / 2) - 2;
+
+        // Usar el nuevo método getEdgeWeight
+        int weightValue = matrixGraphGame.getMatrixGraph().getEdgeWeight(vertex, end);
+
+        Text weightText = new Text(textX, textY, String.valueOf(weightValue));
+        weightText.setFill(Color.BLACK);
+
+        if(level == 1){
+
+            graphGroup.getChildren().addAll(line, weightText);
+        }else{
+            graphGroup.getChildren().add(line);
+        }
+    }
+
 
     public void setNickNameLabel(String nickName) {
         nickNameLabel.setText("Player: " + nickName);
@@ -196,9 +268,17 @@ public class GameMatrixController implements Initializable {
             enterY.setFont(myFont);
             selectPipe.setFont(myFont);
             empty.setFont(myFont);
+            matrix.setFont(myFont);
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
         }
+    }
+    public void setLevel(int level){
+        this.level = level;
+        System.out.println(level);
+        graphGroup.getChildren().clear();
+        displayGraph();
+
     }
 
     @FXML
