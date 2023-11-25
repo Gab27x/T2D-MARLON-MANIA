@@ -78,7 +78,7 @@ public class MatrixGraphTest {
     @Test
     public void testAddVertex() throws VertexAlreadyAddedException {
         graph.addVertex("A");
-        assertTrue(graph.searchVertexIndex("A") != -1);
+        assertNotEquals(graph.searchVertexIndex("A") ,-1);
     }
 
     @Test(expected = VertexAlreadyAddedException.class)
@@ -120,7 +120,7 @@ public class MatrixGraphTest {
     public void testDeleteVertex() throws VertexNotFoundException, VertexAlreadyAddedException {
         graph.addVertex("A");
         graph.deleteVertex("A");
-        assertTrue(graph.searchVertexIndex("A") == -1);
+        assertEquals(graph.searchVertexIndex("A") ,-1);
     }
 
     @Test(expected = VertexNotFoundException.class)
@@ -143,13 +143,6 @@ public class MatrixGraphTest {
         graph.addVertex("B");
         graph.deleteEdge("A", "B", "edge1");
     }
-
-/*    @Test
-    public void testDijkstra() throws VertexNotAchievableException, VertexNotFoundException {
-        setUpExistingNodes();
-        Map<String, String> shortestPath = graph.dijkstra("F", "H");
-        assertEquals("F", shortestPath.get("H"));
-    }*/
 
     @Test
     public void testDijkstraWithMissingVertex() throws VertexNotFoundException, VertexNotAchievableException {

@@ -269,31 +269,38 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
     //DFS para asegurarme que el camino entre los grafos es correcto
 
 /*    @Override*/
-    public boolean DFSVALIDATOR(T[] vertexes) throws VertexNotFoundException, VertexNotAchievableException {
-        ArrayList<Integer> indexes = new ArrayList<>();
-        ArrayList<MatrixVertex<T>> temps = new ArrayList<>();
-        ArrayList<MatrixVertex<T>> sub_graph = new ArrayList<>();
-        for (T vertex : vertexes) {
-            indexes.add(searchVertexIndex(vertex));
-        }
-
-        for (int i = 0; i < vertices.length-1; i++) {
-            if (indexes.get(i) == -1) {
-                throw new VertexNotFoundException("Start vertex not found.");
-            }
-
-            temps.add(vertices[indexes.get(i)]);
-        }
-
-        sub_graph.add(temps.get(0).clone());
-        sub_graph.get(0).setVisited(false);
-
-        for (int i = 1; i < temps.size(); i++) {
-            sub_graph.add(temps.get(i).clone());
-            sub_graph.get(i).setVisited(false);
-        }
-        return dfsSimplified(sub_graph);
+/*    @Override*/
+public boolean DFSVALIDATOR(ArrayList<T> vertexes) throws VertexNotFoundException, VertexNotAchievableException {
+    if (vertexes.size() < 2) {
+        throw new IllegalArgumentException("Subgraph must contain at least two vertices.");
     }
+
+    ArrayList<Integer> indexes = new ArrayList<>();
+    ArrayList<MatrixVertex<T>> temps = new ArrayList<>();
+    ArrayList<MatrixVertex<T>> sub_graph = new ArrayList<>();
+
+    for (T vertex : vertexes) {
+        indexes.add(searchVertexIndex(vertex));
+    }
+
+    for (Integer index : indexes) {
+        if (index == -1) {
+            throw new VertexNotFoundException("Start vertex not found.");
+        }
+        temps.add(vertices[index]);
+    }
+
+    sub_graph.add(temps.get(0).clone());
+    sub_graph.get(0).setVisited(false);
+
+    for (int i = 1; i < temps.size(); i++) {
+        sub_graph.add(temps.get(i).clone());
+        sub_graph.get(i).setVisited(false);
+    }
+
+    return dfsSimplified(sub_graph);
+}
+
 
 
     private boolean dfsSimplified(ArrayList<MatrixVertex<T>> subGraph) {
@@ -335,7 +342,6 @@ public class MatrixGraph<T> /*implements IGraph<T>*/ {
                 int weight = matrix[currentVertexIndex][nextVertexIndex];
                 edgeWeights.add(weight);
             } else {
-
                 System.out.println("One of the vertices is not found in the graph.");
             }
         }
