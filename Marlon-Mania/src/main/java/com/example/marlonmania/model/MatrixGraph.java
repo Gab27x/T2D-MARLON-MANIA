@@ -10,24 +10,10 @@ import java.util.Stack;
 
 
 public class MatrixGraph<T> /*implements IGraph<T>*/ {
-    public int[][] getMatrix() {
-        return matrix;
-    }
-
-    public boolean isDirected() {
-        return isDirected;
-    }
-
-    public int[][] getDIRS() {
-        return DIRS;
-    }
-
 
     private final MatrixVertex<T>[] vertices;
     private final int[][] matrix;
     private final boolean isDirected;
-    private final int[][] DIRS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-
 
     public MatrixGraph(boolean isDirected, int vertices) {
         this.isDirected = isDirected;
