@@ -13,11 +13,13 @@ public class MatrixVertex<T>  extends Circle implements Cloneable {
 
     private MatrixVertex<T> father;
 
-    public MatrixVertex(T Value) {
+    public MatrixVertex(T Value, int posX , int posY ) {
         this.Value = Value;
         this.state = State.EMPTY;
         this.setRadius(15.0); // Establece el radio predeterminado
         this.setFill(Color.LIGHTBLUE);
+        this.posY = posY;
+        this.posX = posX;
     }
 
     public T getValue() {

@@ -13,8 +13,8 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        openWindow("menu.fxml");
-/*        openGameWindow("game-list.fxml","Gabriel");*/
+        openWindow("new-Game-Setup.fxml");
+/*        openGameWindow("game-matrix.fxml","Gabriel",0);*/
     }
 
     public static void openWindow(String fxml){
@@ -35,7 +35,8 @@ public class MainApplication extends Application {
 
     }
 
-    public static void openGameWindow(String fxml, String nickName){
+    public static void openGameWindow(String fxml, String nickName,int level){
+        System.out.println("open game" + level);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxml));
             Parent root = fxmlLoader.load();
@@ -44,12 +45,22 @@ public class MainApplication extends Application {
             stage.setTitle("MARLON-MANIA");
             stage.setScene(scene);
 
+
+
             if(fxmlLoader.getController() instanceof GameListController){
                 GameListController controller = fxmlLoader.getController();
+                controller.setLevel(level);
                 controller.setNickNameLabel(nickName);
+
+
+
             } else if (fxmlLoader.getController() instanceof GameMatrixController) {
                 GameMatrixController controller = fxmlLoader.getController();
+                controller.setLevel(level);
                 controller.setNickNameLabel(nickName);
+
+
+
             }
 
 
