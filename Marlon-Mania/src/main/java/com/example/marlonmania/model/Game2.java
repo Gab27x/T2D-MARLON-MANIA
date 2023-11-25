@@ -10,9 +10,20 @@ public abstract class Game2 {
 
     private String d;
 
+    private int level;
+
     public Game2(String nickName){
         this.nickName = nickName;
         this.numOfPipes = 0;
+        this.level = 1;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public abstract void init();

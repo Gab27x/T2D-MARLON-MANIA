@@ -4,8 +4,10 @@ import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ListGame extends Game2 {
+
 
     private ArrayList<String> path;
     private ListGraph<String> listGraph;
@@ -19,6 +21,19 @@ public class ListGame extends Game2 {
         init();
 
 
+
+    }
+
+    public ArrayList<String> getPath() {
+        return path;
+    }
+
+    public void setPath(ArrayList<String> path) {
+        this.path = path;
+    }
+
+    public void setListGraph(ListGraph<String> listGraph) {
+        this.listGraph = listGraph;
     }
 
     @Override
@@ -47,6 +62,8 @@ public class ListGame extends Game2 {
 
     @Override
     public void addPipe(String vertex, State newState) {
+        System.out.println(this.getNickName());
+        System.out.println(this.getLevel());
         if(!vertex.equals(getF()) && !vertex.equals(getD())){
 
             listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).setState(newState);
@@ -71,13 +88,22 @@ public class ListGame extends Game2 {
             }
 
             path.removeIf( v-> v.equals(vertex) && listGraph.obtainVertex(listGraph.searchVertexIndex(vertex)).getState().equals(State.EMPTY));
-
+            printPath();
         }
 
     }
 
+
+    void printPath(){
+        for(String vertex : path){
+            System.out.println(vertex + " ");
+        }
+    }
+
     @Override
     public void initGrafo(){
+
+
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 try {
@@ -90,18 +116,21 @@ public class ListGame extends Game2 {
                 }
 
                 if (y > 0) {
+                    int weight = ThreadLocalRandom.current().nextInt(2,10);
                     try {
                         String edgeId = String.format("%s -> %s", x + "," + (y - 1), x + "," + y);
-                        listGraph.addEdge(x + "," + (y - 1), x + "," + y, edgeId, 1);
+                        listGraph.addEdge(x + "," + (y - 1), x + "," + y, edgeId, weight);
                     } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
                         System.err.println("Error al agregar arista: " + e.getMessage());
                     }
                 }
 
                 if (x > 0) {
+
+                    int weight = ThreadLocalRandom.current().nextInt(2,6);
                     try {
                         String edgeId = String.format("%s -> %s", (x - 1) + "," + y, x + "," + y);
-                        listGraph.addEdge((x - 1) + "," + y, x + "," + y, edgeId, 1);
+                        listGraph.addEdge((x - 1) + "," + y, x + "," + y, edgeId, weight);
                     } catch (LoopsNotAllowedException | MultipleEdgesNotAllowedException | VertexNotFoundException e) {
                         System.err.println("Error al agregar arista: " + e.getMessage());
                     }
@@ -118,12 +147,15 @@ public class ListGame extends Game2 {
 
     @Override
     public void simulate()  {
+
         if (!path.get(path.size()-1).equals(getD())){
             //resetear el simulate si esta mal
             System.out.println("FALSE");
             path= new ArrayList<>();
             this.path.add(getF());
             setNumOfPipes(0);
+            System.out.println("new path");
+            printPath();
 
         }else{
             System.out.println("path " + path.size() );
@@ -133,11 +165,26 @@ public class ListGame extends Game2 {
             }
 
             try {
-                if(this.listGraph.DFSVALIDATOR(path)){
-                    System.out.println("VALIDADO");
-                    MainApplication.openGameWindow("menu.fxml", getNickName());
+                if(getLevel() == 0){
+                    if(this.listGraph.DFSVALIDATOR(path)){
+                        System.out.println("VALIDADO");
+                        MainApplication.openWindow("menu.fxml");
+
+                    }
+
+                }else {
+                    // FIXME AQUI VA EL DIJSKTRA
+                 /*   if(this.listGraph.dijkstra(path)){
+                        System.out.println("VALIDADO");
+                        MainApplication.openWindow("menu.fxml");
+
+                    }
+                    */
+
 
                 }
+
+
 
             } catch (VertexNotFoundException | VertexNotAchievableException e) {
                 throw new RuntimeException(e);

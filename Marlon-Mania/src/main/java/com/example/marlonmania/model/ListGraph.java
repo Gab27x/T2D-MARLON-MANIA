@@ -324,6 +324,9 @@ public class ListGraph<T> implements IGraph<T> {
 
     }
 
+
+
+
     public ArrayList<ListVertex<T>> getList() {
         return list;
     }

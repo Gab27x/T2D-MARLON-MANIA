@@ -52,7 +52,7 @@ public class MatrixGame extends Game2 {
                 System.out.println("DIFERENCIA"+Math.abs(shortPath-userShortPath));
             }else  {
                 System.out.println("GANASTE");
-                MainApplication.openGameWindow("menu.fxml", getNickName());
+                MainApplication.openWindow("menu.fxml");
             }
         } catch (VertexNotFoundException | VertexNotAchievableException e) {
             throw new RuntimeException(e);

@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class GameMatrixController implements Initializable {
 
     private int level;
-    private int difficulty;
+
 
     @FXML
     private Label nickNameLabel;
@@ -57,9 +57,7 @@ public class GameMatrixController implements Initializable {
     private RadioButton circular;
     @FXML
     private RadioButton empty;
-    @FXML
-    private RadioButton matrixButton;
-    private Game newGame;
+
     private MatrixGame matrixGraphGame;
 
     @Override
@@ -96,6 +94,7 @@ public class GameMatrixController implements Initializable {
         vertical.setSelected(false);
         circular.setSelected(false);
     }
+
 
     @FXML
     public void onClickSimulate() {
@@ -199,6 +198,13 @@ public class GameMatrixController implements Initializable {
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
         }
+    }
+    public void setLevel(int level){
+        this.level = level;
+        System.out.println(level);
+        graphGroup.getChildren().clear();
+        displayGraph();
+
     }
 
     @FXML
