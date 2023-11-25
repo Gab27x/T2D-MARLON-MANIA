@@ -1,6 +1,6 @@
 package com.example.marlonmania.model;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String nickName;
     private double score;
 
@@ -29,5 +29,11 @@ public class Player {
     public String toString() {
         return "NickName: " + nickName
                 + "\nScore: " + score;
+    }
+
+    @Override
+    public int compareTo(Player otherPlayer) {
+        // Sort in descending order (from highest to lowest score)
+        return Double.compare(otherPlayer.getScore(), this.score);
     }
 }

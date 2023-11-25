@@ -1,5 +1,6 @@
 package com.example.marlonmania.Controllers;
 
+import com.example.marlonmania.MainApplication;
 import com.example.marlonmania.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,21 +15,20 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable {
-
-
-    private int level;
-
-    private int difficulty;
+public class GameListController implements Initializable {
 
     @FXML
     private Label nickNameLabel;
+
+    @FXML
+    private Label implementation;
 
     @FXML
     private Label title;
@@ -60,19 +60,24 @@ public class GameController implements Initializable {
     private RadioButton circular;
     @FXML
     private RadioButton empty;
-    @FXML
-    private RadioButton matrixButton;
-    private Game newGame;
+
+    private int level ;
+
+
+    private ListGame newListGame;
 
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.newGame = new Game(nickNameLabel.getText());
+
+        this.newListGame = new ListGame(nickNameLabel.getText());
 
         displayGraph();
+
         setFonts();
+
     }
 
 
@@ -106,11 +111,32 @@ public class GameController implements Initializable {
 
     @FXML
     public void onClickSimulate(){
-        newGame.simulate();
+        int wins = ControllerPlayers.getInstance().getPlayers().size();
+
+        newListGame.simulate();
+
+        if(wins != ControllerPlayers.getInstance().getPlayers().size()){
+            MainApplication.closeWindow((Stage)graphGroup.getScene().getWindow());
+
+        }
+    }
+
+    public void setLevel(int level){
+        this.level = level;
+        newListGame.setLevel(level);
+        System.out.println(level);
+
+
+        graphGroup.getChildren().clear();
+        displayGraph();
+
+
     }
 
     private void displayGraph() {
-    ArrayList<ListVertex<String>> vertices = newGame.getListGraph();
+    ArrayList<ListVertex<String>> vertices = newListGame.getListGraph();
+
+    System.out.println("display" + this.level);
 
     if (vertices.isEmpty()) {
         System.out.println("La lista de nodos está vacía.");
@@ -155,39 +181,79 @@ public class GameController implements Initializable {
         graphGroup.getChildren().add(text);
 
         // Dibujar líneas desde este nodo a sus nodos adyacentes
+        switch (this.level){
 
-        for (ListEdge<String> edge : vertex.getEdges()) {
-            int endRow = edge.getRightVertex().getPosY();
-            int endCol = edge.getRightVertex().getPosX();
+            case 0->{
 
-            double endX = endCol * gridSpacing;
-            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+                for (ListEdge<String> edge : vertex.getEdges()) {
+                    int endRow = edge.getRightVertex().getPosY();
+                    int endCol = edge.getRightVertex().getPosX();
 
-            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
-            double dirX = endX - posX;
-            double dirY = endY - posY;
-            double length = Math.sqrt(dirX * dirX + dirY * dirY);
+                    double endX = endCol * gridSpacing;
+                    double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
 
-            // Calcular los puntos de inicio y fin en el borde del círculo
-            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
-            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
-            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
-            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+                    // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+                    double dirX = endX - posX;
+                    double dirY = endY - posY;
+                    double length = Math.sqrt(dirX * dirX + dirY * dirY);
 
-            // Crear la línea
-            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
-            line.setStrokeWidth(3.0);
+                    // Calcular los puntos de inicio y fin en el borde del círculo
+                    double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+                    double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+                    double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+                    double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
 
-            // Crear el Text con el valor del peso y ajustar su posición
-            double textX = ((startXAdjusted + endXAdjusted) / 2) + 2 ;
-            double textY = ((startYAdjusted + endYAdjusted) / 2) - 2 ;
+                    Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+                    line.setStrokeWidth(3.0);
+                    graphGroup.getChildren().add(line);
 
-            Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
-            weightText.setFill(Color.BLACK); // Color del texto
 
-            // Agregar la línea y el Text al graphGroup
-            graphGroup.getChildren().addAll(line, weightText);
+                }
+            }
+
+            case 1->{
+                for (ListEdge<String> edge : vertex.getEdges()) {
+                int endRow = edge.getRightVertex().getPosY();
+                int endCol = edge.getRightVertex().getPosX();
+
+                double endX = endCol * gridSpacing;
+                double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
+
+                // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
+                double dirX = endX - posX;
+                double dirY = endY - posY;
+                double length = Math.sqrt(dirX * dirX + dirY * dirY);
+
+                // Calcular los puntos de inicio y fin en el borde del círculo
+                double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
+                double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
+                double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
+                double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
+
+                // Crear la línea
+                Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
+                line.setStrokeWidth(3.0);
+
+                // Crear el Text con el valor del peso y ajustar su posición
+                double textX = ((startXAdjusted + endXAdjusted) / 2) + 2 ;
+                double textY = ((startYAdjusted + endYAdjusted) / 2) - 2 ;
+
+                Text weightText = new Text(textX, textY, String.valueOf(edge.getWeight()));
+                weightText.setFill(Color.BLACK); // Color del texto
+
+                // Agregar la línea y el Text al graphGroup
+                graphGroup.getChildren().addAll(line, weightText);
+                }
+
+
+
+            }
+
+
+
         }
+
+
 
 
 /*
@@ -229,34 +295,14 @@ public class GameController implements Initializable {
         */
 
 
- /*       for (ListEdge<String> edge : vertex.getEdges()) {
-            int endRow = edge.getRightVertex().getPosY();
-            int endCol = edge.getRightVertex().getPosX();
 
-            double endX = endCol * gridSpacing;
-            double endY = (gridRows - 1 - endRow) * gridSpacing; // Invertir las coordenadas y
-
-            // Calcular la dirección y la distancia desde el centro del círculo hasta el borde
-            double dirX = endX - posX;
-            double dirY = endY - posY;
-            double length = Math.sqrt(dirX * dirX + dirY * dirY);
-
-            // Calcular los puntos de inicio y fin en el borde del círculo
-            double startXAdjusted = posX + (dirX / length) * vertex.getRadius();
-            double startYAdjusted = posY + (dirY / length) * vertex.getRadius();
-            double endXAdjusted = endX - (dirX / length) * vertex.getRadius();
-            double endYAdjusted = endY - (dirY / length) * vertex.getRadius();
-
-            Line line = new Line(startXAdjusted, startYAdjusted, endXAdjusted, endYAdjusted);
-            line.setStrokeWidth(3.0);
-            graphGroup.getChildren().add(line);
-
-            }*/
         }
     }
 
+
     public void setNickNameLabel(String nickName){
         nickNameLabel.setText("Player: "+ nickName);
+        newListGame.setNickName(nickName);
 
     }
     private void setFonts() {
@@ -281,6 +327,7 @@ public class GameController implements Initializable {
             enterY.setFont(myFont);
             selectPipe.setFont(myFont);
             empty.setFont(myFont);
+            implementation.setFont(myFont);
 
         } else {
             System.err.println("No se pudo cargar el InputStream de la fuente");
@@ -297,16 +344,20 @@ public class GameController implements Initializable {
             String vertex = choiceBoxX.getValue() + "," + choiceBoxY.getValue();
 
             if(circular.isSelected()){
-                newGame.addPipe(vertex, State.CONNECTOR);
+                /*newGame.addPipe(vertex, State.CONNECTOR);*/
+                newListGame.addPipe(vertex, State.CONNECTOR);
 
             } else if (vertical.isSelected()) {
-                newGame.addPipe(vertex, State.VERTICAL);
+                /*newGame.addPipe(vertex, State.VERTICAL);*/
+                newListGame.addPipe(vertex, State.VERTICAL);
 
             } else if (horizontal.isSelected()) {
-                newGame.addPipe(vertex, State.HORIZONTAL);
+               /* newGame.addPipe(vertex, State.HORIZONTAL);*/
+                newListGame.addPipe(vertex, State.HORIZONTAL);
 
             } else if (empty.isSelected()) {
-                newGame.addPipe(vertex, State.EMPTY);
+                /*newGame.addPipe(vertex, State.EMPTY);*/
+                newListGame.addPipe(vertex, State.EMPTY);
             }
 
             graphGroup.getChildren().clear();
@@ -314,7 +365,7 @@ public class GameController implements Initializable {
 
         }
         else {
-            System.err.println("MALPARIDO TE FALTA ALGO");
+            System.err.println(" TE FALTA ALGO");
         }
 
     }

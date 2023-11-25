@@ -11,7 +11,7 @@
     </HBox>
 
     <HBox alignment="CENTER" layoutX="66.0" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="249.0" styleClass="black-background">
-        <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0" styleClass="red-text" text="NickName" />
+        <Label fx:id="nickName" prefHeight="17.0" prefWidth="75.0"  text="NickName" />
         <TextArea fx:id="enterNickname" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="144.0" HBox.hgrow="NEVER">
             <HBox.margin>
                 <Insets />
@@ -25,23 +25,23 @@
 
         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10.0">
 
-            <Label fx:id="implementationMenu" alignment="CENTER" prefHeight="17.0" prefWidth="200.0" styleClass="red-text" text="SELECT IMPLEMENTATION" />
+            <Label fx:id="implementationMenu" alignment="CENTER" prefHeight="17.0" prefWidth="200.0"  text="SELECT IMPLEMENTATION" />
 
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="181.0" spacing="10">
-                <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0" prefWidth="187.0" styleClass="red-text" text="LIST" />
-                <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix" styleClass="red-text" text="MATRIX" />
+                <RadioButton fx:id="listButton" mnemonicParsing="false" onAction="#onClickList" prefHeight="17.0" prefWidth="187.0"  text="LIST" />
+                <RadioButton fx:id="matrixButton" mnemonicParsing="false" onAction="#onClickMatrix"  text="MATRIX" />
             </VBox>
 
         </VBox>
         <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="227.0" spacing="10">
 
 
-            <Label fx:id="difficultyMenu" alignment="CENTER" prefHeight="30.0" prefWidth="304.0" styleClass="red-text" text="SELECT MODE" />
+            <Label fx:id="difficultyMenu" alignment="CENTER" prefHeight="30.0" prefWidth="304.0" text="SELECT MODE" />
 
             <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="162.0" spacing="10.0">
 
-                <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy" styleClass="red-text" text="EASY" />
-                <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult" styleClass="red-text" text="HARD" />
+                <RadioButton fx:id="easyButton" mnemonicParsing="false" onAction="#onClickEasy"  text="EASY" />
+                <RadioButton fx:id="difficultButton" mnemonicParsing="false" onAction="#onClickDifficult" text="HARD" />
             </VBox>
 
 

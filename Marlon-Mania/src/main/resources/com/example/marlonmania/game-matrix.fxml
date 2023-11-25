@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="660.0" prefWidth="600.0" styleClass="screen-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameController">
+<AnchorPane prefHeight="660.0" prefWidth="600.0" styleClass="screen-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.marlonmania.Controllers.GameMatrixController">
 
    <Group fx:id="graphGroup" layoutX="100" layoutY="80.0">
 
@@ -53,7 +53,7 @@
          <RadioButton fx:id="vertical" mnemonicParsing="false" onAction="#onClickVertical" text="Vertical" />
          <RadioButton fx:id="horizontal" mnemonicParsing="false" onAction="#onClickHorizontal" text="Horizontal" />
          <RadioButton fx:id="circular" mnemonicParsing="false" onAction="#onClickCircular" text="Circular" />
-         <RadioButton fx:id="empty" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onClickEmpty" text="Empty"/>
+         <RadioButton fx:id="empty" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onClickEmpty" text="Empty" />
       </VBox>
       <padding>
          <Insets left="10.0" right="10.0" />
@@ -94,6 +94,7 @@
          -fx-padding: 5px 25px;
       </style>
    </Button>
+   <Label fx:id="matrix" alignment="CENTER" layoutX="-4.0" layoutY="29.0" prefHeight="17.0" prefWidth="150.0" text="MATRIX" />
 
 
 
