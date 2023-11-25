@@ -13,8 +13,8 @@ import java.io.IOException;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
-        openWindow("menu.fxml");
-/*        openGameWindow("game-list.fxml","Gabriel");*/
+/*        openWindow("new-Game-Setup.fxml");*/
+        openGameWindow("game-matrix.fxml","Gabriel",0);
     }
 
     public static void openWindow(String fxml){
